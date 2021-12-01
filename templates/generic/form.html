@@ -1,0 +1,80 @@
+{% extends "base/base.html" %}
+{% load i18n %}
+{% load render_table from django_tables2 %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block css %}
+    {{ form.media }}
+
+    {% if form.m2m_fields %}
+        <link rel="stylesheet" href="{% static 'vendor/bootstrap-duallistbox/bootstrap-duallistbox.min.css' %}">
+    {% endif %}
+
+    {% if form.search_fields %}
+        <link rel="stylesheet" href="{% static 'css/plugins/select2/select2.min.css' %}">
+    {% endif %}
+
+    <style>
+        .table td, .table th {
+            min-width: 200px;
+        }
+
+        .box-footer {
+            margin-top: 10px;
+        }
+
+        #terms-row {
+            margin-top: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>{{ form_title }}</h5>
+                </div>
+                <div class="ibox-content">
+                    <form action="" method="post" role="form" autocomplete="off" enctype="multipart/form-data">
+                        <div class="box-body">
+                            {% csrf_token %}
+
+                            {% bootstrap_form form %}
+
+                            <div class="box-footer">
+                                <a href="{{ back_url }}" data-toggle="tooltip" class="btn btn-primary">
+                                    <i class="fa fa-reply" aria-hidden="true"></i>
+                                    Volver al listado
+                                </a>
+                                <div class="pull-right">
+                                    <button class="btn btn-success">
+                                        <i class="fa fa-save"></i> Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block after_content %}
+    {% if form.m2m_fields %}
+        <script src="{% static 'vendor/bootstrap-duallistbox/jquery.bootstrap-duallistbox.min.js' %}"></script>
+        <script>
+            $('{{ form.m2m_fields|join:',' }}').bootstrapDualListbox({});
+        </script>
+    {% endif %}
+
+    {% if form.search_fields %}
+        <script src="{% static 'js/plugins/select2/select2.full.min.js' %}"></script>
+        <script>
+            $('{{ form.search_fields|join:',' }}').select2({width: '100%'});
+        </script>
+    {% endif %}
+{% endblock %}

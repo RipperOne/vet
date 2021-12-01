@@ -1,0 +1,27 @@
+{% extends "base/base.html" %}
+{% load i18n %}
+{% load bootstrap3 %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>{{ delete_title }}</h5>
+                </div>
+                <div class="ibox-content">
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <p>¿ Estas seguro que quieres eliminar {{ object }} ?</p>
+                        <a href="{{ success_url }}" data-original-title="Volver al listado" data-toggle="tooltip"
+                           class="btn btn-primary">
+                            <i class="fa fa-reply" aria-hidden="true"></i>
+                            Volver al listado
+                        </a>
+                        <button class="btn btn-danger" type="submit"><i class="fa fa-times"></i> Confirmar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

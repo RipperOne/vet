@@ -1,0 +1,80 @@
+{% extends "base/base.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block vendor %}
+    <link rel="stylesheet" href="{% static 'vendor/select2/css/select2.min.css' %}">
+{% endblock %}
+
+{% block css %}
+    {{ form.media }}
+
+    <style>
+        .table td, .table th {
+            min-width: 200px;
+        }
+
+        .box-footer {
+            margin-top: 10px;
+        }
+
+        #terms-row {
+            margin-top: 10px;
+        }
+    </style>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5 class="box-title">Formulario</h5>
+                </div>
+                <div class="ibox-content">
+                    <form action="" method="post" role="form" autocomplete="off" enctype="multipart/form-data">
+                        <div class="box-body">
+                            {% csrf_token %}
+
+                            <div class="row">
+                                <div class="col-md-6">{% bootstrap_field form.username %}</div>
+                                <div class="col-md-6">{% bootstrap_field form.email %}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">{% bootstrap_field form.first_name %}</div>
+                                <div class="col-md-6">{% bootstrap_field form.last_name %}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">{% bootstrap_field form.password1 %}</div>
+                                <div class="col-md-6">{% bootstrap_field form.password2 %}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">{% bootstrap_field form.is_active %}</div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">{% bootstrap_field form.groups %}</div>
+                            </div>
+
+                            <div class="box-footer">
+                                <a href="{{ back_url }}" data-toggle="tooltip" class="btn btn-primary">
+                                    <i class="fa fa-reply" aria-hidden="true"></i>
+                                    Volver al listado
+                                </a>
+                                <div class="pull-right">
+                                    <button class="btn btn-success">
+                                        <i class="fa fa-save"></i> Guardar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
+{% block after_content %}
+
+{% endblock %}

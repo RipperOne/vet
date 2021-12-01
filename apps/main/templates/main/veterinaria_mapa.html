@@ -1,0 +1,190 @@
+{% extends 'base/base.html' %}
+{% block head_title %} Pedidos-Mapa {% endblock %}
+{% load i18n %}
+{% load staticfiles %}
+
+{% block content %}
+
+    {% load static %}
+    {% load leaflet_tags %}
+
+    <div class="row">
+        {% leaflet_js %}
+        {% leaflet_css %}
+        <style type="text/css">
+            #gis {
+                width: 100%;
+                height: 700px
+            }
+        </style>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-sm-12 col-xs-12">
+            <div class="fa-pull-left"><h3>Mapa de Veterinaria</h3></div>
+
+            <link href="{% static 'Admin/font-awesome/font-awesome.css' %}" rel="stylesheet">
+            <link href="{% static 'Admin/dist/L.Control.Locate.min.css' %}" rel="stylesheet">
+            <script src="{% static 'Admin/dist/L.Control.Locate.min.js' %}"></script>
+
+            <link href="{% static 'Admin/src/Control.FullScreen.css' %}" rel="stylesheet">
+            <script src="{% static 'Admin/src/Control.FullScreen.js' %} "></script>
+
+            <link href="{% static 'Admin/dist/leaflet.ajax.js' %}" rel="stylesheet">
+            <script src="{% static 'Admin/dist/leaflet.ajax.js' %}"></script>
+            <link href="{% static 'Admin/src/leaflet.groupedlayercontrol.css' %}" rel="stylesheet">
+            <script src="{% static 'Admin/src/leaflet.groupedlayercontrol.js' %}"></script>
+
+            <script src="{% static 'Admin/src/leaflet-search.js' %}"></script>
+            <link href="{% static 'Admin/src/leaflet-search.css' %}" rel="stylesheet"/>
+
+            <script src="{% static 'Admin/src/L.Control.MousePosition.js' %}"></script>
+            <link href="{% static 'Admin/src/L.Control.MousePosition.css' %}" rel="stylesheet"/>
+
+            <script src="{% static 'Admin/src/L.Control.Sidebar.js' %}"></script>
+            <link href="{% static 'Admin/src/L.Control.Sidebar.css' %}" rel="stylesheet"/>
+            <link href="{% static 'Admin/src/L.Control.Sidebar.scss' %}" rel="stylesheet"/>
+
+            <script src="{% static 'Admin/src/leaflet.filelayer.js' %}"></script>
+
+            <script type="text/javascript" src="{% static 'Admin/src/L.Graticule.js' %}"></script>
+
+
+            <!-- Leaflet Plugins -->
+            <link rel="stylesheet" href="{% static 'Admin/src/Control.MiniMap.css' %}"/>
+            <script src="{% static 'Admin/src/Control.MiniMap.js' %}" type="text/javascript"></script>
+            <script src="{% static 'Admin/js/jquery-3.1.1.min.js' %}"></script>
+            <script src="{% static 'Admin/js/bootstrap.min.js' %}"></script>
+            <script src="{% static 'Admin/js/bootstrap.js' %}"></script>
+
+            <script type="text/javascript">
+                function our_layers(map, options) {
+
+                    var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
+                        attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="https://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
+                    });
+
+                    var Grayscale = L.tileLayer('https://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                    });
+
+                    var Streets = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+                    });
+
+                    var WorlImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+                        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+                    });
+
+                    var datasets = new L.GeoJSON.AJAX("{{ datasets_url_veterinaria }}", {
+                        onEachFeature: function (feature, layer) {
+                            layer.bindPopup("<strong> " + "Veterinaria" + "</strong>"
+                                + "<br/>" + "Nombre: " + feature.properties.nombre
+                                + "<br/>" + "Telefono: " + feature.properties.telefono
+                                + "<br/>" + "Direccion: " + feature.properties.direccion
+                                + "<br/>" + "Comuna: " + feature.properties.comuna);
+                        }
+                    });
+                    datasets.addTo(map);
+
+                    var baseLayers = {
+                        "Mapa Topografico": OpenTopoMap,
+                        "Mapa en Escala de Grises": Grayscale,
+                        "Mapa de Calles": Streets,
+                        "Mapa Normal": WorlImagery
+                    };
+
+                    var groupedOverlays = {
+                        "Layers": {
+                            "Mapa Veterinarias": datasets
+                        }
+                    };
+
+                    L.graticule({
+                        style: {
+                            color: '#000',
+                            weight: 0.2,
+                            opacity: 1,
+                            fillColor: '#000',
+                            fillOpacity: 1
+                        }
+                    }).addTo(map);
+
+
+                    var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
+                    var osm = new L.TileLayer(osmUrl, {minZoom: 6, maxZoom: 18});
+                    map.addLayer(osm);
+
+                    var osm2 = new L.TileLayer(osmUrl, {minZoom: 0, maxZoom: 13});
+                    var miniMap = new L.Control.MiniMap(osm2, {toggleDisplay: true}).addTo(map);
+
+                    L.control.mousePosition({
+                        position: 'topright', //Posicion del localizador
+                        separator: '  ||  ', //Separador de Latitud y Longitud
+                        emptystring: 'No iniciado', //Leyenda inicial
+                        prefix: 'Posicion del Mouse: ' //Leyenda de uso
+                    }).addTo(map);
+                    L.control.groupedLayers(baseLayers, groupedOverlays).addTo(map);
+                    L.control.fullscreen({
+                        fullscreenControl: true,
+                        fullscreenControlOptions: {
+                            position: 'topleft'
+                        }
+                    }).addTo(map);
+
+                    function parse_query_string(query) {
+                        var vars = query.split("&");
+                        var query_string = {};
+                        for (var i = 0; i < vars.length; i++) {
+                            var pair = vars[i].split("=");
+                            // If first entry with this name
+                            if (typeof query_string[pair[0]] === "undefined") {
+                                query_string[pair[0]] = decodeURIComponent(pair[1]);
+                                // If second entry with this name
+                            } else if (typeof query_string[pair[0]] === "string") {
+                                var arr = [query_string[pair[0]], decodeURIComponent(pair[1])];
+                                query_string[pair[0]] = arr;
+                                // If third or later entry with this name
+                            } else {
+                                query_string[pair[0]].push(decodeURIComponent(pair[1]));
+                            }
+                        }
+                        return query_string;
+                    }
+
+                    let query = window.location.search.substring(1);
+                    let qs = parse_query_string(query);
+                    let additional = "";
+                    let cql_filter = "";
+
+                    if (qs["pk"]) {
+                        additional = "?pk=" + qs["pk"];
+                        cql_filter = "id=" + qs["pk"];
+                    }
+
+                    $.ajax({
+                        url: "{% url 'main:veterinaria_center' %}",
+                        data: {
+                            id: qs["pk"]
+                        },
+                        success: function (data) {
+                            map.setView([data.lat, data.lng], 14);
+                        },
+                        error: function (error) {
+                            // Center not found...
+                        }
+                    });
+                }
+            </script>
+        </div>
+    </div>
+    {% leaflet_map "gis" callback="window.our_layers" %}
+    <br><br>
+    <div class="box-footer">
+        <a href="{% url 'main:veterinaria_list' %}" data-toggle="tooltip" class="btn btn-primary">
+            <i class="glyphicon glyphicon-menu-left" aria-hidden="true"></i>
+            Volver
+        </a>
+    </div>
+
+{% endblock %}
