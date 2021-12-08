@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.contrib import messages
 from apps.utils.views import ListView, CreateView, UpdateView, DeleteView
-
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 
 from apps.main.models import Region, Provincia, Comuna
 from apps.main.tables import RegionTable, ProvinciaTable, ComunaTable
@@ -11,7 +11,7 @@ from apps.main.filters import RegionFilter, ProvinciaFilter, ComunaFilter
 from apps.main.forms import RegionForm, ProvinciaForm, ComunaForm
 
 
-class RegionListView(ListView):
+class RegionListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     table_class = RegionTable
     filterset_class = RegionFilter
     model = Region
@@ -22,19 +22,19 @@ class RegionListView(ListView):
     ordering = ['id']
 
 
-class RegionCreateView(CreateView):
+class RegionCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Region
     form_class = RegionForm
     back_url = reverse_lazy('main:region_list')
 
 
-class RegionUpdateView(UpdateView):
+class RegionUpdateView(UpdateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Region
     form_class = RegionForm
     back_url = reverse_lazy('main:region_list')
 
 
-class RegionDeleteView(DeleteView):
+class RegionDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Region
     success_message = 'Region eliminada exitosamente'
 
@@ -55,7 +55,7 @@ class RegionDeleteView(DeleteView):
             return HttpResponseRedirect('/main/region/')
 
 
-class ProvinciaListView(ListView):
+class ProvinciaListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     table_class = ProvinciaTable
     filterset_class = ProvinciaFilter
     model = Provincia
@@ -66,19 +66,19 @@ class ProvinciaListView(ListView):
     ordering = ['id']
 
 
-class ProvinciaCreateView(CreateView):
+class ProvinciaCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Provincia
     form_class = ProvinciaForm
     back_url = reverse_lazy('main:provincia_list')
 
 
-class ProvinciaUpdateView(UpdateView):
+class ProvinciaUpdateView(UpdateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Provincia
     form_class = ProvinciaForm
     back_url = reverse_lazy('main:provincia_list')
 
 
-class ProvinciaDeleteView(DeleteView):
+class ProvinciaDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Provincia
     success_message = 'Provincia eliminada exitosamente'
 
@@ -99,7 +99,7 @@ class ProvinciaDeleteView(DeleteView):
             return HttpResponseRedirect('/main/provincia/')
 
 
-class ComunaListView(ListView):
+class ComunaListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     table_class = ComunaTable
     filterset_class = ComunaFilter
     model = Comuna
@@ -110,19 +110,19 @@ class ComunaListView(ListView):
     ordering = ['id']
 
 
-class ComunaCreateView(CreateView):
+class ComunaCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Comuna
     form_class = ComunaForm
     back_url = reverse_lazy('main:comuna_list')
 
 
-class ComunaUpdateView(UpdateView):
+class ComunaUpdateView(UpdateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Comuna
     form_class = ComunaForm
     back_url = reverse_lazy('main:comuna_list')
 
 
-class ComunaDeleteView(DeleteView):
+class ComunaDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Comuna
     success_message = 'Comuna eliminada exitosamente'
 

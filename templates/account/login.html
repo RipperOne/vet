@@ -4,32 +4,49 @@
 
 {% block head_title %}Iniciar Sesion{% endblock %}
 
-{% block content %}
-    <div>
-        <!--
-        <div class="logos">
-            <img src="{% static 'img/' %}" class="" alt="" width="300px" height="150px">
-        </div>
-        --!>
-        <div>
-            <h2 class="logo-name text-center">HAPP</h2>
-        </div>
-        <h2 class="text-center">Bienvenido</h2>
-        <h4 class="text-center">Huellitas APP</h4>
-        <form class="m-t" method="POST" action="{% url 'account_login' %}" autocomplete="off">
-            {% csrf_token %}
-            {% bootstrap_form_errors form %}
-            {% bootstrap_field form.login show_label=False bound_css_class='' %}
-            {% bootstrap_field form.password show_label=False bound_css_class='' %}
-            {% if redirect_field_value %}
-                <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-            {% endif %}
-            <button class="btn btn-primary block full-width m-b">Iniciar Sesion</button>
-{#            <a href="{% url 'password_reset' %}"><small>Olvide mi Contraseña</small></a>#}
-        </form>
 
-        <p class="m-t">
-            <small>INACAP &copy; {% now "Y" %}</small>
-        </p>
-    </div>
+{% block content %}
+    {% if request.user.is_anonymous %}
+
+        <div id="login">
+            <div class="col-lg-6 center-block">
+                <br><br><br><br><br><br><br><br><br><br><br><br>
+                <img src="{% static 'Vet/img/favicon.png' %}" alt="fondo" width="500px" height="350px">
+                <h3 class="fadeOutLeft">Tú web de mascotas</h3>
+                <br><br><br><br><br><br><br><br>
+            </div>
+
+            <div class="col-lg-6 div-login center-block">
+                <br><br>
+                <h1 class="text-center">Bienvenid@</h1>
+                <h4 class="text-center">Por favor, ingresa tus credenciales para acceder al sistema</h4>
+                <form class="m-t" method="POST" action="{% url 'account_login' %}" autocomplete="off">
+                    <div class="col-lg-12">
+                        {% csrf_token %}
+                        {% bootstrap_form_errors form %}
+                        {% bootstrap_field form.login show_label=False bound_css_class='' %}
+                        {% bootstrap_field form.password show_label=False bound_css_class='' %}
+                        {% if redirect_field_value %}
+                            <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                        {% endif %}
+                        <button class="btn btn-ttc col-lg-5" type="submit">Iniciar Sesion</button>
+                        <a href="{% url 'home:home' %}" data-toggle="tooltip"
+                           class="btn btn-ttc col-lg-offset-2 col-lg-5">
+                            <i class="fa fa-reply" aria-hidden="true"></i>
+                            Home
+                        </a>
+                        <br><br>
+                        <div class="row">
+                            <h4>¿Olvidaste tu contraseña? <a href="{% url 'account_change_password' %}">Recuperar
+                                Contraseña</a></h4>
+                        </div>
+                        <div class="row">
+                            <h4>¿No tienes una cuenta? Por favor <a href="{% url 'account_signup' %}">Regístrate
+                                aquí</a></h4>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    {% endif %}
 {% endblock %}

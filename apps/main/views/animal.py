@@ -1,7 +1,7 @@
 from django.shortcuts import render, reverse
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponseNotFound
-
+from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.contrib import messages
 
 from apps.utils.views import ListView, CreateView, UpdateView, DeleteView
@@ -12,7 +12,7 @@ from apps.main.filters import AnimalFilter, EspecieFilter, TratamientoFilter
 from apps.main.forms import AnimalForm, EspecieForm, TratamientoForm
 
 
-class EspecieListView(ListView):
+class EspecieListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     table_class = EspecieTable
     filterset_class = EspecieFilter
     model = Especie
@@ -23,19 +23,19 @@ class EspecieListView(ListView):
     ordering = ['id']
 
 
-class EspecieCreateView(CreateView):
+class EspecieCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Especie
     form_class = EspecieForm
     back_url = reverse_lazy('main:especie_list')
 
 
-class EspecieUpdateView(UpdateView):
+class EspecieUpdateView(UpdateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Especie
     form_class = EspecieForm
     back_url = reverse_lazy('main:especie_list')
 
 
-class EspecieDeleteView(DeleteView):
+class EspecieDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Especie
     success_message = 'Especie eliminada exitosamente'
 
@@ -56,7 +56,7 @@ class EspecieDeleteView(DeleteView):
             return HttpResponseRedirect('/main/especie/')
 
 
-class TratamientoListView(ListView):
+class TratamientoListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     table_class = TratamientoTable
     filterset_class = TratamientoFilter
     model = Tratamiento
@@ -67,19 +67,19 @@ class TratamientoListView(ListView):
     ordering = ['id']
 
 
-class TratamientoCreateView(CreateView):
+class TratamientoCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Tratamiento
     form_class = TratamientoForm
     back_url = reverse_lazy('main:tratamiento_list')
 
 
-class TratamientoUpdateView(UpdateView):
+class TratamientoUpdateView(UpdateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Tratamiento
     form_class = TratamientoForm
     back_url = reverse_lazy('main:tratamiento_list')
 
 
-class TratamientoDeleteView(DeleteView):
+class TratamientoDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Tratamiento
     success_message = 'Tratamiento eliminado exitosamente'
 
@@ -100,7 +100,7 @@ class TratamientoDeleteView(DeleteView):
             return HttpResponseRedirect('/main/tratamiento/')
 
 
-class AnimalListView(ListView):
+class AnimalListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     table_class = AnimalTable
     filterset_class = AnimalFilter
     model = Animal
@@ -111,19 +111,19 @@ class AnimalListView(ListView):
     ordering = ['id']
 
 
-class AnimalCreateView(CreateView):
+class AnimalCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Animal
     form_class = AnimalForm
     back_url = reverse_lazy('main:animal_list')
 
 
-class AnimalUpdateView(UpdateView):
+class AnimalUpdateView(UpdateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Animal
     form_class = AnimalForm
     back_url = reverse_lazy('main:animal_list')
 
 
-class AnimalDeleteView(DeleteView):
+class AnimalDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Animal
     success_message = 'Animal eliminado exitosamente'
 

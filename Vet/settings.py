@@ -33,13 +33,14 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'rt7rr0uo82%@!6m2#6a1#(+84r#o!eua1mjh_w(0eady#fik7j'
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'rt7rr0uo82%@!6m2#6a1#(+84r#o!eua1mjh_w(0eady#fik7j')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vet.settings')
 
 # Application definition
 
@@ -52,6 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.gis',
+    'apps.accounts.apps.AccountsConfig',
 
     'allauth',
     'allauth.account',
@@ -64,6 +66,7 @@ INSTALLED_APPS = [
     'leaflet',
     'djgeojson',
     'osgeo',
+    'smart_selects',
 
     'apps.home',
     'apps.users',
@@ -77,6 +80,7 @@ MIDDLEWARE = [
     'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
@@ -87,7 +91,7 @@ ROOT_URLCONF = 'Vet.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [os.path.join(BASE_DIR, 'templates'), os.path.join(BASE_DIR, 'templates', 'allauth')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -118,6 +122,9 @@ DATABASES = {
     }
 }
 
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
+
+JQUERY_URL = True
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -214,6 +221,8 @@ DJANGO_TABLES2_TEMPLATE = 'django_tables2/bootstrap-responsive.html'
 
 AUTH_USER_MODEL = "users.User"
 
+ACCOUNT_SIGNUP_FORM_CLASS = 'apps.users.forms.UserCreationForm'
+
 FILTERS_VERBOSE_LOOKUPS = {
     'exact': '',
     'iexact': '',
@@ -221,7 +230,14 @@ FILTERS_VERBOSE_LOOKUPS = {
     'icontains': '',
 }
 
-try:
-    from .local_settings import *
-except:
-    pass
+LOGIN_REDIRECT_URL = "home:home"
+
+AUTHENTICATION_BACKENDS = (
+    # Necesario para logear por username en Django admin, sin importar allauth
+    'django.contrib.auth.backends.ModelBackend',
+
+    # Metodo de autenticación especifico de allauth, como logear por email
+    'allauth.account.auth_backends.AuthenticationBackend',
+)
+
+ACCOUNT_EMAIL_VERIFICATION = "none"

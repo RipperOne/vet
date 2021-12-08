@@ -1,0 +1,58 @@
+{% extends "account/base_with_footer.html" %}
+{% load i18n %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% block head_title %}{% trans "Signup" %}{% endblock %}
+
+{% block content %}
+
+    <div id="login">
+
+        <div class="col-lg-6 center-block">
+            <br><br><br><br><br><br><br><br><br><br><br><br>
+            <img src="{% static 'Vet/img/favicon.png' %}" alt="fondo" width="500px" height="300px">
+            <h3 class="fadeOutLeft">HuellitasApp</h3>
+            <br><br><br><br><br><br><br><br>
+        </div>
+
+
+        <div class="col-lg-6 center-block">
+            <div class="row">
+                <div class=""><h1><strong>Regístrate</strong></h1></div>
+            </div>
+
+            <div class="row">
+                <h4>¿Ya tienes una cuenta? Por favor <a href="{% url 'account_login' %}">Inicia Sesión</a></h4>
+            </div>
+            <form method="post" name="usuario" role="form" action="">
+                <div class="box-body">
+
+                    {% csrf_token %}
+
+                    {% bootstrap_field form.username %}
+
+                    {% bootstrap_field form.first_name %}
+
+                    {% bootstrap_field form.last_name %}
+
+                    {% bootstrap_field form.email %}
+
+                    {% bootstrap_field form.password1 %}
+
+                    {% bootstrap_field form.password2 %}
+
+                    <button class="btn btn-ttc col-lg-5">Registrarse</button>
+                    <a href="{% url 'home:home' %}" data-toggle="tooltip" class="btn btn-ttc col-lg-offset-2 col-lg-5">
+                        <i class="fa fa-reply" aria-hidden="true"></i>
+                        Home
+                    </a>
+                    <br><br>
+                    <br>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+{% endblock %}

@@ -1,0 +1,756 @@
+{% load i18n %}
+{% load staticfiles %}
+{% load bootstrap3 %}
+
+{% load leaflet_tags %}
+
+{% block content %}
+
+<head content="width=device-width">
+
+    <meta charset="utf-8">
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+    <title>HuellitasAPP</title>
+    <meta content="" name="descriptison">
+    <meta content="" name="keywords">
+
+    <!-- Favicons -->
+    <link href="{% static 'Vet/img/favicon.png' %}" rel="icon">
+    <link href="{% static 'Vet/img/favicon.png' %}" rel="apple-touch-icon">
+
+    <!-- Vendor CSS Files -->
+    <link href="{% static 'Admin/font-awesome/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'Admin/dist/leaflet.ajax.js' %}" rel="stylesheet">
+    <script src="{% static 'Admin/dist/leaflet.ajax.js' %}"></script>
+
+    <!-- Leaflet Plugins -->
+    <script src="{% static 'Admin/js/jquery-3.1.1.min.js' %}"></script>
+    <script src="{% static 'Admin/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'Admin/js/bootstrap.js' %}"></script>
+    <link href="{% static 'Vet/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'Vet/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
+    <link href="{% static 'Vet/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
+    <link href="{% static 'Vet/vendor/animate.css/animate.min.css' %}" rel="stylesheet">
+    <link href="{% static 'Vet/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'Vet/vendor/venobox/venobox.css' %}" rel="stylesheet">
+    <link href="{% static 'Vet/vendor/aos/aos.css' %}" rel="stylesheet">
+
+    <!-- Template Main CSS File -->
+    <link href="{% static 'Vet/css/style.css' %}" rel="stylesheet">
+
+</head>
+
+<body>
+
+<!-- ======= Top Bar ======= -->
+<div id="topbar" class="d-flex fixed-top " content="width=device-width">
+    <div class="pull-right d-flex">
+        <strong>
+            <h3 class="nav navbar-right" id="reloj"></h3>
+        </strong>
+    </div>
+    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</p>
+    <div class="pull-left d-flex">
+        <div class="contact-info mr-auto">
+            <i class="icofont-phone"></i> +569 xxxxxxxx
+            <span class="d-none d-lg-inline-block"><i class="icofont-clock-time icofont-rotate-180"></i> Servicio de Información 24/7</span>
+        </div>
+    </div>
+</div>
+
+
+    <!-- ======= Header ======= -->
+    <header id="header" class="fixed-top">
+        <div class="full-width" content="width=device-width">
+
+            <nav class="nav-menu d-none d-lg-block" content="width=device-width">
+                <ul>
+                    <button
+                        class="navbar-toggler"
+                        type="button"
+                        data-toggle="collapse"
+                        data-target="#navbarNav"
+                        aria-controls="navbarNav"
+                        aria-expanded="false"
+                        aria-label="Toggle navigation"
+                    >
+                        <span class="navbar-toggle-icon"></span>
+                    </button>
+
+                    <img src="{% static 'Vet/img/favicon.png' %}" width="100px" height="100px">
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </p>
+                    <li class="active"><a href="{% url 'home:home' %}">Inicio</a></li>
+                    <li><a href="#about">Acerca de nosotros</a></li>
+                    <li><a href="#book-a-table">Veterinarias</a></li>
+                    <li><a href="#menu">Mascotas</a></li>
+                    <li><a href="#gallery">Galería</a></li>
+                    <li><a href="#contact">Contacto</a></li>
+                    <p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                    </p>
+
+                    <li class="book-a-table text-center"><a href="#mapa">Mapa</a></li>
+
+                    {% if user.is_anonymous %}
+                        <li class="book-a-table text-right"><a href="{% url 'account_login' %}">Inicia Sesión</a></li>
+                        <li>ó</li>
+                        <li class="book-a-table text-right"><a href="{% url 'account_signup' %}">Regístrate</a></li>
+                    {% endif %}
+                    {% if request.user.is_authenticated %}
+                        <div class="dropdown profile-element fa-pull-right div-actions">
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                    <span class="clear">
+                        <span class="block m-t-xs">
+                            <strong class="font-bold">{{ request.user.username }}</strong>
+                        </span>
+                            <span class="text-muted text-xs block">
+                                {% if request.user.is_superuser %}
+                                    Administrador
+                                {% endif %}
+                                <b class="caret"></b>
+                            </span>
+                    </span>
+                            </a>
+                        <nav class="nav-minimenu">
+                            <ul class="dropdown-menu animated fadeInRight m-t-lg">
+                                {% if request.user.is_superuser or request.user.is_staff %}
+                                    <li>
+                                        <a href="{% url 'home:home2' %}" target="">
+                                            <i class="glyphicon glyphicon-cog"></i> Administrar
+                                        </a>
+                                    </li>
+                                    <li role="separator" class="divider"></li>
+                                {% else %}
+                                    <li role="separator" class="divider"></li>
+                                {% endif %}
+                                <li>
+                                    <a href="{% url 'account_change_password' %}">
+                                        <i class="glyphicon glyphicon-lock"></i>
+                                        Cambiar contraseña
+                                    </a>
+                                </li>
+                                <li role="separator" class="divider"></li>
+                                <li>
+                                    <a href="{% url 'account_logout' %}">
+                                        <i class="glyphicon glyphicon-off"></i>
+                                        Cerrar Sesion
+                                    </a>
+                                </li>
+                            </ul>
+                        </nav>
+                        </div>
+                    {% endif %}
+                </ul>
+            </nav><!-- .nav-menu -->
+        </div>
+    </header><!-- End Header -->
+
+<!-- ======= Hero Section ======= -->
+<section id="hero" class="d-flex align-items-center">
+    <div class="container position-relative text-center text-lg-left" data-aos="zoom-in" data-aos-delay="100"
+         content="width=device-width">
+        <div class="row">
+            <div class="col-lg-8">
+                {% if request.user.is_authenticated %}
+                <h1>Bienvenid@ {{ request.user.username }} </h1>
+                {% else %}
+                <h1>Bienvenid@</h1>
+                {% endif %}
+                <h2>HuellitasAPP es un sitio pensado para adoptar y buscar animalitos perdidos</h2>
+
+                <div class="btns">
+                    <a href="#menu" class="btn-menu animated fadeInUp scrollto">Mascotas</a>
+                    <a href="#book-a-table" class="btn-book animated fadeInUp scrollto">Veterinarias</a>
+                </div>
+            </div>
+            <div class="col-lg-4 d-flex align-items-center justify-content-center" data-aos="zoom-in"
+                 data-aos-delay="200">
+            </div>
+
+        </div>
+    </div>
+</section><!-- End Hero -->
+
+<main id="main">
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+        <div class="container-fluid" data-aos="fade-up">
+
+            <div class="row col-lg-12">
+                <div class="col-lg-6">
+                    <h3>Somos una organización sin fines de lucro que está a la disposición de la ciudadanía y las mascotas.</h3>
+                    <p class="font-italic">
+                        Nuestra idea es entregar un servicio lo mas completo posible dedicado a las mascotas del hogar y a personas
+                        que quieran adoptar un nuevo integrante a su familia.
+                    </p>
+                    <ul>
+                        <li><i class="icofont-check-circled"></i> Buscador de mascotas disponibles para adopción.</li>
+                        <li><i class="icofont-check-circled"></i> Puedes solicitar que se publique información de tu mascota perdida.
+                        </li>
+                        <li><i class="icofont-check-circled"></i> Puedes ver las veterinarias disponibles, horarios y teléfonos de las mismas.
+                        </li>
+                    </ul>
+                    <h3 class="fadeOutLeft text-center">HuellitasApp para tus proximas mascotas y mas...</h3>
+                </div>
+                <div class="col-lg-4">
+                </div>
+                <div class="col-lg-2" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="about-img">
+                        <img src="{% static 'Vet/img/favicon.png' %}" width="200px" height="200px">
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section><!-- End About Section -->
+
+                <!-- ======= Veterinarias Section ======= -->
+        <section id="book-a-table" class="book-a-table">
+            <div class="container-fluid" data-aos="fade-up">
+
+                <div class="section-title text-center">
+                    <h2>Veterinarias</h2>
+                    <p>Veterinarias disponibles</p>
+                </div>
+
+                <div class="row" id="lista-productos">
+                    <div class="col-lg-12" style="margin-left: 80px;">
+                        <div class="row">
+                            {% for veterinaria in veterinarias %}
+                            <div class="row col-md-6 col-sm-12 col-lg-3">
+                                <div class="card" style="width: 98%; background-color: #27252b; border-color: #791f8f; border-width: 5px;">
+                                    <a class="card-title text-center" style="color: white">{{ veterinaria.nombre }}</a>
+                                    <br>
+                                    <a class="card-title text-center" style="color: white">{{ veterinaria.telefono }}</a>
+                                    <br>
+                                    <a class="card-title text-center" style="color: white">{{ veterinaria.direccion }}</a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section><!-- End Veterinarias Section -->
+
+        <!-- ======= Menu Section ======= -->
+        <section id="menu" class="menu section-bg">
+            <div class="container-fluid" data-aos="fade-up">
+
+                <div class="section-title text-center">
+                    <h2>Mascotas</h2>
+                    <p>Mira las mascotas disponibles para adoptar</p>
+                </div>
+
+                <div class="row" data-aos="fade-up" data-aos-delay="100">
+                    <div class="col-lg-12 d-flex justify-content-center">
+                        <ul id="menu-filters">
+                            <li data-filter="*" href="" class="filter-active">Todo</li>
+                            <li data-filter=".filter-perros">Perros</li>
+                            <li data-filter=".filter-gatos">Gatos</li>
+                            <li data-filter=".filter-reptiles">Reptiles</li>
+                            <li data-filter=".filter-aves">Aves</li>
+                            <li data-filter=".filter-peces">Peces</li>
+                            <li data-filter=".filter-aranha">Arañas</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="row menu-container" data-aos="fade-up" data-aos-delay="100">
+                    <!-- Perritos -->
+                    <div class="row" id="lista-productos">
+                    {% for perro in perros %}
+                        <div class="col-lg-3 menu-item filter-vacuno">
+                            <img src="{{ perro.foto_perfil.url }}" class="menu-img" alt="{{ perro.nombre }}">
+                            <a class="menu-content">{{ perro.nombre }}</a>
+                            <div class="menu-especie">
+                                {{ perro.especie }}
+                            </div>
+                            <div class="menu-sexo">
+                                {{ perro.sexo }}
+                            </div>
+                            <div class="menu-tamanho">
+                                {{ perro.tamanho }}
+                            </div>
+                            <div class="menu-peso">
+                                {{ perro.peso }}
+                            </div>
+                            <div class="menu-esterilizado">
+                                {{ perro.esterilizado }}
+                            </div>
+                            <br>
+                            <button class="btn btn-ttc full-width agregar-carrito"  data-id="{{ perro.id }}" style="margin-left: 150px;">
+                                <span class="fa fa-send"></span>Adoptar
+                            </button>
+                            <br><br>
+                        </div>
+                    {% endfor %}
+                    </div>
+
+                    <!-- Gatitos -->
+                    <div class="row" id="lista-productos">
+                    {% for gato in gatos %}
+                        <div class="col-lg-3 menu-item filter-vacuno">
+                            <img src="{{ gato.foto_perfil.url }}" class="menu-img" alt="{{ gato.nombre }}">
+                            <a class="menu-content">{{ gato.nombre }}</a>
+                            <div class="menu-especie">
+                                {{ gato.especie }}
+                            </div>
+                            <div class="menu-sexo">
+                                {{ gato.sexo }}
+                            </div>
+                            <div class="menu-tamanho">
+                                {{ gato.tamanho }}
+                            </div>
+                            <div class="menu-peso">
+                                {{ gato.peso }}
+                            </div>
+                            <div class="menu-esterilizado">
+                                {{ gato.esterilizado }}
+                            </div>
+                            <br>
+                            <button class="btn btn-ttc full-width agregar-carrito"  data-id="{{ gato.id }}" style="margin-left: 150px;">
+                                <span class="fa fa-send"></span>Adoptar
+                            </button>
+                            <br><br>
+                        </div>
+                    {% endfor %}
+                    </div>
+
+                    <!-- Reptiles -->
+                    <div class="row" id="lista-productos">
+                    {% for reptil in reptiles %}
+                        <div class="col-lg-3 menu-item filter-vacuno">
+                            <img src="{{ reptil.foto_perfil.url }}" class="menu-img" alt="{{ reptil.nombre }}">
+                            <a class="menu-content">{{ reptil.nombre }}</a>
+                            <div class="menu-especie">
+                                {{ reptil.especie }}
+                            </div>
+                            <div class="menu-sexo">
+                                {{ reptil.sexo }}
+                            </div>
+                            <div class="menu-tamanho">
+                                {{ reptil.tamanho }}
+                            </div>
+                            <div class="menu-peso">
+                                {{ reptil.peso }}
+                            </div>
+                            <div class="menu-esterilizado">
+                                {{ reptil.esterilizado }}
+                            </div>
+                            <br>
+                            <button class="btn btn-ttc full-width agregar-carrito"  data-id="{{ reptil.id }}" style="margin-left: 150px;">
+                                <span class="fa fa-send"></span>Adoptar
+                            </button>
+                            <br><br>
+                        </div>
+                    {% endfor %}
+                    </div>
+
+                    <!-- Aves -->
+                    <div class="row" id="lista-productos">
+                    {% for ave in aves %}
+                        <div class="col-lg-3 menu-item filter-vacuno">
+                            <img src="{{ ave.foto_perfil.url }}" class="menu-img" alt="{{ ave.nombre }}">
+                            <a class="menu-content">{{ gato.nombre }}</a>
+                            <div class="menu-especie">
+                                {{ ave.especie }}
+                            </div>
+                            <div class="menu-sexo">
+                                {{ ave.sexo }}
+                            </div>
+                            <div class="menu-tamanho">
+                                {{ ave.tamanho }}
+                            </div>
+                            <div class="menu-peso">
+                                {{ ave.peso }}
+                            </div>
+                            <div class="menu-esterilizado">
+                                {{ ave.esterilizado }}
+                            </div>
+                            <br>
+                            <button class="btn btn-ttc full-width agregar-carrito"  data-id="{{ ave.id }}" style="margin-left: 150px;">
+                                <span class="fa fa-send"></span>Adoptar
+                            </button>
+                            <br><br>
+                        </div>
+                    {% endfor %}
+                    </div>
+
+                    <!-- Peces -->
+                    <div class="row" id="lista-productos">
+                    {% for pez in peces %}
+                        <div class="col-lg-3 menu-item filter-vacuno">
+                            <img src="{{ pez.foto_perfil.url }}" class="menu-img" alt="{{ pez.nombre }}">
+                            <a class="menu-content">{{ pez.nombre }}</a>
+                            <div class="menu-especie">
+                                {{ pez.especie }}
+                            </div>
+                            <div class="menu-sexo">
+                                {{ pez.sexo }}
+                            </div>
+                            <div class="menu-tamanho">
+                                {{ pez.tamanho }}
+                            </div>
+                            <div class="menu-peso">
+                                {{ pez.peso }}
+                            </div>
+                            <div class="menu-esterilizado">
+                                {{ pez.esterilizado }}
+                            </div>
+                            <br>
+                            <button class="btn btn-ttc full-width agregar-carrito"  data-id="{{ pez.id }}" style="margin-left: 150px;">
+                                <span class="fa fa-send"></span>Adoptar
+                            </button>
+                            <br><br>
+                        </div>
+                    {% endfor %}
+                    </div>
+
+                    <!-- Arañas -->
+                    <div class="row" id="lista-productos">
+                    {% for aranha in aranhas %}
+                        <div class="col-lg-3 menu-item filter-vacuno">
+                            <img src="{{ aranha.foto_perfil.url }}" class="menu-img" alt="{{ aranha.nombre }}">
+                            <a class="menu-content">{{ aranha.nombre }}</a>
+                            <div class="menu-especie">
+                                {{ aranha.especie }}
+                            </div>
+                            <div class="menu-sexo">
+                                {{ aranha.sexo }}
+                            </div>
+                            <div class="menu-tamanho">
+                                {{ aranha.tamanho }}
+                            </div>
+                            <div class="menu-peso">
+                                {{ aranha.peso }}
+                            </div>
+                            <div class="menu-esterilizado">
+                                {{ aranha.esterilizado }}
+                            </div>
+                            <br>
+                            <button class="btn btn-ttc full-width agregar-carrito"  data-id="{{ aranha.id }}" style="margin-left: 150px;">
+                                <span class="fa fa-send"></span>Adoptar
+                            </button>
+                            <br><br>
+                        </div>
+                    {% endfor %}
+                    </div>
+
+
+                </div>                
+            </div>
+        </section><!-- End Menu Section -->
+
+        <!-- ======= Gallery Section ======= -->
+        <section id="gallery" class="gallery">
+            <div class="container-fluid" data-aos="fade-up">
+                <div class="section-title text-center">
+                    <h2>Galería</h2>
+                    <p>Algunas fotos de las lindas mascotas</p>
+                </div>
+                <div class="owl-carousel testimonials-carousel" data-aos="zoom-in" data-aos-delay="100">
+                    {% for galeria in galerias %}
+                        <div class="testimonial-item">
+                            <div class="gallery-item">
+                                <div class="venobox" data-gall="gallery-item">
+                                    <img src="{{ galeria.imagen.url }}" alt="{{ galeria.nombre }}" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section><!-- End Gallery Section -->
+
+        <!-- ======= Contact Section ======= -->
+        <section id="contact" class="contact">
+            <div class="container-fluid" data-aos="fade-up">
+
+                <div class="section-title text-center">
+                    <h2>Contacto</h2>
+                    <p>Contáctanos</p>
+                </div>
+
+                <div class="row mt-3">
+
+                    <div class="col-lg-3">
+                        <div class="info">
+                            <div class="address">
+                                <i class="icofont-google-map"></i>
+                                <h4>Ubicación:</h4>
+                                <p>Chillán</p>
+                            </div>
+
+                            <div class="open-hours">
+                                <i class="icofont-clock-time icofont-rotate-90"></i>
+                                <h4>Horario:</h4>
+                                <p>
+                                    Servicio de Información 24/7
+                                </p>
+                            </div>
+
+                            <div class="email">
+                                <i class="icofont-envelope"></i>
+                                <h4>Email:</h4>
+                                <p>equipo@huellitasapp.com</p>
+                            </div>
+
+                            <div class="phone">
+                                <i class="icofont-phone"></i>
+                                <h4>Llámanos:</h4>
+                                <p>+569 xxxxxxxx</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="ibox-content col-md-9 align-left">
+                        <form action="" method="post" role="form" autocomplete="off" enctype="multipart/form-data">
+                            <div class="box-body">
+
+                                {% csrf_token %}
+
+                                <div class="row">
+                                    <div class="col-md-3">{% bootstrap_field aform.nombre %}</div>
+                                    <div class="col-md-3">{% bootstrap_field aform.nombre_mascota %}</div>
+                                    <div class="col-md-3">{% bootstrap_field aform.telefono %}</div>
+                                    <div class="col-md-3">{% bootstrap_field aform.direccion %}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">{% bootstrap_field aform.fecha %}</div>
+                                    <div class="col-md-3">{% bootstrap_field aform.email %}</div>
+                                    <div class="col-md-3">{% bootstrap_field aform.microchip %}</div>
+                                    <div class="col-md-3">{% bootstrap_field aform.servicio %}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">{% bootstrap_field aform.especie %}</div>
+                                    <div class="col-md-3">{% bootstrap_field aform.tamanho %}</div>
+                                    <div class="col-md-3">{% bootstrap_field aform.sexo %}</div>
+                                    <div class="col-md-3">{% bootstrap_field aform.fotografia %}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">{% bootstrap_field aform.mensaje %}</div>
+                                </div>
+
+                                <div class="box-footer full-width">
+                                    <button class="btn btn-ttc full-width fa fa-send" type="submit"
+                                            name="{{ aform.prefix }}">
+                                        <span class="glyphicon glyphicon-inbox"></span>Enviar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section><!-- End Contact Section -->
+
+    <section id="mapa" class="mapa">
+    <div class="section-title text-center">
+        <h2>Mapa</h2>
+        <p>Mira las Veterinarias disponibles en el mapa</p>
+    </div>
+    <div class="col-lg-12" style="margin-left: 15px;">
+        {% leaflet_js %}
+        {% leaflet_css %}
+        <style type="text/css">
+            #gis {
+                width: 98%;
+                height: 100px
+            }
+        </style>
+
+            <script type="text/javascript">
+                function our_layers(map, options) {
+
+                    var datasets = new L.GeoJSON.AJAX("{{ datasets_url_vet_home }}", {
+                        onEachFeature: function (feature, layer) {
+                            layer.bindPopup("<strong> " + "Veterinarias" + "</strong>"
+                                + "<br/>" + "Nombre: " + feature.properties.nombre
+                                + "<br/>" + "Telefono: " + feature.properties.telefono
+                                + "<br/>" + "Direccion: " + feature.properties.direccion
+                                + "<br/>" + "Comuna: " + feature.properties.comuna);
+                        }
+                    });
+                    datasets.addTo(map);
+                }
+            </script>
+        {% leaflet_map "gis" callback="window.our_layers" %}
+    </div>
+    <br>
+    <br>
+    </section>
+
+    </main><!-- End #main -->
+<!-- ======= Footer ======= -->
+<footer id="footer">
+    <div class="col-lg-12 col-md-12 footer-top">
+        <div class="container-fluid">
+            <div class="row text-xl-left">
+
+                <div class="col-lg-3 col-md-3">
+                    <div class="footer-info">
+                        <img src="{% static 'Vet/img/favicon.png' %}" width="200px" height="158px">
+                        <p>
+                            <br>
+                            Chillán, Chile<br><br>
+                            <strong>Teléfono:</strong> +569xxxxxxxx<br>
+                            <strong>Email:</strong> equipo@huellitasapp.com<br>
+                        </p>
+                        <div class="social-links mt-3">
+                            <a href="#" class="twitter"><i class="bx bxl-twitter"></i></a>
+                            <a href="#" class="facebook"><i class="bx bxl-facebook"></i></a>
+                            <a href="#" class="instagram"><i class="bx bxl-instagram"></i></a>
+                            <a href="#" class="google-plus"><i class="bx bxl-skype"></i></a>
+                            <a href="#" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-3 footer-links">
+                    <h4>Links</h4>
+                    <ul>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#about">Acerca de nosotros</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#menu">Servicios</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-3 footer-links">
+                    <h4>Otros Servicios</h4>
+                    <ul>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Diseño Web</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#">Diseño Grafico</a></li>
+                    </ul>
+                </div>
+
+                <div class="col-lg-3 col-md-3" data-aos="zoom-in" data-aos-delay="100">
+                    <br><br><br>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="copyright">
+            &copy; Copyright <strong><span>HuellitasApp</span></strong>. Todos los derechos reservados
+        </div>
+        <div class="credits">
+            Diseñado por Alejandro
+        </div>
+    </div>
+</footer><!-- End Footer -->
+
+<div id="preloader"></div>
+<a href="#" class="back-to-top"><i class="bx bx-up-arrow-alt"></i></a>
+
+    <!-- Vendor JS Files -->
+    <script src="{% static 'Vet/vendor/jquery/jquery.min.js' %}"></script>
+    <script src="{% static 'Vet/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'Vet/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
+    <script src="{% static 'Vet/vendor/php-email-form/validate.js' %}"></script>
+    <script src="{% static 'Vet/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
+    <script src="{% static 'Vet/vendor/isotope-layout/isotope.pkgd.min.js' %}"></script>
+    <script src="{% static 'Vet/vendor/venobox/venobox.min.js' %}"></script>
+    <script src="{% static 'Vet/vendor/aos/aos.js' %}"></script>
+
+    <script src="{% static 'Admin/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'Admin/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
+    <script src="{% static 'Admin/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
+
+    <!-- Custom and plugin javascript -->
+    <script src="{% static 'Admin/js/inspinia.js' %}"></script>
+    <script src="{% static 'Admin/js/plugins/pace/pace.min.js' %}"></script>
+    <script src="{% static 'Admin/js/bootstrap-dialog.js' %}"></script>
+    <script src="{% static 'Admin/js/plugins/toastr/toastr.min.js' %}"></script>
+
+    <!-- Template Main JS File -->
+    <script src="{% static 'Vet/js/main.js' %}"></script>
+
+    <script src="{% static 'Vet/js/jquery-slim.min.js' %}"></script>
+    <script src="{% static 'Vet/js/popper.min.js' %}"></script>
+
+</body>
+
+{% endblock %}
+
+<script>
+    $(function () {
+        var activePage = stripTrailingSlash(window.location.pathname);
+
+        function stripTrailingSlash(str) {
+            if (str.substr(-1) == '/') {
+                return str.substr(0, str.length - 1);
+            }
+
+            return str;
+        }
+
+        var pageActivated = false;
+
+        $('.nav li a').each(function () {
+            var currentPage = stripTrailingSlash($(this).attr('href'));
+
+            if (activePage == currentPage) {
+                $(this).parent().addClass('active');
+
+                $(this).parent().parent().parent().parent().addClass('in');
+                $(this).parent().parent().parent().parent().parent().addClass('active')
+
+                var ul = $(this).closest('ul.collapse');
+                if (ul) {
+                    $(ul).addClass('in');
+                    $(ul).closest('li').addClass('active');
+                    pageActivated = true;
+                }
+            }
+        });
+
+        if (!pageActivated) {
+            $('.nav li a').each(function () {
+                var currentPage = stripTrailingSlash($(this).attr('href'));
+
+                if (activePage.indexOf(currentPage) !== -1) {
+                    $(this).addClass('active');
+                    var ul = $(this).closest('ul.collapse');
+
+                    if (ul) {
+                        $(ul).addClass('in');
+                        $(ul).closest('li').addClass('active');
+                    }
+                }
+            });
+        }
+    });
+</script>
+
+<script>
+    function muestraReloj() {
+        var fechaHora = new Date();
+        var horas = fechaHora.getHours();
+        var minutos = fechaHora.getMinutes();
+        var segundos = fechaHora.getSeconds();
+
+        if (horas < 10) {
+            horas = '0' + horas;
+        }
+        if (minutos < 10) {
+            minutos = '0' + minutos;
+        }
+        if (segundos < 10) {
+            segundos = '0' + segundos;
+        }
+        document.getElementById("reloj").innerHTML = horas + ':' + minutos + ':' + segundos;
+    }
+
+    window.onload = function () {
+        setInterval(muestraReloj, 1);
+    }
+</script>

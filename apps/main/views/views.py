@@ -17,7 +17,7 @@ from apps.main.filters import ServicioFilter, VeterinariaFilter, PublicacionFilt
 from apps.main.forms import ServicioForm, VeterinariaForm, PublicacionForm
 
 
-class ServicioListView(ListView):
+class ServicioListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     table_class = ServicioTable
     filterset_class = ServicioFilter
     model = Servicio
@@ -28,19 +28,19 @@ class ServicioListView(ListView):
     ordering = ['id']
 
 
-class ServicioCreateView(CreateView):
+class ServicioCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Servicio
     form_class = ServicioForm
     back_url = reverse_lazy('main:servicio_list')
 
 
-class ServicioUpdateView(UpdateView):
+class ServicioUpdateView(UpdateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Servicio
     form_class = ServicioForm
     back_url = reverse_lazy('main:servicio_list')
 
 
-class ServicioDeleteView(DeleteView):
+class ServicioDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Servicio
     success_message = 'Servicio eliminado exitosamente'
 
@@ -61,7 +61,7 @@ class ServicioDeleteView(DeleteView):
             return HttpResponseRedirect('/main/servicio/')
 
 
-class VeterinariaListView(ListView):
+class VeterinariaListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     table_class = VeterinariaTable
     filterset_class = VeterinariaFilter
     model = Veterinaria
@@ -73,21 +73,21 @@ class VeterinariaListView(ListView):
     ordering = ['id']
 
 
-class VeterinariaCreateView(CreateView):
+class VeterinariaCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
     template_name = 'main/veterinaria_create.html'
     model = Veterinaria
     form_class = VeterinariaForm
     back_url = reverse_lazy('main:veterinaria_list')
 
 
-class VeterinariaUpdateView(UpdateView):
+class VeterinariaUpdateView(UpdateView, LoginRequiredMixin, PermissionRequiredMixin):
     template_name = 'main/veterinaria_update.html'
     model = Veterinaria
     form_class = VeterinariaForm
     back_url = reverse_lazy('main:veterinaria_list')
 
 
-class VeterinariaDeleteView(DeleteView):
+class VeterinariaDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Veterinaria
     success_message = 'Veterinaria eliminada exitosamente'
 
@@ -108,7 +108,7 @@ class VeterinariaDeleteView(DeleteView):
             return HttpResponseRedirect('/main/veterinaria/')
 
 
-class VeterinariaSigMapa(LoginRequiredMixin, TemplateView):
+class VeterinariaSigMapa(TemplateView, LoginRequiredMixin, PermissionRequiredMixin):
     template_name = 'main/veterinaria_mapa.html'
     required_permissions = 'main.view_veterinaria'
 
@@ -138,7 +138,7 @@ class VeterinariaSigMapa(LoginRequiredMixin, TemplateView):
             raise Http404
 
 
-class VeterinariaSigDatos(LoginRequiredMixin, TemplateView):
+class VeterinariaSigDatos(TemplateView, LoginRequiredMixin, PermissionRequiredMixin):
     template_name = 'main/veterinaria_mapa.html'
     required_permissions = 'main.view_veterinaria'
 
@@ -153,11 +153,11 @@ class VeterinariaSigDatos(LoginRequiredMixin, TemplateView):
         return serialize('geojson', Veterinaria.objects.all())
 
 
-class VetTodo(LoginRequiredMixin, TemplateView):
+class VetTodo(TemplateView, LoginRequiredMixin, PermissionRequiredMixin):
     template_name = 'main/veterinaria_mapa_all.html'
 
 
-class VeterinariasMapaAll(LoginRequiredMixin, TemplateView):
+class VeterinariasMapaAll(TemplateView, LoginRequiredMixin, PermissionRequiredMixin):
     required_permissions = ('main.view_veterinaria',)
     template_name = 'main/veterinaria_mapa_all.html'
 
@@ -173,13 +173,13 @@ class VeterinariasMapaAll(LoginRequiredMixin, TemplateView):
         return reverse('main:veterinaria_datos_all')
 
 
-class VeterinariasDatosAll(LoginRequiredMixin, TemplateView):
+class VeterinariasDatosAll(TemplateView, LoginRequiredMixin, PermissionRequiredMixin):
     required_permissions = ('main.view_veterinaria',)
     template_name = 'main/veterinaria_mapa_all.html'
 
     def get(self, request, *args, **kwargs):
-        pmfbn_sig = self.get_data(request.GET.get('pk'))
-        return HttpResponse(pmfbn_sig, content_type='json')
+        veterinarias = self.get_data(request.GET.get('pk'))
+        return HttpResponse(veterinarias, content_type='json')
 
     def get_data(self, pk):
         if pk:
@@ -187,7 +187,7 @@ class VeterinariasDatosAll(LoginRequiredMixin, TemplateView):
         return serialize('geojson', Veterinaria.objects.all())
 
 
-class PublicacionListView(ListView):
+class PublicacionListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     table_class = PublicacionTable
     filterset_class = PublicacionFilter
     model = Publicacion
@@ -198,19 +198,19 @@ class PublicacionListView(ListView):
     ordering = ['id']
 
 
-class PublicacionCreateView(CreateView):
+class PublicacionCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Publicacion
     form_class = PublicacionForm
     back_url = reverse_lazy('main:publicacion_list')
 
 
-class PublicacionUpdateView(UpdateView):
+class PublicacionUpdateView(UpdateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Publicacion
     form_class = PublicacionForm
     back_url = reverse_lazy('main:publicacion_list')
 
 
-class PublicacionDeleteView(DeleteView):
+class PublicacionDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Publicacion
     success_message = 'Publicacion eliminado exitosamente'
 

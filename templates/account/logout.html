@@ -1,19 +1,36 @@
-{% extends "account/base.html" %}
+{% extends "account/base_with_footer.html" %}
 
 {% load i18n %}
-
+{% load staticfiles %}
 {% block head_title %}Sign Out{% endblock %}
 
 {% block content %}
-<h2>¿Está seguro de querer cerrar sesión?</h2>
 
-<form method="post" action="{% url 'account_logout' %}">
-  {% csrf_token %}
-  {% if redirect_field_value %}
-  <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
-  {% endif %}
-  <button class="btn btn-danger" type="submit">Cerrar sesión</button>
-</form>
+    <div id="logout">
+        <div class="col-lg-6 center-block">
+            <br><br><br><br><br><br><br><br><br><br><br><br>
+            <img src="{% static 'Vet/img/favicon.png' %}" alt="fondo" width="500px" height="300px">
+            <h3 class="fadeOutLeft">Tú web de mascotas</h3>
+            <br><br><br><br><br><br><br><br>
+        </div>
+        <div class="col-lg-6 div-logout center-block">
+            <h2>¿Está seguro de querer cerrar sesión?</h2>
+            <form method="post" action="{% url 'account_logout' %}">
+                {% csrf_token %}
+                {% if redirect_field_value %}
+                    <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}"/>
+                {% endif %}
+                <a href="{% url 'home:home' %}" data-toggle="tooltip" class="btn btn-ttc col-lg-5">
+                    <i class="fa fa-reply" aria-hidden="true"></i>
+                    Volver
+                </a>
+                <div class="col-lg-2"></div>
+                <button class="btn btn-ttc col-lg-5" type="submit">
+                    <i class="fa fa-remove"></i> Cerrar Sesión
+                </button>
+            </form>
+        </div>
+    </div>
 
 
 {% endblock %}

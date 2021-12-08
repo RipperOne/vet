@@ -22,6 +22,8 @@ from django.views.i18n import JavaScriptCatalog
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('jsi18n', JavaScriptCatalog.as_view(), name='javascript-catalog'),
+    path('chaining/', include('smart_selects.urls')),
+    path('accounts/', include('apps.accounts.urls')),
     path('accounts/', include('allauth.urls')),
     path('usuarios/', include('apps.users.urls')),
     path('vet/', include('apps.main.urls')),
