@@ -58,11 +58,11 @@ mock==3.0.5
 more-itertools==8.5.0
 oauthlib==3.1.0
 packaging==20.4
-Pillow==7.2.0
+#Pillow==7.2.0
 platformdirs==2.4.0
-pluggy==0.13.1
+#pluggy==0.13.1
 prompt-toolkit==3.0.22
-psycopg2==2.8.3
+#psycopg2==2.8.3
 py==1.9.0
 pycparser==2.20
 PyJWT==1.7.1
