@@ -2,6 +2,7 @@
 {% load staticfiles %}
 
 {% block head %}
+
     <div class="row wrapper border-bottom white-bg page-heading ng-scope">
         <div class="col-lg-10">
             <h2>Inicio</h2>
@@ -25,16 +26,162 @@
                 <h1><strong>HuellitasAPP</strong></h1>
                 <h2>Sistema de Información de Adopciones</h2>
             </div>
-            <!--
-            <div class="container-fluid align=center">
-                <img src="{% static '' %}" class="inline-block" width="1620px" height="680px">
-            </div>
-            -->
         </div>
     </div>
 
+    <script src="{% static 'Vet/Highcharts-8.2.2/code/highcharts.js' %}"></script>
+    <script src="{% static 'Vet/Highcharts-8.2.2/code/modules/exporting.js' %}"></script>
+    <script src="{% static 'Vet/Highcharts-8.2.2/code/modules/export-data.js' %}"></script>
+    <script src="{% static 'Vet/Highcharts-8.2.2/code/modules/accessibility.js' %}"></script>
+
+    <figure class="highcharts-figure">
+        <div id="container"></div>
+        <p class="highcharts-description">
+            Gráfico identificador de los tipos de mascotas registrados en HuellitasAPP.
+        </p>
+    </figure>
+
+    <script type="application/javascript">
+        Highcharts.chart('container', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'HuellitasAPP"'
+            },
+            subtitle: {
+                text: 'Source: HuellitasAPP'
+            },
+            xAxis: {
+                categories: [
+                    'Mascotas disponibles para adopción'
+                ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Cantidad'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} Cantidad</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                color: 'red',
+                name: '{{ perros }}',
+                data: {{ estadistica1|safe }}
+            },{
+                color: 'violet',
+                name: '{{ gatos }}',
+                data: {{ estadistica2|safe }}
+            }, {
+                color: 'green',
+                name: '{{ reptiles }}',
+                data: {{ estadistica3|safe }}
+            }, {
+                color: 'grey',
+                name: '{{ aves }}',
+                data: {{ estadistica4|safe }}
+            }, {
+                color: 'blue',
+                name: '{{ peces }}',
+                data: {{ estadistica5|safe }}
+            }, {
+                color: 'brown',
+                name: '{{ aranhas }}',
+                data: {{ estadistica6|safe }}
+            }]
+        });
+    </script>
+
+    <figure class="highcharts-figure">
+        <div id="container1"></div>
+        <p class="highcharts-description">
+            Gráfico identificador de las mascotas adoptadas en HuellitasAPP.
+        </p>
+    </figure>
+
+    <script type="application/javascript">
+        Highcharts.chart('container1', {
+            chart: {
+                type: 'column'
+            },
+            title: {
+                text: 'HuellitasAPP"'
+            },
+            subtitle: {
+                text: 'Source: HuellitasAPP'
+            },
+            xAxis: {
+                categories: [
+                    'Mascotas Adoptadas'
+                ],
+                crosshair: true
+            },
+            yAxis: {
+                min: 0,
+                title: {
+                    text: 'Cantidad'
+                }
+            },
+            tooltip: {
+                headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
+                pointFormat: '<tr><td style="color:{series.color};padding:0">{series.name}: </td>' +
+                    '<td style="padding:0"><b>{point.y:.1f} Cantidad</b></td></tr>',
+                footerFormat: '</table>',
+                shared: true,
+                useHTML: true
+            },
+            plotOptions: {
+                column: {
+                    pointPadding: 0,
+                    borderWidth: 0
+                }
+            },
+            series: [{
+                color: 'red',
+                name: '{{ perros_adoptados }}',
+                data: {{ estadistica1_adoptados|safe }}
+            },{
+                color: 'violet',
+                name: '{{ gatos_adoptados }}',
+                data: {{ estadistica2_adoptados|safe }}
+            }, {
+                color: 'green',
+                name: '{{ reptiles_adoptados }}',
+                data: {{ estadistica3_adoptados|safe }}
+            }, {
+                color: 'grey',
+                name: '{{ aves_adoptados }}',
+                data: {{ estadistica4_adoptados|safe }}
+            }, {
+                color: 'blue',
+                name: '{{ peces_adoptados }}',
+                data: {{ estadistica5_adoptados|safe }}
+            }, {
+                color: 'brown',
+                name: '{{ aranhas_adoptados }}',
+                data: {{ estadistica6_adoptados|safe }}
+            }]
+        });
+    </script>
+
     <footer class="fixed-bottom">
         <div class="container-fluid align=center">
+            <div class="row">
+            </div>
         </div>
     </footer>
 {% endblock %}

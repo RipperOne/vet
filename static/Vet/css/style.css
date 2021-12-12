@@ -384,7 +384,7 @@ h1, h2, h3, h4, h5, h6 {
   color: #eca2f6;
 }
 
-.nav-menu .book-a-table a {
+.nav-menu .veterinarias a {
   border: 2px solid #b33ed0;
   color: #fff;
   border-radius: 50px;
@@ -396,7 +396,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: 0.3s;
 }
 
-.nav-menu .book-a-table a:hover {
+.nav-menu .veterinarias a:hover {
   background: #631777;
   color: #fff;
 }
@@ -566,7 +566,7 @@ h1, h2, h3, h4, h5, h6 {
   content: "\eaa1";
 }
 
-.mobile-nav .book-a-table a {
+.mobile-nav .veterinarias a {
   color: #fff;
   border: 2px solid #631777;
   border-radius: 50px;
@@ -580,7 +580,7 @@ h1, h2, h3, h4, h5, h6 {
   display: inline-block;
 }
 
-.mobile-nav .book-a-table a:hover {
+.mobile-nav .veterinarias a:hover {
   background: #791f8f;
   color: #fff;
 }
@@ -999,7 +999,9 @@ section {
 --------------------------------------------------------------*/
 
 #menu {
+  /*
   background: url("../img/") right;
+  */
   background-size: cover;
   position: relative;
   padding: 80px;
@@ -1108,22 +1110,22 @@ section {
 # Book A Table
 --------------------------------------------------------------*/
 
-#book-a-table {
+#veterinarias {
   background: url("../img/vets.jpg") right;
   background-size: cover;
   position: relative;
   padding: 100px;
 }
 
-.book-a-table .php-email-form {
+.veterinarias .php-email-form {
   width: 100%;
 }
 
-.book-a-table .php-email-form .form-group {
+.veterinarias .php-email-form .form-group {
   padding-bottom: 8px;
 }
 
-.book-a-table .php-email-form .validate {
+.veterinarias .php-email-form .validate {
   display: none;
   color: red;
   margin: 0 0 15px 0;
@@ -1131,7 +1133,7 @@ section {
   font-size: 13px;
 }
 
-.book-a-table .php-email-form .error-message {
+.veterinarias .php-email-form .error-message {
   display: none;
   color: #fff;
   background: #ed3c0d;
@@ -1140,11 +1142,11 @@ section {
   font-weight: 600;
 }
 
-.book-a-table .php-email-form .error-message br + br {
+.veterinarias .php-email-form .error-message br + br {
   margin-top: 25px;
 }
 
-.book-a-table .php-email-form .sent-message {
+.veterinarias .php-email-form .sent-message {
   display: none;
   color: #fff;
   background: #18d26e;
@@ -1153,13 +1155,13 @@ section {
   font-weight: 600;
 }
 
-.book-a-table .php-email-form .loading {
+.veterinarias .php-email-form .loading {
   display: none;
   text-align: center;
   padding: 15px;
 }
 
-.book-a-table .php-email-form .loading:before {
+.veterinarias .php-email-form .loading:before {
   content: "";
   display: inline-block;
   border-radius: 50%;
@@ -1172,7 +1174,7 @@ section {
   animation: animate-loading 1s linear infinite;
 }
 
-.book-a-table .php-email-form input, .book-a-table .php-email-form textarea {
+.veterinarias .php-email-form input, .veterinarias .php-email-form textarea {
   border-radius: 0;
   box-shadow: none;
   font-size: 14px;
@@ -1181,39 +1183,39 @@ section {
   color: white;
 }
 
-.book-a-table .php-email-form input::-webkit-input-placeholder, .book-a-table .php-email-form textarea::-webkit-input-placeholder {
+.veterinarias .php-email-form input::-webkit-input-placeholder, .veterinarias .php-email-form textarea::-webkit-input-placeholder {
   color: #a49b89;
 }
 
-.book-a-table .php-email-form input::-moz-placeholder, .book-a-table .php-email-form textarea::-moz-placeholder {
+.veterinarias .php-email-form input::-moz-placeholder, .veterinarias .php-email-form textarea::-moz-placeholder {
   color: #a49b89;
 }
 
-.book-a-table .php-email-form input:-ms-input-placeholder, .book-a-table .php-email-form textarea:-ms-input-placeholder {
+.veterinarias .php-email-form input:-ms-input-placeholder, .veterinarias .php-email-form textarea:-ms-input-placeholder {
   color: #a49b89;
 }
 
-.book-a-table .php-email-form input::-ms-input-placeholder, .book-a-table .php-email-form textarea::-ms-input-placeholder {
+.veterinarias .php-email-form input::-ms-input-placeholder, .veterinarias .php-email-form textarea::-ms-input-placeholder {
   color: #a49b89;
 }
 
-.book-a-table .php-email-form input::placeholder, .book-a-table .php-email-form textarea::placeholder {
+.veterinarias .php-email-form input::placeholder, .veterinarias .php-email-form textarea::placeholder {
   color: #a49b89;
 }
 
-.book-a-table .php-email-form input:focus, .book-a-table .php-email-form textarea:focus {
+.veterinarias .php-email-form input:focus, .veterinarias .php-email-form textarea:focus {
   border-color: #b33ed0;
 }
 
-.book-a-table .php-email-form input {
+.veterinarias .php-email-form input {
   height: 44px;
 }
 
-.book-a-table .php-email-form textarea {
+.veterinarias .php-email-form textarea {
   padding: 10px 12px;
 }
 
-.book-a-table .php-email-form button[type="submit"] {
+.veterinarias .php-email-form button[type="submit"] {
   background: #b33ed0;
   border: 0;
   padding: 10px 35px;
@@ -1222,27 +1224,29 @@ section {
   border-radius: 50px;
 }
 
-.book-a-table .php-email-form button[type="submit"]:hover {
+.veterinarias .php-email-form button[type="submit"]:hover {
   background: #c974d6;
 }
 
 /*--------------------------------------------------------------
-# Testimonials
+# Cuidados
 --------------------------------------------------------------*/
 
-#testimonials {
-  background: url("../img/about-bg.jpg") right;
+#cuidados {
+  /*
+  background: url("../") right;
+  */
   background-size: cover;
   position: relative;
   padding: 80px;
 }
 
-.testimonials .testimonial-item {
+.cuidados .cuidado-item {
   box-sizing: content-box;
   min-height: 600px;
 }
 
-.testimonials .testimonial-item .testimonial-img {
+.cuidados .cuidado-item .cuidado-img {
   width: 150px;
   border-radius: 50%;
   margin: -40px 0 0 40px;
@@ -1251,38 +1255,38 @@ section {
   border: 6px solid rgba(255, 255, 255, 0.2);
 }
 
-.testimonials .testimonial-item h3 {
+.cuidados .cuidado-item h3 {
   font-size: 18px;
   font-weight: bold;
   margin: 10px 0 5px 45px;
   color: white;
 }
 
-.testimonials .testimonial-item h4 {
+.cuidados .cuidado-item h4 {
   font-size: 14px;
   color: rgba(255, 255, 255, 0.6);
   margin: 0 0 0 45px;
 }
 
-.testimonials .testimonial-item .quote-icon-left, .testimonials .testimonial-item .quote-icon-right {
+.cuidados .cuidado-item .quote-icon-left, .cuidados .cuidado-item .quote-icon-right {
   color: #1a1a1a;
   font-size: 26px;
 }
 
-.testimonials .testimonial-item .quote-icon-left {
+.cuidados .cuidado-item .quote-icon-left {
   display: inline-block;
   left: -5px;
   position: relative;
 }
 
-.testimonials .testimonial-item .quote-icon-right {
+.cuidados .cuidado-item .quote-icon-right {
   display: inline-block;
   right: -5px;
   position: relative;
   top: 10px;
 }
 
-.testimonials .testimonial-item p {
+.cuidados .cuidado-item p {
   font-style: italic;
   margin: 0 15px 0 15px;
   padding: 20px 20px 60px 20px;
@@ -1292,12 +1296,12 @@ section {
   z-index: 1;
 }
 
-.testimonials .owl-nav, .testimonials .owl-dots {
+.cuidados .owl-nav, .cuidados .owl-dots {
   margin-top: 5px;
   text-align: center;
 }
 
-.testimonials .owl-dot {
+.cuidados .owl-dot {
   display: inline-block;
   margin: 0 5px;
   width: 12px;
@@ -1306,12 +1310,12 @@ section {
   background-color: #ddd !important;
 }
 
-.testimonials .owl-dot.active {
+.cuidados .owl-dot.active {
   background-color: #949494 !important;
 }
 
 @media (max-width: 900px) {
-  .testimonials {
+  .cuidados {
     margin: 30px 10px;
   }
 }
@@ -1321,7 +1325,9 @@ section {
 --------------------------------------------------------------*/
 
 #gallery {
-  background: url("../img/") right;
+  /*
+  background: url("") right;
+  */
   background-size: cover;
   position: relative;
   padding: 80px;

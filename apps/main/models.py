@@ -20,7 +20,7 @@ ESTERELIZACION_CHOICES = (
 )
 
 SERVICE_CHOICES = (
-    (1, 'Busco a mi Dueño'), (2, 'Busco a mi Mascota'), (3, 'Adopta una Mascota'),
+    (1, 'Busco a mi Dueño'), (2, 'Busco a mi Mascota'),
 )
 
 
@@ -44,6 +44,19 @@ class Tratamiento(Base):
     class Meta:
         verbose_name = 'Tratamiento'
         verbose_name_plural = 'Tratamientos'
+
+    def __str__(self):
+        return self.nombre
+
+
+class Cuidados(Base):
+    nombre = models.CharField(verbose_name='Cuidados', max_length=255)
+    descripcion = models.TextField(max_length=500)
+    estado = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'Cuidado'
+        verbose_name_plural = 'Cuidados'
 
     def __str__(self):
         return self.nombre
@@ -163,3 +176,20 @@ class Publicacion(Base):
 
     def __str__(self):
         return '{} {} {} {} {}'.format(self.nombre, '/', self.nombre_mascota, '/', str(self.servicio,))
+
+
+class Adopcion(Base):
+    nombre = models.CharField(max_length=255, verbose_name='Nombre y Apellido')
+    email = models.EmailField('Correo electrónico', null=True, unique=True)
+    telefono = models.CharField(max_length=11, verbose_name='Teléfono', null=True)
+    direccion = models.CharField(max_length=300, verbose_name='Dirección')
+    mascota = models.ForeignKey(Animal, verbose_name='Mascotas disponibles', on_delete=models.CASCADE)
+    mensaje = models.TextField(max_length=500, verbose_name='Déjenos un mensaje explicando su interés')
+    estado = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'Adopcion'
+        verbose_name_plural = 'Adopciones'
+
+    def __str__(self):
+        return '{} {} {} {} {}'.format(self.nombre, '/', self.email, '/', str(self.mascota,))

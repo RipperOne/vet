@@ -17,6 +17,13 @@ class TratamientoForm(forms.ModelForm):
         fields = ('nombre', 'descripcion')
 
 
+class CuidadosForm(forms.ModelForm):
+
+    class Meta:
+        model = models.Cuidados
+        fields = ('nombre', 'descripcion')
+
+
 class AnimalForm(forms.ModelForm):
     m2m_fields = ('#id_tratamiento',)
     search_fields = ('#id_especie',)
@@ -77,6 +84,16 @@ class PublicacionForm(forms.ModelForm):
         model = models.Publicacion
         fields = ('nombre', 'email', 'telefono', 'direccion', 'fecha', 'nombre_mascota', 'especie', 'tamanho'
                   , 'sexo', 'microchip', 'servicio', 'fotografia', 'mensaje')
+        widgets = {
+            'fecha': AdminDateWidget(),
+        }
+
+
+class AdopcionForm(forms.ModelForm):
+
+    class Meta:
+        model = models.Adopcion
+        fields = ('nombre', 'email', 'telefono', 'direccion', 'mascota', 'mensaje')
         widgets = {
             'fecha': AdminDateWidget(),
         }

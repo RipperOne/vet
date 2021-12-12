@@ -6,10 +6,10 @@ from django.contrib import messages
 
 from apps.utils.views import ListView, CreateView, UpdateView, DeleteView
 
-from apps.main.models import Animal, Especie, Tratamiento
-from apps.main.tables import AnimalTable, EspecieTable, TratamientoTable
-from apps.main.filters import AnimalFilter, EspecieFilter, TratamientoFilter
-from apps.main.forms import AnimalForm, EspecieForm, TratamientoForm
+from apps.main.models import Animal, Especie, Tratamiento, Cuidados, Adopcion
+from apps.main.tables import AnimalTable, EspecieTable, TratamientoTable, CuidadosTable, AdopcionTable
+from apps.main.filters import AnimalFilter, EspecieFilter, TratamientoFilter, CuidadosFilter, AdopcionFilter
+from apps.main.forms import AnimalForm, EspecieForm, TratamientoForm, CuidadosForm, AdopcionForm
 
 
 class EspecieListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
@@ -100,6 +100,50 @@ class TratamientoDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMi
             return HttpResponseRedirect('/main/tratamiento/')
 
 
+class CuidadosListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
+    table_class = CuidadosTable
+    filterset_class = CuidadosFilter
+    model = Cuidados
+    add_permission = 'main.add_cuidados'
+    add_url = reverse_lazy('main:cuidados_create')
+    change_permission = 'main.change_cuidados'
+    delete_permission = 'main.delete_cuidados'
+    ordering = ['id']
+
+
+class CuidadosCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
+    model = Cuidados
+    form_class = CuidadosForm
+    back_url = reverse_lazy('main:cuidados_list')
+
+
+class CuidadosUpdateView(UpdateView, LoginRequiredMixin, PermissionRequiredMixin):
+    model = Cuidados
+    form_class = CuidadosForm
+    back_url = reverse_lazy('main:cuidados_list')
+
+
+class CuidadosDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin):
+    model = Cuidados
+    success_message = 'Cuidado eliminado exitosamente'
+
+    def delete(self, request, *args, **kwargs):
+        pk = self.kwargs['pk']
+        try:
+            cuidados = Cuidados.objects.get(id=pk)
+        except Cuidados.DoesNotExist:
+            return HttpResponseNotFound()
+
+        if request.method == "GET":
+            return render(request, "generic/confirm_delete.html", {'cuidados': cuidados})
+        elif request.method == "POST":
+            if request.POST["confirm"] == "1":
+                cuidados.estado = False
+                cuidados.save()
+                messages.success(self.request, self.success_message)
+            return HttpResponseRedirect('/main/cuidados/')
+
+
 class AnimalListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     table_class = AnimalTable
     filterset_class = AnimalFilter
@@ -142,3 +186,47 @@ class AnimalDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin):
                 animal.save()
                 messages.success(self.request, self.success_message)
             return HttpResponseRedirect('/main/animal/')
+
+
+class AdopcionListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
+    table_class = AdopcionTable
+    filterset_class = AdopcionFilter
+    model = Adopcion
+    add_permission = 'main.add_adopcion'
+    add_url = reverse_lazy('main:adopcion_create')
+    change_permission = 'main.change_adopcion'
+    delete_permission = 'main.delete_adopcion'
+    ordering = ['id']
+
+
+class AdopcionCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
+    model = Adopcion
+    form_class = AdopcionForm
+    back_url = reverse_lazy('main:adopcion_list')
+
+
+class AdopcionUpdateView(UpdateView, LoginRequiredMixin, PermissionRequiredMixin):
+    model = Adopcion
+    form_class = AdopcionForm
+    back_url = reverse_lazy('main:adopcion_list')
+
+
+class AdopcionDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin):
+    model = Adopcion
+    success_message = 'Adopcion eliminada exitosamente'
+
+    def delete(self, request, *args, **kwargs):
+        pk = self.kwargs['pk']
+        try:
+            adopcion = Adopcion.objects.get(id=pk)
+        except Adopcion.DoesNotExist:
+            return HttpResponseNotFound()
+
+        if request.method == "GET":
+            return render(request, "generic/confirm_delete.html", {'adopcion': adopcion})
+        elif request.method == "POST":
+            if request.POST["confirm"] == "1":
+                adopcion.estado = False
+                adopcion.save()
+                messages.success(self.request, self.success_message)
+            return HttpResponseRedirect('/main/adopcion/')

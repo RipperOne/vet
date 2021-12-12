@@ -27,6 +27,17 @@ class TratamientoTable(ModelTable):
     delete_url = 'main:tratamiento_delete'
 
 
+class CuidadosTable(ModelTable):
+
+    class Meta:
+        model = models.Cuidados
+        sequence = ('id', 'nombre', 'descripcion', 'created_at', 'updated_at')
+        exclude = ('estado',)
+
+    update_url = 'main:cuidados_update'
+    delete_url = 'main:cuidados_delete'
+
+
 class AnimalTable(ModelTable):
     tratamiento = tables.ManyToManyColumn(transform=lambda obj: obj.nombre, separator=LIST_SEPARATOR)
 
@@ -147,3 +158,14 @@ class PublicacionTable(ModelTable):
 
     update_url = 'main:publicacion_update'
     delete_url = 'main:publicacion_delete'
+
+
+class AdopcionTable(ModelTable):
+
+    class Meta:
+        model = models.Adopcion
+        sequence = ('id', 'nombre', 'email', 'telefono', 'direccion', 'mascota', 'mensaje', 'created_at', 'updated_at')
+        exclude = ('estado',)
+
+    update_url = 'main:adopcion_update'
+    delete_url = 'main:adopcion_delete'

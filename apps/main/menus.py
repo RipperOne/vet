@@ -30,6 +30,14 @@ animal = [
              reverse('main:tratamiento_list'),
              check=lambda request: request.user.has_perm('main.view_tratamiento'),
              icon='fa fa-leaf'),
+    MenuItem('Cuidados',
+             reverse('main:cuidados_list'),
+             check=lambda request: request.user.has_perm('main.view_cuidados'),
+             icon='fa fa-leaf'),
+    MenuItem('Adopcion',
+             reverse('main:adopcion_list'),
+             check=lambda request: request.user.has_perm('main.view_adopcion'),
+             icon='fa fa-leaf'),
 ]
 
 Menu.add_item('main', MenuItem('Animal', '#', weight=900, icon='fa fa-globe', children=animal))

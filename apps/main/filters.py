@@ -19,6 +19,14 @@ class TratamientoFilter(filters.FilterSet):
         }
 
 
+class CuidadosFilter(filters.FilterSet):
+    class Meta:
+        model = models.Cuidados
+        fields = {
+            'nombre': ['icontains'],
+        }
+
+
 class AnimalFilter(filters.FilterSet):
     class Meta:
         model = models.Animal
@@ -90,4 +98,15 @@ class PublicacionFilter(filters.FilterSet):
             'tamanho': ['exact'],
             'sexo': ['exact'],
             'microchip': ['exact'],
+        }
+
+
+class AdopcionFilter(filters.FilterSet):
+    class Meta:
+        model = models.Adopcion
+        fields = {
+            'nombre': ['icontains'],
+            'email': ['icontains'],
+            'telefono': ['icontains'],
+            'mascota': ['exact'],
         }

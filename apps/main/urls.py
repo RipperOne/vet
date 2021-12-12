@@ -34,6 +34,11 @@ urlpatterns = [
     path('tratamiento/eliminar/<int:pk>/', animal.TratamientoDeleteView.as_view(), name='tratamiento_delete'),
     path('tratamiento/', animal.TratamientoListView.as_view(), name='tratamiento_list'),
 
+    path('cuidados/crear/', animal.CuidadosCreateView.as_view(), name='cuidados_create'),
+    path('cuidados/actualizar/<int:pk>/', animal.CuidadosUpdateView.as_view(), name='cuidados_update'),
+    path('cuidados/eliminar/<int:pk>/', animal.CuidadosDeleteView.as_view(), name='cuidados_delete'),
+    path('cuidados/', animal.CuidadosListView.as_view(), name='cuidados_list'),
+
     path('animal/crear/', animal.AnimalCreateView.as_view(), name='animal_create'),
     path('animal/actualizar/<int:pk>/', animal.AnimalUpdateView.as_view(), name='animal_update'),
     path('animal/eliminar/<int:pk>/', animal.AnimalDeleteView.as_view(), name='animal_delete'),
@@ -58,4 +63,9 @@ urlpatterns = [
     path('publicacion/actualizar/<int:pk>/', views.PublicacionUpdateView.as_view(), name='publicacion_update'),
     path('publicacion/eliminar/<int:pk>/', views.PublicacionDeleteView.as_view(), name='publicacion_delete'),
     path('publicacion/', views.PublicacionListView.as_view(), name='publicacion_list'),
+
+    path('adopcion/crear/', animal.AdopcionCreateView.as_view(), name='adopcion_create'),
+    path('adopcion/actualizar/<int:pk>/', animal.AdopcionUpdateView.as_view(), name='adopcion_update'),
+    path('adopcion/eliminar/<int:pk>/', animal.AdopcionDeleteView.as_view(), name='adopcion_delete'),
+    path('adopcion/', animal.AdopcionListView.as_view(), name='adopcion_list'),
 ]

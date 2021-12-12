@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'bootstrap3',
     'django_extensions',
+    'datetimewidget',
     'menu',
     'django_filters',
     'django_tables2',

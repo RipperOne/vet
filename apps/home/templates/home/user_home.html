@@ -82,14 +82,14 @@
                     <li><a href="#about">Acerca de nosotros</a></li>
                     <li><a href="#menu">Servicios</a></li>
                     <li><a href="#gallery">Galería</a></li>
-                    <li><a href="#testimonials">Equipo</a></li>
+                    <li><a href="#cuidados">Equipo</a></li>
                     <li><a href="#contact">Contacto</a></li>
-                    <li class="book-a-table text-center"><a href="#book-a-table">Veterinarias</a></li>
+                    <li class="veterinarias text-center"><a href="#veterinarias">Veterinarias</a></li>
 
                     {% if user.is_anonymous %}
-                        <li class="book-a-table text-right"><a href="{% url 'account_login' %}">Inicia Sesión</a></li>
+                        <li class="veterinarias text-right"><a href="{% url 'account_login' %}">Inicia Sesión</a></li>
                         <li>ó</li>
-                        <li class="book-a-table text-right"><a href="{% url 'account_signup' %}">Regístrate</a></li>
+                        <li class="veterinarias text-right"><a href="{% url 'account_signup' %}">Regístrate</a></li>
                     {% endif %}
                     {% if request.user.is_authenticated %}
                         <div class="dropdown profile-element fa-pull-right div-actions">
@@ -155,7 +155,7 @@
 
                     <div class="btns">
                     <a href="#menu" class="btn-menu animated fadeInUp scrollto">Servicios</a>
-                    <a href="#book-a-table" class="btn-book animated fadeInUp scrollto">Mascotas</a>
+                    <a href="#veterinarias" class="btn-book animated fadeInUp scrollto">Mascotas</a>
                 </div>
                 </div>
                 <div class="col-lg-4 d-flex align-items-center justify-content-center" data-aos="zoom-in"
@@ -202,7 +202,7 @@
         </section><!-- End About Section -->
 
                 <!-- ======= Veterinarias Section ======= -->
-        <section id="book-a-table" class="book-a-table">
+        <section id="veterinarias" class="veterinarias">
             <div class="container-fluid" data-aos="fade-up">
 
                 <div class="section-title text-center">
@@ -344,9 +344,9 @@
                     <h2>Galería</h2>
                     <p>Algunas fotos de trabajos realizados</p>
                 </div>
-                <div class="owl-carousel testimonials-carousel" data-aos="zoom-in" data-aos-delay="100">
+                <div class="owl-carousel cuidados-carousel" data-aos="zoom-in" data-aos-delay="100">
                     {% for galeria in galerias %}
-                        <div class="testimonial-item">
+                        <div class="cuidado-item">
                             <div class="gallery-item">
                                 <div class="venobox" data-gall="gallery-item">
                                     <img src="{{ galeria.imagen.url }}" alt="{{ galeria.nombre }}" class="img-fluid">
@@ -359,7 +359,7 @@
         </section><!-- End Gallery Section -->
 
         <!-- ======= Staff Section ======= -->
-        <section id="testimonials" class="testimonials">
+        <section id="cuidados" class="cuidados">
             <div class="container" data-aos="fade-up">
 
                 <div class="section-title text-center">
@@ -367,15 +367,15 @@
                     <p>Equipo Profesional</p>
                 </div>
 
-                <div class="owl-carousel testimonials-carousel" data-aos="zoom-in" data-aos-delay="100">
+                <div class="owl-carousel cuidados-carousel" data-aos="zoom-in" data-aos-delay="100">
                     {% for staff in staffs %}
-                    <div class="testimonial-item">
+                    <div class="cuidado-item">
                         <p>
                             <i class="bx bxs-quote-alt-left quote-icon-left"></i>
                             {{ staff.frase }}
                             <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                         </p>
-                        <img src="{{ staff.imagen.url }}" class="testimonial-img" alt="">
+                        <img src="{{ staff.imagen.url }}" class="cuidado-img" alt="">
                         <h3>{{ staff.nombre }} {{staff.apellido}}</h3>
                         <h4>{{ staff.profesion }}</h4>
                         <div class="social align=center">

@@ -178,8 +178,8 @@ var $ = jQuery.noConflict();
     items: 1
   });
 
-  // Testimonials carousel (uses the Owl Carousel library)
-  $(".testimonials-carousel").owlCarousel({
+  // cuidados carousel (uses the Owl Carousel library)
+  $(".cuidados-carousel").owlCarousel({
     autoplay: true,
     dots: true,
     loop: true,
@@ -188,11 +188,14 @@ var $ = jQuery.noConflict();
       0: {
         items: 1
       },
-      768: {
+      600: {
         items: 2
       },
-      900: {
+      1200: {
         items: 3
+      },
+      1800: {
+        items: 4
       }
     }
   });

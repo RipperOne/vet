@@ -84,7 +84,7 @@
                     </p>
                     <li class="active"><a href="{% url 'home:home' %}">Inicio</a></li>
                     <li><a href="#about">Acerca de nosotros</a></li>
-                    <li><a href="#book-a-table">Veterinarias</a></li>
+                    <li><a href="#veterinarias">Veterinarias</a></li>
                     <li><a href="#menu">Mascotas</a></li>
                     <li><a href="#gallery">Galería</a></li>
                     <li><a href="#contact">Contacto</a></li>
@@ -96,12 +96,12 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     </p>
 
-                    <li class="book-a-table text-center"><a href="#mapa">Mapa</a></li>
+                    <li class="veterinarias text-center"><a href="#mapa">Mapa</a></li>
 
                     {% if user.is_anonymous %}
-                        <li class="book-a-table text-right"><a href="{% url 'account_login' %}">Inicia Sesión</a></li>
+                        <li class="veterinarias text-right"><a href="{% url 'account_login' %}">Inicia Sesión</a></li>
                         <li>ó</li>
-                        <li class="book-a-table text-right"><a href="{% url 'account_signup' %}">Regístrate</a></li>
+                        <li class="veterinarias text-right"><a href="{% url 'account_signup' %}">Regístrate</a></li>
                     {% endif %}
                     {% if request.user.is_authenticated %}
                         <div class="dropdown profile-element fa-pull-right div-actions">
@@ -167,7 +167,7 @@
 
                 <div class="btns">
                     <a href="#menu" class="btn-menu animated fadeInUp scrollto">Mascotas</a>
-                    <a href="#book-a-table" class="btn-book animated fadeInUp scrollto">Veterinarias</a>
+                    <a href="#veterinarias" class="btn-book animated fadeInUp scrollto">Veterinarias</a>
                 </div>
             </div>
             <div class="col-lg-4 d-flex align-items-center justify-content-center" data-aos="zoom-in"
@@ -175,6 +175,32 @@
             </div>
 
         </div>
+            <!-- ======= Cuidados Section ======= -->
+
+            <div class="container" data-aos="fade-up">
+
+                <div class="section-title text-center">
+                    <p>Cuidados y Recomendaciones</p>
+                </div>
+
+                <div class="owl-carousel cuidados-carousel" data-aos="zoom-in" data-aos-delay="100">
+                    {% for cuidado in cuidados %}
+                    <div class="cuidado-item ">
+                        <div class="section-title text-center">
+                            <h3>{{ cuidado.nombre }}</h3>
+                        </div>
+                        <p>
+                            <a class="animated fadeInUp scrollto">
+                                <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                {{ cuidado.descripcion }}
+                                <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                            </a>
+                        </p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
     </div>
 </section><!-- End Hero -->
 
@@ -204,7 +230,7 @@
                 </div>
                 <div class="col-lg-2" data-aos="zoom-in" data-aos-delay="100">
                     <div class="about-img">
-                        <img src="{% static 'Vet/img/favicon.png' %}" width="200px" height="200px">
+                        <img src="{% static 'Vet/img/favicon.png' %}" width="200px" height="200px"/>
                     </div>
                 </div>
             </div>
@@ -213,7 +239,7 @@
     </section><!-- End About Section -->
 
                 <!-- ======= Veterinarias Section ======= -->
-        <section id="book-a-table" class="book-a-table">
+        <section id="veterinarias" class="veterinarias">
             <div class="container-fluid" data-aos="fade-up">
 
                 <div class="section-title text-center">
@@ -226,7 +252,7 @@
                         <div class="row">
                             {% for veterinaria in veterinarias %}
                             <div class="row col-md-6 col-sm-12 col-lg-3">
-                                <div class="card" style="width: 98%; background-color: #27252b; border-color: #791f8f; border-width: 5px;">
+                                <div class="card" style="width: 98%; background-color: #000000; border-color: #791f8f; border-width: 5px;">
                                     <a class="card-title text-center" style="color: white">{{ veterinaria.nombre }}</a>
                                     <br>
                                     <a class="card-title text-center" style="color: white">{{ veterinaria.telefono }}</a>
@@ -268,7 +294,7 @@
                     <!-- Perritos -->
                     <div class="row" id="lista-productos">
                     {% for perro in perros %}
-                        <div class="col-lg-3 menu-item filter-vacuno">
+                        <div class="col-lg-3 menu-item filter-perro">
                             <img src="{{ perro.foto_perfil.url }}" class="menu-img" alt="{{ perro.nombre }}">
                             <a class="menu-content">{{ perro.nombre }}</a>
                             <div class="menu-especie">
@@ -298,7 +324,7 @@
                     <!-- Gatitos -->
                     <div class="row" id="lista-productos">
                     {% for gato in gatos %}
-                        <div class="col-lg-3 menu-item filter-vacuno">
+                        <div class="col-lg-3 menu-item filter-gato">
                             <img src="{{ gato.foto_perfil.url }}" class="menu-img" alt="{{ gato.nombre }}">
                             <a class="menu-content">{{ gato.nombre }}</a>
                             <div class="menu-especie">
@@ -328,7 +354,7 @@
                     <!-- Reptiles -->
                     <div class="row" id="lista-productos">
                     {% for reptil in reptiles %}
-                        <div class="col-lg-3 menu-item filter-vacuno">
+                        <div class="col-lg-3 menu-item filter-reptil">
                             <img src="{{ reptil.foto_perfil.url }}" class="menu-img" alt="{{ reptil.nombre }}">
                             <a class="menu-content">{{ reptil.nombre }}</a>
                             <div class="menu-especie">
@@ -358,7 +384,7 @@
                     <!-- Aves -->
                     <div class="row" id="lista-productos">
                     {% for ave in aves %}
-                        <div class="col-lg-3 menu-item filter-vacuno">
+                        <div class="col-lg-3 menu-item filter-gato">
                             <img src="{{ ave.foto_perfil.url }}" class="menu-img" alt="{{ ave.nombre }}">
                             <a class="menu-content">{{ gato.nombre }}</a>
                             <div class="menu-especie">
@@ -388,7 +414,7 @@
                     <!-- Peces -->
                     <div class="row" id="lista-productos">
                     {% for pez in peces %}
-                        <div class="col-lg-3 menu-item filter-vacuno">
+                        <div class="col-lg-3 menu-item filter-pez">
                             <img src="{{ pez.foto_perfil.url }}" class="menu-img" alt="{{ pez.nombre }}">
                             <a class="menu-content">{{ pez.nombre }}</a>
                             <div class="menu-especie">
@@ -418,7 +444,7 @@
                     <!-- Arañas -->
                     <div class="row" id="lista-productos">
                     {% for aranha in aranhas %}
-                        <div class="col-lg-3 menu-item filter-vacuno">
+                        <div class="col-lg-3 menu-item filter-aranha">
                             <img src="{{ aranha.foto_perfil.url }}" class="menu-img" alt="{{ aranha.nombre }}">
                             <a class="menu-content">{{ aranha.nombre }}</a>
                             <div class="menu-especie">
@@ -457,9 +483,9 @@
                     <h2>Galería</h2>
                     <p>Algunas fotos de las lindas mascotas</p>
                 </div>
-                <div class="owl-carousel testimonials-carousel" data-aos="zoom-in" data-aos-delay="100">
+                <div class="owl-carousel cuidados-carousel" data-aos="zoom-in" data-aos-delay="100">
                     {% for galeria in galerias %}
-                        <div class="testimonial-item">
+                        <div class="cuidado-item">
                             <div class="gallery-item">
                                 <div class="venobox" data-gall="gallery-item">
                                     <img src="{{ galeria.imagen.url }}" alt="{{ galeria.nombre }}" class="img-fluid">
@@ -552,6 +578,65 @@
             </div>
         </section><!-- End Contact Section -->
 
+        <!-- ======= Adoption Section ======= -->
+        <section id="adoption" class="adoption">
+            <div class="container-fluid" data-aos="fade-up">
+
+                <div class="section-title text-center">
+                    <h2>¿Quieres adoptar?</h2>
+                    <p>Llena este formulario y te contactaremos</p>
+                </div>
+
+                <div class="row mt-3">
+
+                    <!-- ======= Relleno Vacio zona izquierda ======= -->
+
+                    <div class="col-lg-3">
+                        <div class="info">
+                            <div class="relleno">
+                            </div>
+                            <div class="relleno">
+                            </div>
+                            <div class="relleno">
+                            </div>
+                            <div class="relleno">
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ======= Fin Relleno Vacio zona izquierda ======= -->
+
+                    <div class="ibox-content col-md-9 align-right">
+                        <form action="" method="post" role="form" autocomplete="off" enctype="multipart/form-data">
+                            <div class="box-body">
+
+                                {% csrf_token %}
+
+                                <div class="row">
+                                    <div class="col-md-3">{% bootstrap_field bform.nombre %}</div>
+                                    <div class="col-md-3">{% bootstrap_field bform.mascota %}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-3">{% bootstrap_field bform.telefono %}</div>
+                                    <div class="col-md-3">{% bootstrap_field bform.direccion %}</div>
+                                    <div class="col-md-3">{% bootstrap_field bform.email %}</div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">{% bootstrap_field bform.mensaje %}</div>
+                                </div>
+
+                                <div class="box-footer full-width">
+                                    <button class="btn btn-ttc full-width fa fa-send" type="submit"
+                                            name="{{ bform.prefix }}">
+                                        <span class="glyphicon glyphicon-inbox"></span>Enviar
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section><!-- End Adoption Section -->
+
     <section id="mapa" class="mapa">
     <div class="section-title text-center">
         <h2>Mapa</h2>
@@ -619,7 +704,12 @@
                     <ul>
                         <li><i class="bx bx-chevron-right"></i> <a href="#">Home</a></li>
                         <li><i class="bx bx-chevron-right"></i> <a href="#about">Acerca de nosotros</a></li>
-                        <li><i class="bx bx-chevron-right"></i> <a href="#menu">Servicios</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#veterinarias">Veterinarias</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#menu">Mascotas</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#gallery">Galeria</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#contact">Contacto</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#adoption">Adoptar</a></li>
+                        <li><i class="bx bx-chevron-right"></i> <a href="#mapa">Mapa</a></li>
                     </ul>
                 </div>
 
