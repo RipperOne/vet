@@ -11,6 +11,7 @@ from apps.users import forms
 from apps.users.tables import UserTable
 from apps.users.filters import UserFilter
 from apps.users.models import User
+from django.contrib.auth.models import Group
 
 
 class UserListView(ListView):
@@ -18,12 +19,25 @@ class UserListView(ListView):
     filterset_class = UserFilter
     model = User
     paginate_by = 30
-    required_permissions = ('auth.add_user',)
+    #required_permissions = ('auth.add_user',)
     change_permission = 'auth.change_user'
     delete_permission = 'auth.delete_user'
     add_permission = 'auth.add_user'
     add_url = reverse_lazy('users:user_create')
     ordering = ['id']
+    UserGroup1 = "Publico"
+
+    def get_queryset(self):
+        id_ = self.request.user.id
+        pk = User.objects.get(id=id_)
+        if self.request.user.groups.first() == "Publico":
+            return User.objects.filter(id=self.request.user.id, estado=True).order_by('id')
+        return User.objects.get_queryset().order_by('id')
+
+    def get_context_data(self, **kwargs):
+        context = super(UserListView, self).get_context_data(**kwargs)
+        context['q'] = self.request.GET.get('q', '')
+        return context
 
 
 class UserCreateView(CreateView):
@@ -99,6 +113,7 @@ class UserActivationView(SuccessMessageMixin, FormView):
 
     def form_valid(self, form):
         self.user.is_active = True
+        self.user.groups = 'Publico'
         self.user.save()
         form.save()
         return super(UserActivationView, self).form_valid(form)

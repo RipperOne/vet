@@ -29,6 +29,8 @@
         </div>
     </div>
 
+    {% if request.user.is_superuser or request.user.is_staff %}
+
     <script src="{% static 'Vet/Highcharts-8.2.2/code/highcharts.js' %}"></script>
     <script src="{% static 'Vet/Highcharts-8.2.2/code/modules/exporting.js' %}"></script>
     <script src="{% static 'Vet/Highcharts-8.2.2/code/modules/export-data.js' %}"></script>
@@ -177,6 +179,8 @@
             }]
         });
     </script>
+
+    {% endif %}
 
     <footer class="fixed-bottom">
         <div class="container-fluid align=center">

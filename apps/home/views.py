@@ -101,6 +101,8 @@ class HomeTemplateView(LoginRequiredMixin, TemplateView):
                      "reptiles_adoptados": reptiles_adoptados, "aves_adoptados": aves_adoptados,
                      "peces_adoptados": peces_adoptados, "aranhas_adoptados": aranhas_adoptados
                      })
+        else:
+            return render(request, "home/index.html")
 
 
 class Home(generic.TemplateView):
