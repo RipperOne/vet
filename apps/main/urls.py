@@ -68,4 +68,11 @@ urlpatterns = [
     path('adopcion/actualizar/<int:pk>/', animal.AdopcionUpdateView.as_view(), name='adopcion_update'),
     path('adopcion/eliminar/<int:pk>/', animal.AdopcionDeleteView.as_view(), name='adopcion_delete'),
     path('adopcion/', animal.AdopcionListView.as_view(), name='adopcion_list'),
+
+    # GALERIA
+
+    path('galeria/crear/', animal.GaleriaCreateView.as_view(), name='galeria_create'),
+    path('galeria/actualizar/<int:pk>/', animal.GaleriaUpdateView.as_view(), name='galeria_update'),
+    path('galeria/eliminar/<int:pk>/', animal.GaleriaDeleteView.as_view(), name='galeria_delete'),
+    path('galeria/', animal.GaleriaListView.as_view(), name='galeria_list'),
 ]

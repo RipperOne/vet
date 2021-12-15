@@ -56,6 +56,8 @@
             <script src="{% static 'Admin/js/jquery-3.1.1.min.js' %}"></script>
             <script src="{% static 'Admin/js/bootstrap.min.js' %}"></script>
             <script src="{% static 'Admin/js/bootstrap.js' %}"></script>
+            <script src="{% static 'Vet/leaflet-search-master/src/leaflet-search.js' %}"></script>
+            <link rel="stylesheet" href="{% static 'Vet/leaflet-search-master/src/leaflet-search.css' %}" />
 
             <script type="text/javascript">
                 function our_layers(map, options) {
@@ -86,6 +88,16 @@
                         }
                     });
                     datasets.addTo(map);
+
+                    var searchControl = new L.Control.Search({
+                        layer: datasets,
+                        propertyName: 'nombre',
+                        circleLocation: true
+                    });
+                    searchControl.on('search_locationfound', function(e) {
+                    e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
+                    })
+                    map.addControl(searchControl);
 
                     var baseLayers = {
                         "Mapa Topografico": OpenTopoMap,

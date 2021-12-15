@@ -44,9 +44,9 @@ class AnimalTable(ModelTable):
     class Meta:
         model = models.Animal
         sequence = ('id', 'nombre', 'especie', 'adoptante', 'tratamiento', 'fecha_nac', 'sexo', 'tamanho', 'peso',
-                    'descripcion', 'foto_perfil', 'esterilizado', 'fecha_lleg', 'estado_animal', 'created_at',
+                    'descripcion', 'esterilizado', 'fecha_lleg', 'estado_animal', 'created_at',
                     'updated_at')
-        exclude = ('estado',)
+        exclude = ('estado', 'foto_perfil',)
 
     update_url = 'main:animal_update'
     delete_url = 'main:animal_delete'
@@ -112,7 +112,7 @@ class VeterinariaTable(ModelTable):
         model = models.Veterinaria
         template = 'django_tables2/bootstrap.html'
         sequence = ('id', 'nombre', 'servicios', 'telefono', 'direccion', 'comuna', 'created_at', 'updated_at')
-        exclude = ('geom', 'estado',)
+        exclude = ('imagen', 'geom', 'estado',)
 
     def __init__(self, *args, **kwargs):
         super(VeterinariaTable, self).__init__(*args, **kwargs)
@@ -153,7 +153,7 @@ class PublicacionTable(ModelTable):
     class Meta:
         model = models.Publicacion
         sequence = ('id', 'nombre', 'email', 'telefono', 'direccion', 'fecha', 'nombre_mascota', 'especie', 'tamanho',
-                    'sexo', 'microchip', 'servicio', 'fotografia', 'mensaje', 'created_at', 'updated_at')
+                    'sexo', 'microchip', 'servicio', 'fotografia', 'mensaje', 'aprobado', 'created_at', 'updated_at')
         exclude = ('estado',)
 
     update_url = 'main:publicacion_update'
@@ -164,8 +164,21 @@ class AdopcionTable(ModelTable):
 
     class Meta:
         model = models.Adopcion
-        sequence = ('id', 'nombre', 'email', 'telefono', 'direccion', 'mascota', 'mensaje', 'created_at', 'updated_at')
+        sequence = ('id', 'adoptante', 'email', 'telefono', 'direccion', 'mascota', 'mensaje', 'aprobado', 'created_at', 'updated_at')
         exclude = ('estado',)
 
     update_url = 'main:adopcion_update'
     delete_url = 'main:adopcion_delete'
+
+
+# GALERIA
+
+class GaleriaTable(ModelTable):
+
+    class Meta:
+        model = models.Galeria
+        sequence = ('id', 'imagen', 'created_at', 'updated_at')
+        exclude = ('estado',)
+
+    update_url = 'main:galeria_update'
+    delete_url = 'main:galeria_delete'

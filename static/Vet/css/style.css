@@ -679,7 +679,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-top: 30px;
 }
 
-#hero .btn-menu, #hero .btn-book {
+#hero .btn-menu, #hero .btn-book, #hero .btn-mapa {
   font-weight: 600;
   font-size: 13px;
   letter-spacing: 0.5px;
@@ -693,7 +693,7 @@ h1, h2, h3, h4, h5, h6 {
   border: 2px solid #b33ed0;
 }
 
-#hero .btn-menu:hover, #hero .btn-book:hover {
+#hero .btn-menu:hover, #hero .btn-book:hover, #hero .btn-mapa:hover {
   background: #631777;
   color: #fff;
 }
@@ -995,19 +995,19 @@ section {
 }
 
 /*--------------------------------------------------------------
-# Menu Section
+# Veterinaria Section
 --------------------------------------------------------------*/
 
-#menu {
+#veterinaria {
   /*
-  background: url("../img/") right;
+  background: url("../img/vets.jpg) right;
   */
   background-size: cover;
   position: relative;
   padding: 80px;
 }
 
-.menu #menu-filters {
+.veterinaria #veterinaria-flters {
   padding: 0;
   margin: 0 auto 0 auto;
   list-style: none;
@@ -1015,7 +1015,7 @@ section {
   border-radius: 50px;
 }
 
-.menu #menu-filters li {
+.veterinaria #veterinaria-flters li {
   cursor: pointer;
   display: inline-block;
   padding: 8px 12px 10px 12px;
@@ -1029,11 +1029,123 @@ section {
   font-family: "Gilroy ExtraBold", serif;
 }
 
-.menu #menu-filters li:hover, .menu #menu-filters li.filter-active {
+.veterinaria #veterinaria-flters li:hover, .veterinaria #veterinaria-flters li.filter-active {
   color: #b33ed0;
 }
 
-.menu #menu-filters li:last-child {
+.veterinaria #veterinaria-flters li:last-child {
+  margin-right: 0;
+}
+
+.veterinaria .menu-item {
+  margin-top: 50px;
+}
+
+.veterinaria .menu-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  float: left;
+  border: 5px solid rgba(255, 255, 255, 0.2);
+}
+
+.veterinaria .menu-content {
+  margin-left: 85px;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.veterinaria .menu-content::after {
+  content: "";
+  position: absolute;
+  left: 20px;
+  right: 0;
+  top: -4px;
+  z-index: 1;
+  color: #bab3a6;
+  font-family: Gilroy-ExtraBold, "Gilroy ExtraBold", Gilroy-ExtraBold, sans-serif;
+}
+
+.veterinaria .menu-content a {
+  padding-right: 10px;
+  background: #1a1814;
+  position: relative;
+  z-index: 3;
+  font-weight: 700;
+  color: white;
+  transition: 0.3s;
+}
+
+.veterinaria .menu-content a:hover {
+  color: #b33ed0;
+}
+
+.veterinaria .menu-content span {
+  background: #1a1814;
+  position: relative;
+  z-index: 3;
+  padding: 0 10px;
+  font-weight: 600;
+  color: #b33ed0;
+}
+
+.veterinaria .menu-usos {
+  margin-left: 85px;
+  font-style: italic;
+  font-size: 14px;
+  font-family: "Gilroy ExtraBold", sans-serif;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.veterinaria .menu-precio {
+  margin-left: 150px;
+  font-size: 18px;
+  font-family: "Gilroy ExtraBold", sans-serif;
+  color: rgba(255, 255, 255, 1);
+}
+
+/*--------------------------------------------------------------
+# Menu Section
+--------------------------------------------------------------*/
+
+#menu {
+  /*
+  background: url("../img/") right;
+  */
+  background-size: cover;
+  position: relative;
+  padding: 80px;
+}
+
+.menu #menu-flters {
+  padding: 0;
+  margin: 0 auto 0 auto;
+  list-style: none;
+  text-align: center;
+  border-radius: 50px;
+}
+
+.menu #menu-flters li {
+  cursor: pointer;
+  display: inline-block;
+  padding: 8px 12px 10px 12px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  color: #fff;
+  margin-bottom: 10px;
+  transition: all ease-in-out 0.3s;
+  border-radius: 50px;
+  font-family: "Gilroy ExtraBold", serif;
+}
+
+.menu #menu-flters li:hover, .menu #menu-flters li.filter-active {
+  color: #b33ed0;
+}
+
+.menu #menu-flters li:last-child {
   margin-right: 0;
 }
 
@@ -1106,8 +1218,121 @@ section {
   color: rgba(255, 255, 255, 1);
 }
 
+
 /*--------------------------------------------------------------
-# Book A Table
+# Adoptar Section
+--------------------------------------------------------------*/
+
+#adoptar {
+  /*
+  background: url("../img/") right;
+  */
+  background-size: cover;
+  position: relative;
+  padding: 80px;
+}
+
+.adoptar #adoptar-flters {
+  padding: 0;
+  margin: 0 auto 0 auto;
+  list-style: none;
+  text-align: center;
+  border-radius: 50px;
+}
+
+.adoptar #adoptar-flters li {
+  cursor: pointer;
+  display: inline-block;
+  padding: 8px 12px 10px 12px;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1;
+  color: #fff;
+  margin-bottom: 10px;
+  transition: all ease-in-out 0.3s;
+  border-radius: 50px;
+  font-family: "Gilroy ExtraBold", serif;
+}
+
+.adoptar #adoptar-flters li:hover, .adoptar #adoptar-flters li.filter-active {
+  color: #b33ed0;
+}
+
+.adoptar #adoptar-flters li:last-child {
+  margin-right: 0;
+}
+
+.adoptar .menu-item {
+  margin-top: 50px;
+}
+
+.adoptar .menu-img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  float: left;
+  border: 5px solid rgba(255, 255, 255, 0.2);
+}
+
+.adoptar .menu-content {
+  margin-left: 85px;
+  overflow: hidden;
+  display: flex;
+  justify-content: space-between;
+  position: relative;
+}
+
+.adoptar .menu-content::after {
+  content: "";
+  position: absolute;
+  left: 20px;
+  right: 0;
+  top: -4px;
+  z-index: 1;
+  color: #bab3a6;
+  font-family: Gilroy-ExtraBold, "Gilroy ExtraBold", Gilroy-ExtraBold, sans-serif;
+}
+
+.adoptar .menu-content a {
+  padding-right: 10px;
+  background: #1a1814;
+  position: relative;
+  z-index: 3;
+  font-weight: 700;
+  color: white;
+  transition: 0.3s;
+}
+
+.adoptar .menu-content a:hover {
+  color: #b33ed0;
+}
+
+.adoptar .menu-content span {
+  background: #1a1814;
+  position: relative;
+  z-index: 3;
+  padding: 0 10px;
+  font-weight: 600;
+  color: #b33ed0;
+}
+
+.adoptar .menu-usos {
+  margin-left: 85px;
+  font-style: italic;
+  font-size: 14px;
+  font-family: "Gilroy ExtraBold", sans-serif;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.adoptar .menu-precio {
+  margin-left: 150px;
+  font-size: 18px;
+  font-family: "Gilroy ExtraBold", sans-serif;
+  color: rgba(255, 255, 255, 1);
+}
+
+/*--------------------------------------------------------------
+# Veterinarias
 --------------------------------------------------------------*/
 
 #veterinarias {
@@ -1237,8 +1462,8 @@ section {
   background: url("../") right;
   */
   background-size: cover;
-  position: relative;
-  padding: 80px;
+  position: absolute;
+  padding: 10px;
 }
 
 .cuidados .cuidado-item {
@@ -1248,9 +1473,9 @@ section {
 
 .cuidados .cuidado-item .cuidado-img {
   width: 150px;
-  border-radius: 50%;
+  border-radius: 100%;
   margin: -40px 0 0 40px;
-  position: relative;
+  position: absolute;
   z-index: 2;
   border: 6px solid rgba(255, 255, 255, 0.2);
 }
@@ -1276,13 +1501,13 @@ section {
 .cuidados .cuidado-item .quote-icon-left {
   display: inline-block;
   left: -5px;
-  position: relative;
+  position: absolute;
 }
 
 .cuidados .cuidado-item .quote-icon-right {
   display: inline-block;
   right: -5px;
-  position: relative;
+  position: absolute;
   top: 10px;
 }
 
@@ -1291,7 +1516,7 @@ section {
   margin: 0 15px 0 15px;
   padding: 20px 20px 60px 20px;
   background: #26231d;
-  position: relative;
+  position: absolute;
   border-radius: 6px;
   z-index: 1;
 }
@@ -1314,7 +1539,7 @@ section {
   background-color: #949494 !important;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1600px) {
   .cuidados {
     margin: 30px 10px;
   }

@@ -4,23 +4,23 @@ from apps.utils.models import Base
 from apps.users.models import User
 
 SEXO_CHOICES = (
-    (1, 'Macho'), (2, 'Hembra'),
+    ('Macho', 'Macho'), ('Hembra', 'Hembra'),
 )
 
 OPCION_CHOICES = (
-    (1, 'Perdido'), (2, 'En Adopción'),
+    ('Perdido', 'Perdido'), ('En Adopción', 'En Adopción'), ('Adoptado', 'Adoptado')
 )
 
 TAMANHO_CHOICES = (
-    (1, 'Pequeño'), (2, 'Mediano'), (3, 'Grande')
+    ('Pequeño', 'Pequeño'), ('Mediano', 'Mediano'), ('Grande', 'Grande')
 )
 
 ESTERELIZACION_CHOICES = (
-    (1, 'Si'), (2, 'No'),
+    ('Si', 'Si'), ('No', 'No'),
 )
 
 SERVICE_CHOICES = (
-    (1, 'Busco a mi Dueño'), (2, 'Busco a mi Mascota'),
+    ('Busco a mi Dueño', 'Busco a mi Dueño'), ('Busco a mi Mascota', 'Busco a mi Mascota'),
 )
 
 
@@ -64,18 +64,18 @@ class Cuidados(Base):
 
 class Animal(Base):
     nombre = models.CharField(verbose_name='Nombre Animal', max_length=255, unique=False)
-    especie = models.ForeignKey(Especie, verbose_name='Especie', on_delete=models.CASCADE)
-    adoptante = models.ForeignKey(User, verbose_name='Adoptante', on_delete=models.CASCADE, null=True)
+    especie = models.ForeignKey(Especie, verbose_name='Especie', on_delete=models.CASCADE, null=True, blank=True)
+    adoptante = models.ForeignKey(User, verbose_name='Adoptante', on_delete=models.CASCADE, null=True, blank=True)
     tratamiento = models.ManyToManyField(Tratamiento, verbose_name='Tratamientos', blank=True)
     fecha_nac = models.DateField(verbose_name='Fecha de Nacimiento Estimada', blank=True, null=True)
-    sexo = models.IntegerField(verbose_name='Sexo', choices=SEXO_CHOICES, default=1)
-    tamanho = models.IntegerField(verbose_name='Tamaño', choices=TAMANHO_CHOICES, default=1)
+    sexo = models.CharField(max_length=50, verbose_name='Sexo', choices=SEXO_CHOICES, default=1)
+    tamanho = models.CharField(max_length=50, verbose_name='Tamaño', choices=TAMANHO_CHOICES, default=1)
     peso = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     descripcion = models.TextField(max_length=500)
     foto_perfil = models.ImageField(upload_to='animal', null=True)
-    esterilizado = models.SmallIntegerField(verbose_name='Esterilizado', choices=ESTERELIZACION_CHOICES, default=1)
-    fecha_lleg = models.DateField(verbose_name='Fecha de LLegada', blank=True, null=True)
-    estado_animal = models.IntegerField(verbose_name='Estado Animal', choices=OPCION_CHOICES, default=1)
+    esterilizado = models.CharField(max_length=50, verbose_name='Esterilizado', choices=ESTERELIZACION_CHOICES)
+    fecha_lleg = models.DateField(verbose_name='Fecha de Llegada', blank=True, null=True)
+    estado_animal = models.CharField(max_length=50, verbose_name='Estado Animal', choices=OPCION_CHOICES)
     estado = models.BooleanField(default=True)
 
     class Meta:
@@ -142,7 +142,8 @@ class Veterinaria(Base):
     servicios = models.ManyToManyField(Servicio, verbose_name='Servicios', blank=True)
     telefono = models.CharField(max_length=11, verbose_name='Teléfono', null=True)
     direccion = models.CharField(max_length=300, verbose_name='Dirección')
-    comuna = models.ForeignKey(Comuna, verbose_name='Comuna donde se encuentra la Veterinaria', on_delete=models.CASCADE, null=True)
+    comuna = models.ForeignKey(Comuna, verbose_name='Comuna donde se encuentra la Veterinaria', on_delete=models.CASCADE, null=True, blank=True)
+    imagen = models.ImageField(upload_to='veterinaria', null=True)
     geom = models.PointField(srid=32718, null=True, verbose_name='Ubicación de la Veterinaria')
     estado = models.BooleanField(default=True)
 
@@ -161,13 +162,14 @@ class Publicacion(Base):
     direccion = models.CharField(max_length=300, verbose_name='Dirección del Suceso')
     fecha = models.DateField(verbose_name='Fecha del Suceso', blank=True, null=True)
     nombre_mascota = models.CharField(max_length=255)
-    especie = models.ForeignKey(Especie, verbose_name='Especie', on_delete=models.CASCADE)
-    tamanho = models.IntegerField(verbose_name='Tamaño', choices=TAMANHO_CHOICES)
-    sexo = models.IntegerField(verbose_name='Sexo', choices=SEXO_CHOICES)
-    microchip = models.IntegerField(verbose_name='Microchip', null=True)
-    servicio = models.IntegerField(verbose_name='Servicio', choices=SERVICE_CHOICES)
+    especie = models.ForeignKey(Especie, verbose_name='Especie', on_delete=models.CASCADE, null=True, blank=True)
+    tamanho = models.CharField(max_length=50, verbose_name='Tamaño', choices=TAMANHO_CHOICES)
+    sexo = models.CharField(max_length=50, verbose_name='Sexo', choices=SEXO_CHOICES)
+    microchip = models.BigIntegerField(verbose_name='Microchip', null=True)
+    servicio = models.CharField(max_length=50, verbose_name='Servicio', choices=SERVICE_CHOICES)
     fotografia = models.ImageField(upload_to='publicacion', null=True)
     mensaje = models.TextField(max_length=500)
+    aprobado = models.BooleanField(default=False)
     estado = models.BooleanField(default=True)
 
     class Meta:
@@ -179,12 +181,13 @@ class Publicacion(Base):
 
 
 class Adopcion(Base):
-    nombre = models.CharField(max_length=255, verbose_name='Nombre y Apellido')
+    adoptante = models.ForeignKey(User, verbose_name='Adoptante', on_delete=models.CASCADE, null=True, blank=True)
     email = models.EmailField('Correo electrónico', null=True, unique=True)
     telefono = models.CharField(max_length=11, verbose_name='Teléfono', null=True)
     direccion = models.CharField(max_length=300, verbose_name='Dirección')
-    mascota = models.ForeignKey(Animal, verbose_name='Mascotas disponibles', on_delete=models.CASCADE)
+    mascota = models.ForeignKey(Animal, verbose_name='Mascotas disponibles', on_delete=models.CASCADE, null=True, blank=True)
     mensaje = models.TextField(max_length=500, verbose_name='Déjenos un mensaje explicando su interés')
+    aprobado = models.BooleanField(default=False)
     estado = models.BooleanField(default=True)
 
     class Meta:
@@ -192,4 +195,16 @@ class Adopcion(Base):
         verbose_name_plural = 'Adopciones'
 
     def __str__(self):
-        return '{} {} {} {} {}'.format(self.nombre, '/', self.email, '/', str(self.mascota,))
+        return '{} {} {} {} {}'.format(self.adoptante, '/', self.email, '/', str(self.mascota,))
+
+
+class Galeria(Base):
+    imagen = models.ImageField(upload_to='gallery', null=True)
+    estado = models.BooleanField(default=True)
+
+    class Meta:
+        verbose_name = 'Galeria'
+        verbose_name_plural = 'Galerias'
+
+    def __str__(self):
+        return self.id

@@ -72,7 +72,7 @@ class VeterinariaForm(forms.ModelForm):
 
     class Meta:
         model = models.Veterinaria
-        fields = ('nombre', 'servicios', 'telefono', 'direccion', 'comuna', 'geom')
+        fields = ('nombre', 'servicios', 'telefono', 'direccion', 'comuna', 'imagen', 'geom')
         widgets = {
             'geom': LeafletWidget(),
         }
@@ -83,7 +83,7 @@ class PublicacionForm(forms.ModelForm):
     class Meta:
         model = models.Publicacion
         fields = ('nombre', 'email', 'telefono', 'direccion', 'fecha', 'nombre_mascota', 'especie', 'tamanho'
-                  , 'sexo', 'microchip', 'servicio', 'fotografia', 'mensaje')
+                  , 'sexo', 'microchip', 'servicio', 'fotografia', 'mensaje', 'aprobado')
         widgets = {
             'fecha': AdminDateWidget(),
         }
@@ -93,7 +93,17 @@ class AdopcionForm(forms.ModelForm):
 
     class Meta:
         model = models.Adopcion
-        fields = ('nombre', 'email', 'telefono', 'direccion', 'mascota', 'mensaje')
+        fields = ('adoptante', 'email', 'telefono', 'direccion', 'mascota', 'mensaje', 'aprobado')
         widgets = {
             'fecha': AdminDateWidget(),
         }
+
+
+# GALERIA
+
+class GaleriaForm(forms.ModelForm):
+    imagen = forms.ImageField(label='Imagen', required=True)
+
+    class Meta:
+        model = models.Galeria
+        fields = ('imagen',)

@@ -21,6 +21,13 @@ class RegionListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     delete_permission = 'main.delete_region'
     ordering = ['id']
 
+    def get_queryset(self):
+        return Region.objects.get_queryset().order_by('id').filter(estado=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(RegionListView, self).get_context_data(**kwargs)
+        return context
+
 
 class RegionCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Region
@@ -52,7 +59,7 @@ class RegionDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin):
                 region.estado = False
                 region.save()
                 messages.success(self.request, self.success_message)
-            return HttpResponseRedirect('/main/region/')
+            return HttpResponseRedirect('/vet/region/')
 
 
 class ProvinciaListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
@@ -64,6 +71,13 @@ class ProvinciaListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     change_permission = 'main.change_provincia'
     delete_permission = 'main.delete_provincia'
     ordering = ['id']
+
+    def get_queryset(self):
+        return Provincia.objects.get_queryset().order_by('id').filter(estado=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(ProvinciaListView, self).get_context_data(**kwargs)
+        return context
 
 
 class ProvinciaCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
@@ -96,7 +110,7 @@ class ProvinciaDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixi
                 provincia.estado = False
                 provincia.save()
                 messages.success(self.request, self.success_message)
-            return HttpResponseRedirect('/main/provincia/')
+            return HttpResponseRedirect('/vet/provincia/')
 
 
 class ComunaListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
@@ -108,6 +122,13 @@ class ComunaListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     change_permission = 'main.change_comuna'
     delete_permission = 'main.delete_comuna'
     ordering = ['id']
+
+    def get_queryset(self):
+        return Comuna.objects.get_queryset().order_by('id').filter(estado=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(ComunaListView, self).get_context_data(**kwargs)
+        return context
 
 
 class ComunaCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
@@ -140,4 +161,4 @@ class ComunaDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin):
                 comuna.estado = False
                 comuna.save()
                 messages.success(self.request, self.success_message)
-            return HttpResponseRedirect('/main/comuna/')
+            return HttpResponseRedirect('/vet/comuna/')

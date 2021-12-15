@@ -6,10 +6,10 @@ from django.contrib import messages
 
 from apps.utils.views import ListView, CreateView, UpdateView, DeleteView
 
-from apps.main.models import Animal, Especie, Tratamiento, Cuidados, Adopcion
-from apps.main.tables import AnimalTable, EspecieTable, TratamientoTable, CuidadosTable, AdopcionTable
-from apps.main.filters import AnimalFilter, EspecieFilter, TratamientoFilter, CuidadosFilter, AdopcionFilter
-from apps.main.forms import AnimalForm, EspecieForm, TratamientoForm, CuidadosForm, AdopcionForm
+from apps.main.models import Animal, Especie, Tratamiento, Cuidados, Adopcion, Galeria
+from apps.main.tables import AnimalTable, EspecieTable, TratamientoTable, CuidadosTable, AdopcionTable, GaleriaTable
+from apps.main.filters import AnimalFilter, EspecieFilter, TratamientoFilter, CuidadosFilter, AdopcionFilter, GaleriaFilter
+from apps.main.forms import AnimalForm, EspecieForm, TratamientoForm, CuidadosForm, AdopcionForm, GaleriaForm
 
 
 class EspecieListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
@@ -21,6 +21,13 @@ class EspecieListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     change_permission = 'main.change_especie'
     delete_permission = 'main.delete_especie'
     ordering = ['id']
+
+    def get_queryset(self):
+        return Especie.objects.get_queryset().order_by('id').filter(estado=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(EspecieListView, self).get_context_data(**kwargs)
+        return context
 
 
 class EspecieCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
@@ -53,7 +60,7 @@ class EspecieDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin)
                 especie.estado = False
                 especie.save()
                 messages.success(self.request, self.success_message)
-            return HttpResponseRedirect('/main/especie/')
+            return HttpResponseRedirect('/vet/especie/')
 
 
 class TratamientoListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
@@ -65,6 +72,13 @@ class TratamientoListView(ListView, LoginRequiredMixin, PermissionRequiredMixin)
     change_permission = 'main.change_tratamiento'
     delete_permission = 'main.delete_tratamiento'
     ordering = ['id']
+
+    def get_queryset(self):
+        return Tratamiento.objects.get_queryset().order_by('id').filter(estado=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(TratamientoListView, self).get_context_data(**kwargs)
+        return context
 
 
 class TratamientoCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
@@ -97,7 +111,7 @@ class TratamientoDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMi
                 tratamiento.estado = False
                 tratamiento.save()
                 messages.success(self.request, self.success_message)
-            return HttpResponseRedirect('/main/tratamiento/')
+            return HttpResponseRedirect('/vet/tratamiento/')
 
 
 class CuidadosListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
@@ -109,6 +123,13 @@ class CuidadosListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     change_permission = 'main.change_cuidados'
     delete_permission = 'main.delete_cuidados'
     ordering = ['id']
+
+    def get_queryset(self):
+        return Cuidados.objects.get_queryset().order_by('id').filter(estado=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(CuidadosListView, self).get_context_data(**kwargs)
+        return context
 
 
 class CuidadosCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
@@ -141,7 +162,7 @@ class CuidadosDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin
                 cuidados.estado = False
                 cuidados.save()
                 messages.success(self.request, self.success_message)
-            return HttpResponseRedirect('/main/cuidados/')
+            return HttpResponseRedirect('/vet/cuidados/')
 
 
 class AnimalListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
@@ -153,6 +174,13 @@ class AnimalListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     change_permission = 'main.change_animal'
     delete_permission = 'main.delete_animal'
     ordering = ['id']
+
+    def get_queryset(self):
+        return Animal.objects.get_queryset().order_by('id').filter(estado=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(AnimalListView, self).get_context_data(**kwargs)
+        return context
 
 
 class AnimalCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
@@ -185,7 +213,7 @@ class AnimalDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin):
                 animal.estado = False
                 animal.save()
                 messages.success(self.request, self.success_message)
-            return HttpResponseRedirect('/main/animal/')
+            return HttpResponseRedirect('/vet/animal/')
 
 
 class AdopcionListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
@@ -197,6 +225,13 @@ class AdopcionListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     change_permission = 'main.change_adopcion'
     delete_permission = 'main.delete_adopcion'
     ordering = ['id']
+
+    def get_queryset(self):
+        return Adopcion.objects.get_queryset().order_by('id').filter(estado=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(AdopcionListView, self).get_context_data(**kwargs)
+        return context
 
 
 class AdopcionCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
@@ -229,4 +264,61 @@ class AdopcionDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin
                 adopcion.estado = False
                 adopcion.save()
                 messages.success(self.request, self.success_message)
-            return HttpResponseRedirect('/main/adopcion/')
+            return HttpResponseRedirect('/vet/adopcion/')
+
+
+# GALERIA
+
+class GaleriaListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
+    table_class = GaleriaTable
+    filterset_class = GaleriaFilter
+    model = Galeria
+    required_permissions = 'main.view_galeria'
+    add_permission = 'main.add_galeria'
+    add_url = reverse_lazy('main:galeria_create')
+    change_permission = 'main.change_galeria'
+    delete_permission = 'main.delete_galeria'
+    ordering = ['id']
+
+    def get_queryset(self):
+        return Galeria.objects.get_queryset().order_by('id').filter(estado=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(GaleriaListView, self).get_context_data(**kwargs)
+        return context
+
+
+class GaleriaCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
+    model = Galeria
+    form_class = GaleriaForm
+    required_permissions = 'main.add_galeria'
+    back_url = reverse_lazy('main:galeria_list')
+
+
+class GaleriaUpdateView(UpdateView, LoginRequiredMixin, PermissionRequiredMixin):
+    model = Galeria
+    form_class = GaleriaForm
+    required_permissions = 'main.change_galeria'
+    back_url = reverse_lazy('main:galeria_list')
+
+
+class GaleriaDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin):
+    model = Galeria
+    required_permissions = ('main.delete_galeria',)
+    success_message = 'Foto eliminada exitosamente'
+
+    def delete(self, request, *args, **kwargs):
+        pk = self.kwargs['pk']
+        try:
+            galeria = Galeria.objects.get(id=pk)
+        except Galeria.DoesNotExist:
+            return HttpResponseNotFound()
+
+        if request.method == "GET":
+            return render(request, "generic/confirm_delete.html", {'galeria': galeria})
+        elif request.method == "POST":
+            if request.POST["confirm"] == "1":
+                galeria.estado = False
+                galeria.save()
+                messages.success(self.request, self.success_message)
+            return HttpResponseRedirect('/vet/galeria/')

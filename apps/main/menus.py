@@ -38,6 +38,10 @@ animal = [
              reverse('main:adopcion_list'),
              check=lambda request: request.user.has_perm('main.view_adopcion'),
              icon='fa fa-leaf'),
+    MenuItem('Galeria',
+             reverse('main:galeria_list'),
+            check=lambda request: request.user.has_perm('main.view_galeria'),
+            icon='glyphicon glyphicon-camera')
 ]
 
 Menu.add_item('main', MenuItem('Animal', '#', weight=900, icon='fa fa-globe', children=animal))

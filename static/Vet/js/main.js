@@ -152,6 +152,24 @@ var $ = jQuery.noConflict();
     return false;
   });
 
+  // Veterinarias list isotope and filter
+  $(window).on('load', function() {
+    var menuIsotope = $('.veterinaria-container').isotope({
+      itemSelector: '.veterinaria-item',
+      layoutMode: 'fitRows'
+    });
+
+    $('#veterinaria-flters li').on('click', function() {
+      $("#veterinaria-flters li").removeClass('filter-active');
+      $(this).addClass('filter-active');
+
+      menuIsotope.isotope({
+        filter: $(this).data('filter')
+      });
+      aos_init();
+    });
+  });
+
   // Menu list isotope and filter
   $(window).on('load', function() {
     var menuIsotope = $('.menu-container').isotope({
@@ -161,6 +179,23 @@ var $ = jQuery.noConflict();
 
     $('#menu-flters li').on('click', function() {
       $("#menu-flters li").removeClass('filter-active');
+      $(this).addClass('filter-active');
+
+      menuIsotope.isotope({
+        filter: $(this).data('filter')
+      });
+      aos_init();
+    });
+  });
+  // Adoptar list isotope and filter
+  $(window).on('load', function() {
+    var menuIsotope = $('.adoptar-container').isotope({
+      itemSelector: '.adoptar-item',
+      layoutMode: 'fitRows'
+    });
+
+    $('#adoptar-flters li').on('click', function() {
+      $("#adoptar-flters li").removeClass('filter-active');
       $(this).addClass('filter-active');
 
       menuIsotope.isotope({
@@ -184,6 +219,7 @@ var $ = jQuery.noConflict();
     dots: true,
     loop: true,
     autoplayTimeout: 6000,
+    weight: 1600,
     responsive: {
       0: {
         items: 1
@@ -196,6 +232,9 @@ var $ = jQuery.noConflict();
       },
       1800: {
         items: 4
+      },
+      2400: {
+        items: 5
       }
     }
   });

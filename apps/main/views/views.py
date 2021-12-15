@@ -27,6 +27,13 @@ class ServicioListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     delete_permission = 'main.delete_servicio'
     ordering = ['id']
 
+    def get_queryset(self):
+        return Servicio.objects.get_queryset().order_by('id').filter(estado=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(ServicioListView, self).get_context_data(**kwargs)
+        return context
+
 
 class ServicioCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Servicio
@@ -58,7 +65,7 @@ class ServicioDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin
                 servicio.estado = False
                 servicio.save()
                 messages.success(self.request, self.success_message)
-            return HttpResponseRedirect('/main/servicio/')
+            return HttpResponseRedirect('/vet/servicio/')
 
 
 class VeterinariaListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
@@ -71,6 +78,13 @@ class VeterinariaListView(ListView, LoginRequiredMixin, PermissionRequiredMixin)
     change_permission = 'main.change_veterinaria'
     delete_permission = 'main.delete_veterinaria'
     ordering = ['id']
+
+    def get_queryset(self):
+        return Veterinaria.objects.get_queryset().order_by('id').filter(estado=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(VeterinariaListView, self).get_context_data(**kwargs)
+        return context
 
 
 class VeterinariaCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
@@ -105,7 +119,7 @@ class VeterinariaDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMi
                 veterinaria.estado = False
                 veterinaria.save()
                 messages.success(self.request, self.success_message)
-            return HttpResponseRedirect('/main/veterinaria/')
+            return HttpResponseRedirect('/vet/veterinaria/')
 
 
 class VeterinariaSigMapa(TemplateView, LoginRequiredMixin, PermissionRequiredMixin):
@@ -197,6 +211,13 @@ class PublicacionListView(ListView, LoginRequiredMixin, PermissionRequiredMixin)
     delete_permission = 'main.delete_publicacion'
     ordering = ['id']
 
+    def get_queryset(self):
+        return Publicacion.objects.get_queryset().order_by('id').filter(estado=True)
+
+    def get_context_data(self, **kwargs):
+        context = super(PublicacionListView, self).get_context_data(**kwargs)
+        return context
+
 
 class PublicacionCreateView(CreateView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Publicacion
@@ -212,6 +233,7 @@ class PublicacionUpdateView(UpdateView, LoginRequiredMixin, PermissionRequiredMi
 
 class PublicacionDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMixin):
     model = Publicacion
+    required_permissions = ('main.delete_publicacion',)
     success_message = 'Publicacion eliminado exitosamente'
 
     def delete(self, request, *args, **kwargs):
@@ -228,4 +250,4 @@ class PublicacionDeleteView(DeleteView, LoginRequiredMixin, PermissionRequiredMi
                 publicacion.estado = False
                 publicacion.save()
                 messages.success(self.request, self.success_message)
-            return HttpResponseRedirect('/main/publicacion/')
+            return HttpResponseRedirect('/vet/publicacion/')

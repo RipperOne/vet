@@ -105,8 +105,18 @@ class AdopcionFilter(filters.FilterSet):
     class Meta:
         model = models.Adopcion
         fields = {
-            'nombre': ['icontains'],
+            'adoptante': ['exact'],
             'email': ['icontains'],
             'telefono': ['icontains'],
             'mascota': ['exact'],
+            'aprobado': ['exact'],
+        }
+
+
+class GaleriaFilter(filters.FilterSet):
+
+    class Meta:
+        model = models.Galeria
+        fields = {
+            'created_at': ['icontains'],
         }

@@ -3,14 +3,16 @@ from django.shortcuts import render_to_response, render
 from django.urls import reverse_lazy, reverse
 from django.views.generic.edit import ModelFormMixin
 from apps.main.forms import *
-from apps.main.models import Animal, Veterinaria, Especie, Cuidados
+from apps.main.models import *
 from apps.utils.views import TemplateView, ListView
 from django.core.serializers import serialize
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect, HttpResponseNotFound
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
 from django.views import generic
 from apps.users.models import User
 from django import template
+from django.contrib import messages
+from django.template import RequestContext
 register = template.Library()
 
 
@@ -22,11 +24,6 @@ def _get_form(request, formcls, prefix):
 def account_login(request):
 
     return render(request, "account/login.html")
-
-
-def home(request):
-
-    return render(request, "home/home.html")
 
 
 class HomeTemplateView(LoginRequiredMixin, TemplateView):
@@ -71,12 +68,12 @@ class HomeTemplateView(LoginRequiredMixin, TemplateView):
             aves_adoptados = Especie.objects.filter(id=4, estado=True)
             peces_adoptados = Especie.objects.filter(id=5, estado=True)
             aranhas_adoptados = Especie.objects.filter(id=6, estado=True)
-            perros1_adoptados = str(Animal.objects.filter(adoptante__isnull=True, especie=1, estado=True).count())
-            gatos1_adoptados = str(Animal.objects.filter(adoptante__isnull=True, especie=2, estado=True).count())
-            reptiles1_adoptados = str(Animal.objects.filter(adoptante__isnull=True, especie=3, estado=True).count())
-            aves1_adoptados = str(Animal.objects.filter(adoptante__isnull=True, especie=4, estado=True).count())
-            peces1_adoptados = str(Animal.objects.filter(adoptante__isnull=True, especie=5, estado=True).count())
-            aranhas1_adoptados = str(Animal.objects.filter(adoptante__isnull=True, especie=6, estado=True).count())
+            perros1_adoptados = str(Animal.objects.filter(adoptante__isnull=False, especie=1, estado=True).count())
+            gatos1_adoptados = str(Animal.objects.filter(adoptante__isnull=False, especie=2, estado=True).count())
+            reptiles1_adoptados = str(Animal.objects.filter(adoptante__isnull=False, especie=3, estado=True).count())
+            aves1_adoptados = str(Animal.objects.filter(adoptante__isnull=False, especie=4, estado=True).count())
+            peces1_adoptados = str(Animal.objects.filter(adoptante__isnull=False, especie=5, estado=True).count())
+            aranhas1_adoptados = str(Animal.objects.filter(adoptante__isnull=False, especie=6, estado=True).count())
 
             perros_adoptados = perros_adoptados[0]
             gatos_adoptados = gatos_adoptados[0]
@@ -119,18 +116,29 @@ class Home(generic.TemplateView):
         aranhas = Animal.objects.filter(especie=6, estado=True)
         veterinarias = Veterinaria.objects.filter(estado=True)
         cuidados = Cuidados.objects.filter(estado=True)
+        galerias = Galeria.objects.filter(estado=True)
+        publicaciones1 = Publicacion.objects.filter(estado=True, aprobado=True, servicio='Busco a mi Dueño')
+        publicaciones2 = Publicacion.objects.filter(estado=True, aprobado=True, servicio='Busco a mi Mascota')
         return self.render_to_response({'aform': PublicacionForm(prefix='aform_pre')
                                         , 'bform': AdopcionForm(prefix='bform_pre')
                                         , "perros": perros, "gatos": gatos, "reptiles": reptiles
                                         , "aves": aves, "peces": peces, "aranhas": aranhas
-                                        , "veterinarias": veterinarias, "cuidados": cuidados})
+                                        , "veterinarias": veterinarias, "cuidados": cuidados
+                                        ,  "galerias": galerias
+                                        , "publicaciones1": publicaciones1, "publicaciones2": publicaciones2})
 
     def post(self, request, *args, **kwargs):
         aform = _get_form(request, PublicacionForm, 'aform_pre')
-        bform = _get_form(request, AdopcionForm, 'bform_pre')
-        if aform.is_bound and aform.is_valid() or bform.is_bound and bform.is_valid():
-            aform.save() or bform.save()
-            return self.render_to_response({'aform': aform, 'bform': bform})
+        bform = _get_form(request,  AdopcionForm, 'bform_pre')
+        if aform.is_bound and aform.is_valid():
+            aform.save()
+            messages.success(request, 'Formulario de contacto enviado Exitosamente')
+        elif bform.is_bound and bform.is_valid():
+            self.object = bform.save(commit=False)
+            self.object.adoptante = self.request.user
+            self.object.save()
+            messages.success(request, 'Formulario  de solicitud enviado Exitosamente')
+        return HttpResponseRedirect('/')
 
 
 class HomeMapaAll(generic.TemplateView):
@@ -144,16 +152,16 @@ class HomeMapaAll(generic.TemplateView):
     def get_dataset_url(self):
         pk = self.request.GET.get('pk')
         if pk:
-            return reverse('home:home_data') + '?pk=' + pk
-        return reverse('home:home_data')
+            return reverse('home:home_mapa') + '?pk=' + pk
+        return reverse('home:home_mapa')
 
 
 class HomeDatosAll(generic.TemplateView):
     template_name = 'home/home.html'
 
     def get(self, request, *args, **kwargs):
-        veterinarias = self.get_data(request.GET.get('pk'))
-        return HttpResponse(veterinarias, content_type='json')
+        veterinarias_sig = self.get_data(request.GET.get('pk'))
+        return HttpResponse(veterinarias_sig, content_type='json')
 
     def get_data(self, pk):
         if pk:
