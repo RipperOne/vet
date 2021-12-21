@@ -1546,6 +1546,87 @@ section {
 }
 
 /*--------------------------------------------------------------
+# Testimonials
+--------------------------------------------------------------*/
+.testimonials .testimonial-item {
+  box-sizing: content-box;
+  min-height: 600px;
+}
+
+.testimonials .testimonial-item .testimonial-img {
+  width: 200px;
+  border-radius: 50%;
+  margin: -40px 0 0 40px;
+  position: relative;
+  z-index: 2;
+  border: 6px solid rgba(255, 255, 255, 0.2);
+}
+
+.testimonials .testimonial-item h3 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 10px 0 5px 45px;
+  color: white;
+}
+
+.testimonials .testimonial-item h4 {
+  font-size: 14px;
+  color: rgba(255, 255, 255, 0.6);
+  margin: 0 0 0 45px;
+}
+
+.testimonials .testimonial-item .quote-icon-left, .testimonials .testimonial-item .quote-icon-right {
+  color: #FFFFFF;
+  font-size: 14px;
+}
+
+.testimonials .testimonial-item .quote-icon-left {
+  display: inline-block;
+  left: -5px;
+  position: relative;
+}
+
+.testimonials .testimonial-item .quote-icon-right {
+  display: inline-block;
+  right: -5px;
+  position: relative;
+  top: 10px;
+}
+
+.testimonials .testimonial-item p {
+  font-style: italic;
+  margin: 0 15px 0 15px;
+  padding: 20px 20px 60px 20px;
+  background: #26231d;
+  position: relative;
+  border-radius: 6px;
+  z-index: 1;
+}
+
+.testimonials .owl-nav, .testimonials .owl-dots {
+  margin-top: 5px;
+  text-align: center;
+}
+
+.testimonials .owl-dot {
+  display: inline-block;
+  margin: 0 5px;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background-color: #ddd !important;
+}
+
+.testimonials .owl-dot.active {
+  background-color: #949494 !important;
+}
+
+@media (max-width: 900px) {
+  .testimonials {
+    margin: 30px 10px;
+  }
+}
+/*--------------------------------------------------------------
 # Gallery
 --------------------------------------------------------------*/
 

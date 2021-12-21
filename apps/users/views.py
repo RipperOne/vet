@@ -29,10 +29,9 @@ class UserListView(ListView):
 
     def get_queryset(self):
         id_ = self.request.user.id
-        pk = User.objects.get(id=id_)
-        if self.request.user.groups.first() == "Publico":
-            return User.objects.filter(id=self.request.user.id, estado=True).order_by('id')
-        return User.objects.get_queryset().order_by('id')
+        if self.request.user.is_superuser:
+            return User.objects.get_queryset().order_by('id')
+        return User.objects.get_queryset().filter(id=id_).order_by('id')
 
     def get_context_data(self, **kwargs):
         context = super(UserListView, self).get_context_data(**kwargs)

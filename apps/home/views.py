@@ -31,7 +31,6 @@ class HomeTemplateView(LoginRequiredMixin, TemplateView):
 
     def get(self, request, *args, **kwargs):
         id_ = self.request.user.id
-        pk = User.objects.get(id=id_)
         if self.request.user.is_superuser:
             # Gráfico de Cantidad de Mascotas Totales
             perros = Especie.objects.filter(id=1, estado=True)
@@ -40,6 +39,7 @@ class HomeTemplateView(LoginRequiredMixin, TemplateView):
             aves = Especie.objects.filter(id=4, estado=True)
             peces = Especie.objects.filter(id=5, estado=True)
             aranhas = Especie.objects.filter(id=6, estado=True)
+
             perros1 = str(Animal.objects.filter(especie=1, estado=True).count())
             gatos1 = str(Animal.objects.filter(especie=2, estado=True).count())
             reptiles1 = str(Animal.objects.filter(especie=3, estado=True).count())
@@ -53,6 +53,7 @@ class HomeTemplateView(LoginRequiredMixin, TemplateView):
             aves = aves[0]
             peces = peces[0]
             aranhas = aranhas[0]
+
 
             estadistica1 = [int(perros1[0])]
             estadistica2 = [int(gatos1[0])]
@@ -102,7 +103,15 @@ class HomeTemplateView(LoginRequiredMixin, TemplateView):
                      "peces_adoptados": peces_adoptados, "aranhas_adoptados": aranhas_adoptados
                      })
         else:
-            return render(request, "home/index.html")
+            perros_adopte = Animal.objects.filter(adoptante=id_, especie=1, estado=True)
+            gatos_adopte = Animal.objects.filter(adoptante=id_, especie=2, estado=True)
+            reptiles_adopte = Animal.objects.filter(adoptante=id_, especie=3, estado=True)
+            aves_adopte = Animal.objects.filter(adoptante=id_, especie=4, estado=True)
+            peces_adopte = Animal.objects.filter(adoptante=id_, especie=5, estado=True)
+            aranhas_adopte = Animal.objects.filter(adoptante=id_, especie=6, estado=True)
+            return self.render_to_response({"perros_adopte": perros_adopte, "gatos_adopte": gatos_adopte,
+                                            "reptiles_adopte": reptiles_adopte, "aves_adopte": aves_adopte,
+                                            "peces_adopte": peces_adopte, "aranhas_adopte": aranhas_adopte})
 
 
 class Home(generic.TemplateView):
@@ -110,12 +119,12 @@ class Home(generic.TemplateView):
     success_url = reverse_lazy('home:home')
 
     def get(self, request, *args, **kwargs):
-        perros = Animal.objects.filter(especie=1, estado=True)
-        gatos = Animal.objects.filter(especie=2, estado=True)
-        reptiles = Animal.objects.filter(especie=3, estado=True)
-        aves = Animal.objects.filter(especie=4, estado=True)
-        peces = Animal.objects.filter(especie=5, estado=True)
-        aranhas = Animal.objects.filter(especie=6, estado=True)
+        perros = Animal.objects.filter(especie=1, estado=True, adoptante__isnull=True)
+        gatos = Animal.objects.filter(especie=2, estado=True, adoptante__isnull=True)
+        reptiles = Animal.objects.filter(especie=3, estado=True, adoptante__isnull=True)
+        aves = Animal.objects.filter(especie=4, estado=True, adoptante__isnull=True)
+        peces = Animal.objects.filter(especie=5, estado=True, adoptante__isnull=True)
+        aranhas = Animal.objects.filter(especie=6, estado=True, adoptante__isnull=True)
         veterinarias = Veterinaria.objects.filter(estado=True)
         cuidados = Cuidados.objects.filter(estado=True)
         galerias = Galeria.objects.filter(estado=True)
@@ -145,6 +154,7 @@ class Home(generic.TemplateView):
 
 class HomeMapaAll(generic.TemplateView):
     template_name = 'home/home.html'
+    success_url = reverse_lazy('home:home')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -154,12 +164,13 @@ class HomeMapaAll(generic.TemplateView):
     def get_dataset_url(self):
         pk = self.request.GET.get('pk')
         if pk:
-            return reverse('home:home_mapa') + '?pk=' + pk
-        return reverse('home:home_mapa')
+            return reverse('home:home') + '?pk=' + pk
+        return reverse('home:home')
 
 
 class HomeDatosAll(generic.TemplateView):
     template_name = 'home/home.html'
+    success_url = reverse_lazy('home:home')
 
     def get(self, request, *args, **kwargs):
         veterinarias_sig = self.get_data(request.GET.get('pk'))

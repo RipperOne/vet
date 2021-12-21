@@ -1,7 +1,9 @@
 from django.contrib.gis.db import models
+from django.contrib.gis.db.models import IntegerField
 
 from apps.utils.models import Base
 from apps.users.models import User
+from django.core.validators import MinValueValidator, MaxValueValidator
 
 SEXO_CHOICES = (
     ('Macho', 'Macho'), ('Hembra', 'Hembra'),
@@ -67,14 +69,14 @@ class Animal(Base):
     especie = models.ForeignKey(Especie, verbose_name='Especie', on_delete=models.CASCADE, null=True, blank=True)
     adoptante = models.ForeignKey(User, verbose_name='Adoptante', on_delete=models.CASCADE, null=True, blank=True)
     tratamiento = models.ManyToManyField(Tratamiento, verbose_name='Tratamientos', blank=True)
-    fecha_nac = models.DateField(verbose_name='Fecha de Nacimiento Estimada', blank=True, null=True)
+    fecha_nac = models.DateField()
     sexo = models.CharField(max_length=50, verbose_name='Sexo', choices=SEXO_CHOICES, default=1)
     tamanho = models.CharField(max_length=50, verbose_name='Tamaño', choices=TAMANHO_CHOICES, default=1)
     peso = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     descripcion = models.TextField(max_length=500)
     foto_perfil = models.ImageField(upload_to='animal', null=True)
     esterilizado = models.CharField(max_length=50, verbose_name='Esterilizado', choices=ESTERELIZACION_CHOICES)
-    fecha_lleg = models.DateField(verbose_name='Fecha de Llegada', blank=True, null=True)
+    fecha_lleg = models.DateField()
     estado_animal = models.CharField(max_length=50, verbose_name='Estado Animal', choices=OPCION_CHOICES)
     estado = models.BooleanField(default=True)
 
@@ -140,7 +142,7 @@ class Servicio(Base):
 class Veterinaria(Base):
     nombre = models.CharField(max_length=255)
     servicios = models.ManyToManyField(Servicio, verbose_name='Servicios', blank=True)
-    telefono = models.CharField(max_length=11, verbose_name='Teléfono', null=True)
+    telefono = IntegerField(validators=[MinValueValidator(0), MaxValueValidator(9)], verbose_name='Teléfono', null=True)
     direccion = models.CharField(max_length=300, verbose_name='Dirección')
     comuna = models.ForeignKey(Comuna, verbose_name='Comuna donde se encuentra la Veterinaria', on_delete=models.CASCADE, null=True, blank=True)
     imagen = models.ImageField(upload_to='veterinaria', null=True)
@@ -158,14 +160,14 @@ class Veterinaria(Base):
 class Publicacion(Base):
     nombre = models.CharField(max_length=255, verbose_name='Nombre y Apellido')
     email = models.EmailField('Correo electrónico', null=True, unique=True)
-    telefono = models.CharField(max_length=11, verbose_name='Teléfono', null=True)
+    telefono = models.IntegerField(verbose_name='Teléfono', null=True, validators=[MinValueValidator(0), MaxValueValidator(9)])
     direccion = models.CharField(max_length=300, verbose_name='Dirección del Suceso')
     fecha = models.DateField(verbose_name='Fecha del Suceso', blank=True, null=True)
     nombre_mascota = models.CharField(max_length=255)
     especie = models.ForeignKey(Especie, verbose_name='Especie', on_delete=models.CASCADE, null=True, blank=True)
     tamanho = models.CharField(max_length=50, verbose_name='Tamaño', choices=TAMANHO_CHOICES)
     sexo = models.CharField(max_length=50, verbose_name='Sexo', choices=SEXO_CHOICES)
-    microchip = models.BigIntegerField(verbose_name='Microchip', null=True)
+    microchip = models.BigIntegerField(verbose_name='Microchip', null=True, validators=[MinValueValidator(0), MaxValueValidator(15)])
     servicio = models.CharField(max_length=50, verbose_name='Servicio', choices=SERVICE_CHOICES)
     fotografia = models.ImageField(upload_to='publicacion', null=True)
     mensaje = models.TextField(max_length=500)
@@ -181,9 +183,9 @@ class Publicacion(Base):
 
 
 class Adopcion(Base):
-    adoptante = models.ForeignKey(User, verbose_name='Adoptante', on_delete=models.CASCADE, null=True, blank=True)
-    email = models.EmailField('Correo electrónico', null=True, unique=True)
-    telefono = models.CharField(max_length=11, verbose_name='Teléfono', null=True)
+    adoptante = models.ForeignKey(User, verbose_name='Adoptante', on_delete=models.CASCADE, null=True, blank=True, unique=False)
+    email = models.EmailField('Correo electrónico', null=True, unique=False)
+    telefono = models.IntegerField(verbose_name='Teléfono', null=True, validators=[MinValueValidator(0), MaxValueValidator(9)])
     direccion = models.CharField(max_length=300, verbose_name='Dirección')
     mascota = models.ForeignKey(Animal, verbose_name='Mascotas disponibles', on_delete=models.CASCADE, null=True, blank=True)
     mensaje = models.TextField(max_length=500, verbose_name='Déjenos un mensaje explicando su interés')

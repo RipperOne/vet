@@ -3,9 +3,12 @@
 {% load render_table from django_tables2 %}
 {% load staticfiles %}
 {% load bootstrap3 %}
+{% load leaflet_tags %}
 
 {% block css %}
-    {{ form.media }}
+
+    {% leaflet_js plugins="forms" %}
+    {% leaflet_css plugins="forms" %}
 
     {% if form.m2m_fields %}
         <link rel="stylesheet" href="{% static 'vendor/bootstrap-duallistbox/bootstrap-duallistbox.min.css' %}">
@@ -31,6 +34,14 @@
 {% endblock %}
 
 {% block content %}
+
+<script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+<script type="text/javascript" src="{% static '/admin/js/core.js' %}"></script>
+<link rel="stylesheet" type="text/css" href="{% static '/admin/css/widgets.css' %}">
+<style>.calendar>table>caption{caption-side:unset}</style><!--caption fix for bootstrap4-->
+
+{{ form.media }}
+
     <div class="row">
         <div class="col-md-12 col-sm-12 col-xs-12">
             <div class="ibox float-e-margins">

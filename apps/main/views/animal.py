@@ -227,7 +227,10 @@ class AdopcionListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     ordering = ['id']
 
     def get_queryset(self):
-        return Adopcion.objects.get_queryset().order_by('id').filter(estado=True)
+        id_ = self.request.user.id
+        if self.request.user.is_superuser:
+            return Adopcion.objects.get_queryset().order_by('id')
+        return Adopcion.objects.get_queryset().filter(adoptante=id_, aprobado=True).order_by('id')
 
     def get_context_data(self, **kwargs):
         context = super(AdopcionListView, self).get_context_data(**kwargs)

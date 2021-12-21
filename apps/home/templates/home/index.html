@@ -180,8 +180,172 @@
         });
     </script>
 
-    {% endif %}
+    {% else %}
 
+        <div class="row">
+            <div class="col-md-12">
+                <div class="text-center m-t-lg">
+                <h2>Mascotas Adoptadas por {{ request.user.username }}</h2>
+                </div>
+            </div>
+        </div>
+        <br><br><br>
+        <section id="testimonials" class="testimonials section-bg">
+            <div class="container-fluid" data-aos="fade-up">
+                <div class="row menu-container" data-aos="fade-up" data-aos-delay="100">
+                    <!-- Perritos -->
+                    <div class="row" id="lista-mascotas">
+                    {% for perro_adopte in perros_adopte %}
+                        <div class="menu-item filter-perros">
+                            <img src="{{ perro_adopte.foto_perfil.url }}" style="height: 90%; width: 90%" class="menu-img" alt="">
+                            <a class="menu-content">Nombre: {{ perro_adopte.nombre }}</a>
+                            <div class="menu-especie">
+                                Especie: {{ perro_adopte.especie }}
+                            </div>
+                            <div class="menu-sexo">
+                                Sexo: {{ perro_adopte.sexo }}
+                            </div>
+                            <div class="menu-tamanho">
+                                Tamaño: {{ perro_adopte.tamanho }}
+                            </div>
+                            <div class="menu-peso">
+                                Peso: {{ perro_adopte.peso }}
+                            </div>
+                            <div class="menu-esterilizado">
+                                Esterilizado: {{ perro_adopte.esterilizado }}
+                            </div>
+                            <br><br>
+                        </div>
+                    {% endfor %}
+                    </div>
+
+                    <!-- Gatitos -->
+
+                    {% for gato_adopte in gatos_adopte %}
+                        <div class="col-lg-3 menu-item filter-gatos">
+                            <img src="{{ gato_adopte.foto_perfil.url }}" style="height: 90%; width: 90%" class="menu-img" alt="">
+                            <a class="menu-content">Nombre: {{ gato_adopte.nombre }}</a>
+                            <div class="menu-especie">
+                                Especie: {{ gato_adopte.especie }}
+                            </div>
+                            <div class="menu-sexo">
+                                Sexo: {{ gato_adopte.sexo }}
+                            </div>
+                            <div class="menu-tamanho">
+                                Tamaño: {{ gato_adopte.tamanho }}
+                            </div>
+                            <div class="menu-peso">
+                                Peso: {{ gato_adopte.peso }}
+                            </div>
+                            <div class="menu-esterilizado">
+                                Esterilizado: {{ gato_adopte.esterilizado }}
+                            </div>
+                            <br><br>
+                        </div>
+                    {% endfor %}
+
+                    <!-- Reptiles -->
+                    {% for reptil_adopte in reptiles_adopte %}
+                        <div class="col-lg-3 menu-item filter-reptiles">
+                            <img src="{{ reptil_adopte.foto_perfil.url }}" style="height: 90%; width: 90%" class="menu-img" alt="">
+                            <a class="menu-content">Nombre: {{ reptil_adopte.nombre }}</a>
+                            <div class="menu-especie">
+                                Especie: {{ reptil_adopte.especie }}
+                            </div>
+                            <div class="menu-sexo">
+                                Sexo: {{ reptil_adopte.sexo }}
+                            </div>
+                            <div class="menu-tamanho">
+                                Tamaño: {{ reptil_adopte.tamanho }}
+                            </div>
+                            <div class="menu-peso">
+                                Peso: {{ reptil_adopte.peso }}
+                            </div>
+                            <div class="menu-esterilizado">
+                                Esterilizado: {{ reptil_adopte.esterilizado }}
+                            </div>
+                            <br><br>
+                        </div>
+                    {% endfor %}
+
+                    <!-- Aves -->
+
+                    {% for ave_adopte in aves_adopte %}
+                        <div class="col-lg-3 menu-item filter-aves">
+                            <img src="{{ ave_adopte.foto_perfil.url }}" style="height: 90%; width: 90%" class="menu-img" alt="">
+                            <a class="menu-content">Nombre: {{ ave_adopte.nombre }}</a>
+                            <div class="menu-especie">
+                                Especie: {{ ave_adopte.especie }}
+                            </div>
+                            <div class="menu-sexo">
+                                Sexo: {{ ave_adopte.sexo }}
+                            </div>
+                            <div class="menu-tamanho">
+                                Tamaño: {{ ave_adopte.tamanho }}
+                            </div>
+                            <div class="menu-peso">
+                                Peso: {{ ave_adopte.peso }}
+                            </div>
+                            <div class="menu-esterilizado">
+                                Esterilizado: {{ ave_adopte.esterilizado }}
+                            </div>
+                            <br><br>
+                        </div>
+                    {% endfor %}
+
+                    <!-- Peces -->
+
+                    {% for pez_adopte in peces_adopte %}
+                        <div class="col-lg-3 menu-item filter-peces">
+                            <img src="{{ pez_adopte.foto_perfil.url }}" style="height: 90%; width: 90%" class="menu-img" alt="">
+                            <a class="menu-content">Nombre: {{ pez_adopte.nombre }}</a>
+                            <div class="menu-especie">
+                                Especie: {{ pez_adopte.especie }}
+                            </div>
+                            <div class="menu-sexo">
+                                Sexo: {{ pez_adopte.sexo }}
+                            </div>
+                            <div class="menu-tamanho">
+                                Tamaño: {{ pez_adopte.tamanho }}
+                            </div>
+                            <div class="menu-peso">
+                                Peso: {{ pez_adopte.peso }} gr
+                            </div>
+                            <div class="menu-esterilizado">
+                                Esterilizado: {{ pez_adopte.esterilizado }}
+                            </div>
+                            <br><br>
+                        </div>
+                    {% endfor %}
+
+                    <!-- Arañas -->
+                    {% for aranha_adopte in aranhas_adopte %}
+                        <div class="col-lg-3 menu-item filter-aranhas">
+                            <img src="{{ aranha_adopte.foto_perfil.url }}" style="height: 90%; width: 90%" class="menu-img" alt="">
+                            <a class="menu-content">Nombre: {{ aranha_adopte.nombre }}</a>
+                            <div class="menu-especie">
+                                Especie: {{ aranha_adopte.especie }}
+                            </div>
+                            <div class="menu-sexo">
+                                Sexo: {{ aranha_adopte.sexo }}
+                            </div>
+                            <div class="menu-tamanho">
+                                Tamaño: {{ aranha_adopte.tamanho }}
+                            </div>
+                            <div class="menu-peso">
+                                Peso: {{ aranha_adopte.peso }}
+                            </div>
+                            <div class="menu-esterilizado">
+                                Esterilizado: {{ aranha_adopte.esterilizado }}
+                            </div>
+                            <br>
+                            <br><br>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </section>
+        {% endif %}
     <footer class="fixed-bottom">
         <div class="container-fluid align=center">
             <div class="row">

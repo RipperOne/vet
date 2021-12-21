@@ -70,10 +70,15 @@
     <script src="{% static 'Vet/leaflet-search-master/src/leaflet-search.js' %}"></script>
     <link rel="stylesheet" href="{% static 'Vet/leaflet-search-master/src/leaflet-search.css' %}" />
 
+    <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
+    <script type="text/javascript" src="{% static '/admin/js/core.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static '/admin/css/widgets.css' %}">
+    <style>.calendar>table>caption{caption-side:unset}</style><!--caption fix for bootstrap4-->
+
     <!-- Template Main CSS File -->
     <link href="{% static 'Vet/css/style.css' %}" rel="stylesheet">
 
-    {{ form.media }}
+    {{ aform.media }}
     {% block vendor %}{% endblock %}
     {% block css %}{% endblock %}
 
@@ -223,11 +228,9 @@
             <!-- ======= Cuidados Section ======= -->
 
             <div class="container" data-aos="fade-up">
-
                 <div class="section-title text-center">
                     <p>Cuidados y Recomendaciones</p>
                 </div>
-
                 <div class="owl-carousel cuidados-carousel col-lg-12" data-aos="zoom-in" data-aos-delay="100">
                     {% for cuidado in cuidados %}
                     <div class="cuidado-item col-lg-12">
@@ -343,7 +346,7 @@
                     <div class="row" id="lista-mascotas">
                     {% for perro in perros %}
                         <div class="col-lg-3 menu-item filter-perros">
-                            <img src="{{ perro.foto_perfil.url }}" class="menu-img" alt="{{ perro.nombre }}">
+                            <img src="{{ perro.foto_perfil.url }}" class="menu-img" style="height: 65%; width: 65%" alt="{{ perro.nombre }}">
                             <a class="menu-content">Nombre: {{ perro.nombre }}</a>
                             <div class="menu-especie">
                                 Especie: {{ perro.especie }}
@@ -369,7 +372,7 @@
 
                     {% for gato in gatos %}
                         <div class="col-lg-3 menu-item filter-gatos">
-                            <img src="{{ gato.foto_perfil.url }}" class="menu-img" alt="{{ gato.nombre }}">
+                            <img src="{{ gato.foto_perfil.url }}" class="menu-img" style="height: 65%; width: 65%" alt="{{ gato.nombre }}">
                             <a class="menu-content">Nombre: {{ gato.nombre }}</a>
                             <div class="menu-especie">
                                 Especie: {{ gato.especie }}
@@ -393,7 +396,7 @@
                     <!-- Reptiles -->
                     {% for reptil in reptiles %}
                         <div class="col-lg-3 menu-item filter-reptiles">
-                            <img src="{{ reptil.foto_perfil.url }}" class="menu-img" alt="{{ reptil.nombre }}">
+                            <img src="{{ reptil.foto_perfil.url }}" class="menu-img" style="height: 65%; width: 65%" alt="{{ reptil.nombre }}">
                             <a class="menu-content">Nombre: {{ reptil.nombre }}</a>
                             <div class="menu-especie">
                                 Especie: {{ reptil.especie }}
@@ -418,7 +421,7 @@
 
                     {% for ave in aves %}
                         <div class="col-lg-3 menu-item filter-aves">
-                            <img src="{{ ave.foto_perfil.url }}" class="menu-img" alt="{{ ave.nombre }}">
+                            <img src="{{ ave.foto_perfil.url }}" class="menu-img" style="height: 65%; width: 65%" alt="{{ ave.nombre }}">
                             <a class="menu-content">Nombre: {{ ave.nombre }}</a>
                             <div class="menu-especie">
                                 Especie: {{ ave.especie }}
@@ -443,7 +446,7 @@
 
                     {% for pez in peces %}
                         <div class="col-lg-3 menu-item filter-peces">
-                            <img src="{{ pez.foto_perfil.url }}" class="menu-img" alt="{{ pez.nombre }}">
+                            <img src="{{ pez.foto_perfil.url }}" class="menu-img" style="height: 65%; width: 65%" alt="{{ pez.nombre }}">
                             <a class="menu-content">Nombre: {{ pez.nombre }}</a>
                             <div class="menu-especie">
                                 Especie: {{ pez.especie }}
@@ -467,7 +470,7 @@
                     <!-- Arañas -->
                     {% for aranha in aranhas %}
                         <div class="col-lg-3 menu-item filter-aranhas">
-                            <img src="{{ aranha.foto_perfil.url }}" class="menu-img" alt="{{ aranha.nombre }}">
+                            <img src="{{ aranha.foto_perfil.url }}" class="menu-img" style="height: 65%; width: 65%" alt="{{ aranha.nombre }}">
                             <a class="menu-content">Nombre: {{ aranha.nombre }}</a>
                             <div class="menu-especie">
                                 Especie: {{ aranha.especie }}
@@ -493,87 +496,52 @@
         </section><!-- End Menu Section -->
 
         <!-- ======= Encontradas/Buscadas Section ======= -->
-        <section id="adoptar" class="adoptar section-bg">
+        <section id="testimonials" class="testimonials">
             <div class="container-fluid" data-aos="fade-up">
-
                 <div class="section-title text-center">
-                    <h2>Mascotas Encontradas o Buscadas</h2>
-                    <p>Mascotas Encontradas o Buscadas</p>
+                    <p>Mascotas Encontradas y Buscadas</p>
                 </div>
-
-                <div class="row" data-aos="fade-up" data-aos-delay="100">
-                    <div class="col-lg-12 d-flex justify-content-center">
-                        <ul id="adoptar-flters">
-                            <li data-filter="*" href="" class="filter-active">Todo</li>
-                            <li data-filter=".filter-encontrado">Mascotas Encontradas</li>
-                            <li data-filter=".filter-buscado">Mascotas Buscadas</li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="row adoptar-container" data-aos="fade-up" data-aos-delay="100">
-
-                    <div class="row">
-                    <!-- Perdidos -->
+                <div class="owl-carousel testimonials-carousel" data-aos="zoom-in" data-aos-delay="100">
                     {% for publicacion1 in publicaciones1 %}
-                        <div class="col-lg-8 menu-item filter-encontrado">
-                            <img src="{{ publicacion1.fotografia.url }}" class="menu-img" alt="{{ publicacion1.nombre }}">
-                            <a class="menu-content">Nombre Mascota: {{ publicacion1.nombre_mascota }}</a>
-                            <div class="menu-content">
-                                Fecha del suceso: {{ publicacion1.fecha }}
-                            </div>
-                            <div class="menu-content">
-                                Dirección del suceso: {{ publicacion1.direccion }}
-                            </div>
-                            <div class="menu-content">
-                                Telefono: {{ publicacion1.telefono }}
-                            </div>
-                            <div class="menu-content">
-                                Especie: {{ publicacion1.especie }}
-                            </div>
-                            <div class="menu-content">
-                                Tamaño: {{ publicacion1.tamanho }}
-                            </div>
-                            <div class="menu-content">
-                                Mensaje: {{ publicacion1.mensaje }}
-                            </div>
-                            <br><br>
-                        </div>
-                    {% endfor %}
-                    <!-- Buscados -->
-                    {% for publicacion2 in publicaciones2 %}
-                        <div class="col-lg-8 menu-item filter-buscado">
-                            <img src="{{ publicacion2.fotografia.url }}" class="menu-img" alt="{{ publicacion2.nombre }}">
-                            <a class="menu-content">Nombre Mascota: {{ publicacion2.nombre_mascota }}</a>
-                            <div class="menu-content">
-                                Fecha del suceso: {{ publicacion2.fecha }}
-                            </div>
-                            <div class="menu-content">
-                                Dirección del suceso: {{ publicacion2.direccion }}
-                            </div>
-                            <div class="menu-content">
-                                Telefono: {{ publicacion2.telefono }}
-                            </div>
-                            <div class="menu-content">
-                                Especie: {{ publicacion2.especie }}
-                            </div>
-                            <div class="menu-content">
-                                Tamaño: {{ publicacion2.tamanho }}
-                            </div>
-                            <div class="menu-content">
-                                Microchip: {{ publicacion2.microchip }}
-                            </div>
-                            <div class="menu-content">
-                                Mensaje: {{ publicacion2.mensaje }}
-                            </div>
-                            <br><br>
-                        </div>
-                    {% endfor %}
+                    <div class="testimonial-item">
+                                <h3>{{ publicacion1.servicio }}</h3>
+                                <p>
+                                    <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                    {{ publicacion1.mensaje }}
+                                    <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                                </p>
+                                <img src="{{ publicacion1.fotografia.url }}" class="testimonial-img" style="height: 20%; width: 40%" alt="{{ publicacion1.email }}">
+                                <h3>Nombre Mascota: {{ publicacion1.nombre_mascota }} </h3>
+                                    <h4>Fecha del suceso: {{ publicacion1.fecha }}</h4>
+                                    <h4>Dirección del suceso: {{ publicacion1.direccion }}</h4>
+                                    <h4>Telefono: {{ publicacion1.telefono }}</h4>
+                                    <h4>Especie: {{ publicacion1.especie }}</h4>
+                                    <h4>Tamaño: {{ publicacion1.tamanho }}</h4>
                     </div>
+                    {% endfor %}
+
+                    {% for publicacion2 in publicaciones2 %}
+                    <div class="testimonial-item">
+                                <h3>{{ publicacion2.servicio }}</h3>
+                                <p>
+                                    <i class="bx bxs-quote-alt-left quote-icon-left"></i>
+                                    {{ publicacion2.mensaje }}
+                                    <i class="bx bxs-quote-alt-right quote-icon-right"></i>
+                                </p>
+                                <img src="{{ publicacion2.fotografia.url }}" class="testimonial-img" style="height: 20%; width: 40%" alt="{{ publicacion2.email }}">
+                                <h3>Nombre Mascota: {{ publicacion2.nombre_mascota }} </h3>
+                                    <h4>Fecha del suceso: {{ publicacion2.fecha }}</h4>
+                                    <h4>Dirección del suceso: {{ publicacion2.direccion }}</h4>
+                                    <h4>Telefono: {{ publicacion2.telefono }}</h4>
+                                    <h4>Especie: {{ publicacion2.especie }}</h4>
+                                    <h4>Tamaño: {{ publicacion2.tamanho }}</h4>
+                                    <h4>Microchip: {{ publicacion2.microchip }}</h4>
+                    </div>
+                    {% endfor %}
                 </div>
             </div>
-        <br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-        </section><!-- End Menu Section -->
+        </section><!-- Encontradas/Buscadas Section -->
+        <br>
 
         <!-- ======= Gallery Section ======= -->
         <section id="gallery" class="gallery">

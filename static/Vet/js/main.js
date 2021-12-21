@@ -239,6 +239,34 @@ var $ = jQuery.noConflict();
     }
   });
 
+  // Testimonials carousel (uses the Owl Carousel library)
+  $(".testimonials-carousel").owlCarousel({
+    autoplay: true,
+    dots: true,
+    loop: false,
+    autoplayTimeout: 6000,
+    responsive: {
+      0: {
+        items: 1
+      },
+      500: {
+        items: 2
+      },
+      1000: {
+        items: 3
+      },
+      1500: {
+        items: 4
+      },
+      2000: {
+        items: 5
+      },
+      2500: {
+        items: 6
+      }
+    }
+  });
+
   // Initiate venobox lightbox
   $(document).ready(function() {
     $('.venobox').venobox();
