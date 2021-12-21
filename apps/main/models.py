@@ -159,8 +159,8 @@ class Veterinaria(Base):
 
 class Publicacion(Base):
     nombre = models.CharField(max_length=255, verbose_name='Nombre y Apellido')
-    email = models.EmailField('Correo electrónico', null=True, unique=True)
-    telefono = models.IntegerField(verbose_name='Teléfono', null=True, validators=[MinValueValidator(0), MaxValueValidator(9)])
+    email = models.EmailField('Correo electrónico', null=True, unique=False)
+    telefono = models.IntegerField(verbose_name='Teléfono', null=True, validators=[MinValueValidator(0), MaxValueValidator(9)], unique=False)
     direccion = models.CharField(max_length=300, verbose_name='Dirección del Suceso')
     fecha = models.DateField(verbose_name='Fecha del Suceso', blank=True, null=True)
     nombre_mascota = models.CharField(max_length=255)
@@ -185,8 +185,8 @@ class Publicacion(Base):
 class Adopcion(Base):
     adoptante = models.ForeignKey(User, verbose_name='Adoptante', on_delete=models.CASCADE, null=True, blank=True, unique=False)
     email = models.EmailField('Correo electrónico', null=True, unique=False)
-    telefono = models.IntegerField(verbose_name='Teléfono', null=True, validators=[MinValueValidator(0), MaxValueValidator(9)])
-    direccion = models.CharField(max_length=300, verbose_name='Dirección')
+    telefono = models.IntegerField(verbose_name='Teléfono', null=True, validators=[MinValueValidator(0), MaxValueValidator(9)], unique=False)
+    direccion = models.CharField(max_length=300, verbose_name='Dirección', unique=False)
     mascota = models.ForeignKey(Animal, verbose_name='Mascotas disponibles', on_delete=models.CASCADE, null=True, blank=True)
     mensaje = models.TextField(max_length=500, verbose_name='Déjenos un mensaje explicando su interés')
     aprobado = models.BooleanField(default=False)
