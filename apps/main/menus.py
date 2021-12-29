@@ -45,7 +45,7 @@ animal = [
 ]
 
 Menu.add_item('main', MenuItem('Animal', '#', weight=900, icon='fa fa-globe', children=animal))
-Menu.add_item('main', MenuItem('Localidades', '#', weight=1000, icon='fa fa-map-marker', children=localidades))
+Menu.add_item('main', MenuItem('Localidades', '#', check=lambda request: request.user.has_perm('main.add_region'), weight=1000, icon='fa fa-map-marker', children=localidades))
 Menu.add_item('main', MenuItem('Servicios', reverse('main:servicio_list'), check=lambda request: request.user.has_perm('main.add_servicio'), weight=1100, icon='fa fa-tree'))
 Menu.add_item('main', MenuItem('Veterinarias', reverse('main:veterinaria_list'), check=lambda request: request.user.has_perm('main.add_veterinaria'), weight=1100, icon='fa fa-tree'))
 Menu.add_item('main', MenuItem('Publicaciones', reverse('main:publicacion_list'), check=lambda request: request.user.has_perm('main.add_publicacion'), weight=1100, icon='fa fa-tree'))

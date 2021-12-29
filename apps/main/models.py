@@ -3,7 +3,12 @@ from django.contrib.gis.db.models import IntegerField
 
 from apps.utils.models import Base
 from apps.users.models import User
-from django.core.validators import MinValueValidator, MaxValueValidator
+from django.core.validators import RegexValidator
+
+alphanumeric = RegexValidator(r'^[A-Za-z\sáéíóú]+$', 'Ingresar solo Letras en el campo')
+alphanumeric1 = RegexValidator(r'^[A-Za-z\sáéíóú01234567890]+$', 'Ingresar solo letras y numeros en el campo')
+numeric = RegexValidator(r'^[0-9]+$', 'Ingresar solo numeros en el campo')
+numeric1 = RegexValidator(r'^[0-9\,]+$', 'Este es un campo decimal. Debe ingresar numeros seguidos de una coma y 2 decimales')
 
 SEXO_CHOICES = (
     ('Macho', 'Macho'), ('Hembra', 'Hembra'),
@@ -85,7 +90,7 @@ class Animal(Base):
         verbose_name_plural = 'Mascotas'
 
     def __str__(self):
-        return '{} {} {} {} {}'.format(self.nombre, '/', self.especie, '/', str(self.esterilizado,))
+        return '{} {} {} {} {} {}'.format('Nombre:', self.nombre, '| Especie:', self.especie, '| Esterilizado:', str(self.esterilizado,))
 
 
 class Comuna(Base):
@@ -142,7 +147,7 @@ class Servicio(Base):
 class Veterinaria(Base):
     nombre = models.CharField(max_length=255)
     servicios = models.ManyToManyField(Servicio, verbose_name='Servicios', blank=True)
-    telefono = IntegerField(validators=[MinValueValidator(0), MaxValueValidator(9)], verbose_name='Teléfono', null=True)
+    telefono = models.CharField(validators=[numeric], max_length=9, verbose_name='Teléfono', null=True)
     direccion = models.CharField(max_length=300, verbose_name='Dirección')
     comuna = models.ForeignKey(Comuna, verbose_name='Comuna donde se encuentra la Veterinaria', on_delete=models.CASCADE, null=True, blank=True)
     imagen = models.ImageField(upload_to='veterinaria', null=True)
@@ -160,44 +165,48 @@ class Veterinaria(Base):
 class Publicacion(Base):
     nombre = models.CharField(max_length=255, verbose_name='Nombre y Apellido')
     email = models.EmailField('Correo electrónico', null=True, unique=False)
-    telefono = models.IntegerField(verbose_name='Teléfono', null=True, validators=[MinValueValidator(0), MaxValueValidator(9)], unique=False)
+    telefono = models.CharField(verbose_name='Teléfono', null=True, validators=[numeric], max_length=9, unique=False)
     direccion = models.CharField(max_length=300, verbose_name='Dirección del Suceso')
     fecha = models.DateField(verbose_name='Fecha del Suceso', blank=True, null=True)
     nombre_mascota = models.CharField(max_length=255)
     especie = models.ForeignKey(Especie, verbose_name='Especie', on_delete=models.CASCADE, null=True, blank=True)
     tamanho = models.CharField(max_length=50, verbose_name='Tamaño', choices=TAMANHO_CHOICES)
     sexo = models.CharField(max_length=50, verbose_name='Sexo', choices=SEXO_CHOICES)
-    microchip = models.BigIntegerField(verbose_name='Microchip', null=True, validators=[MinValueValidator(0), MaxValueValidator(15)])
+    microchip = models.CharField(verbose_name='Microchip', null=True, validators=[numeric], max_length=15)
     servicio = models.CharField(max_length=50, verbose_name='Servicio', choices=SERVICE_CHOICES)
     fotografia = models.ImageField(upload_to='publicacion', null=True)
     mensaje = models.TextField(max_length=500)
     aprobado = models.BooleanField(default=False)
     estado = models.BooleanField(default=True)
 
+    all_cruds_types = True
+
     class Meta:
         verbose_name = 'Publicacion'
         verbose_name_plural = 'Publicaciones'
 
     def __str__(self):
-        return '{} {} {} {} {}'.format(self.nombre, '/', self.nombre_mascota, '/', str(self.servicio,))
+        return '{} {} {} {} {} {}'.format('Nombre: ', self.nombre, '| Mascota: ', self.nombre_mascota, '| Servicio: ', str(self.servicio,))
 
 
 class Adopcion(Base):
     adoptante = models.ForeignKey(User, verbose_name='Adoptante', on_delete=models.CASCADE, null=True, blank=True, unique=False)
     email = models.EmailField('Correo electrónico', null=True, unique=False)
-    telefono = models.IntegerField(verbose_name='Teléfono', null=True, validators=[MinValueValidator(0), MaxValueValidator(9)], unique=False)
+    telefono = models.CharField(verbose_name='Teléfono', null=True, validators=[numeric], max_length=9, unique=False)
     direccion = models.CharField(max_length=300, verbose_name='Dirección', unique=False)
     mascota = models.ForeignKey(Animal, verbose_name='Mascotas disponibles', on_delete=models.CASCADE, null=True, blank=True)
     mensaje = models.TextField(max_length=500, verbose_name='Déjenos un mensaje explicando su interés')
     aprobado = models.BooleanField(default=False)
     estado = models.BooleanField(default=True)
 
+    all_cruds_types = True
+
     class Meta:
         verbose_name = 'Adopcion'
         verbose_name_plural = 'Adopciones'
 
     def __str__(self):
-        return '{} {} {} {} {}'.format(self.adoptante, '/', self.email, '/', str(self.mascota,))
+        return '{} {} {} {} {} {}'.format('Adoptante: ', self.adoptante, '| Email: ', self.email, '| Mascota: ', str(self.mascota,))
 
 
 class Galeria(Base):

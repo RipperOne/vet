@@ -1,0 +1,37 @@
+{% load bootstrap3 %}
+<div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h2 class="modal-title">Enviar Solicitud de Adopción</h2>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <form id="form_creacion" action="{% url 'home:registrar_adopcion' %}" method="POST">
+            {% csrf_token %}
+            <div class="modal-body">
+                <div id="errores">
+
+                </div>
+                <div class="row">
+                    <div class="col-md-3">{% bootstrap_field form.mascota %}</div>
+                    <div class="col-md-3">{% bootstrap_field form.telefono %}</div>
+                    <div class="col-md-3">{% bootstrap_field form.direccion %}</div>
+                    <div class="col-md-3">{% bootstrap_field form.email %}</div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">{% bootstrap_field form.mensaje %}</div>
+                </div>
+
+                <div class="modal-footer">
+                    <button class="btn btn-ttc full-width fa fa-send" type="button" onclick="cerrar_modal_creacion();">
+                        <span class="glyphicon glyphicon-inbox"></span>Cancelar
+                    </button>
+                    <button id="boton_creacion" class="btn btn-ttc full-width fa fa-send" type="button" onclick="registrar();">
+                        <span class="glyphicon glyphicon-inbox"></span>Enviar
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

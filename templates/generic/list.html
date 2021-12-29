@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block content %}
+    {% if request.user.is_superuser %}
     <div class="ibox">
         <div class="ibox-title">
             <h5>Filtros</h5>
@@ -47,6 +48,7 @@
             </form>
         </div>
     </div>
+    {% endif %}
 
     <div class="row">
         <div class="col-md-12">

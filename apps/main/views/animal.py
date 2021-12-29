@@ -1,4 +1,4 @@
-from django.shortcuts import render, reverse
+from django.shortcuts import render, reverse, redirect
 from django.urls import reverse_lazy
 from django.http import HttpResponseRedirect, HttpResponseNotFound
 from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
@@ -229,7 +229,7 @@ class AdopcionListView(ListView, LoginRequiredMixin, PermissionRequiredMixin):
     def get_queryset(self):
         id_ = self.request.user.id
         if self.request.user.is_superuser:
-            return Adopcion.objects.get_queryset().order_by('id')
+            return Adopcion.objects.get_queryset().order_by('id').filter(estado=True)
         return Adopcion.objects.get_queryset().filter(adoptante=id_, aprobado=True).order_by('id')
 
     def get_context_data(self, **kwargs):

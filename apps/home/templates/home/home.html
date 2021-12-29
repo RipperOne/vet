@@ -1,12 +1,13 @@
 {% load i18n %}
 {% load staticfiles %}
-{% load bootstrap3 %}
-
-{% load leaflet_tags %}
-
 {% block content %}
 
 <head content="width=device-width">
+
+    {% load bootstrap4 %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% load leaflet_tags %}
 
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
@@ -19,69 +20,32 @@
     <link href="{% static 'Vet/img/favicon.png' %}" rel="icon">
     <link href="{% static 'Vet/img/favicon.png' %}" rel="apple-touch-icon">
 
-    <!-- Vendor CSS Files -->
-    <link href="{% static 'Admin/font-awesome/font-awesome.css' %}" rel="stylesheet">
+    <script rel="stylesheet" src="{% static 'Vet/bootstrap-4.3.1-dist/css/bootstrap.min.css' %}"></script>
+    <script rel="stylesheet" src="{% static 'Vet/bootstrap-4.3.1-dist/js/bootstrap.min.js' %}"></script>
+    <script rel="stylesheet" src="{% static 'Vet/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js' %}"></script>
+    <script rel="stylesheet" src="{% static 'Vet/bootstrap-4.3.1-dist/js/bootstrap.js' %}"></script>
+    <script rel="stylesheet" src="{% static 'Vet/bootstrap-4.3.1-dist/css/bootstrap.css' %}"></script>
+    <script rel="stylesheet" src="{% static 'Vet/bootstrap-4.3.1-dist/css/bootstrap.css.map' %}"></script>
 
-    <script src="{% static 'Admin/js/jquery-3.1.1.min.js' %}"></script>
-    <script src="{% static 'Admin/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'Admin/js/bootstrap.js' %}"></script>
-    <link href="{% static 'Vet/vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'Vet/vendor/icofont/icofont.min.css' %}" rel="stylesheet">
-    <link href="{% static 'Vet/vendor/boxicons/css/boxicons.min.css' %}" rel="stylesheet">
-    <link href="{% static 'Vet/vendor/animate.css/animate.min.css' %}" rel="stylesheet">
-    <link href="{% static 'Vet/vendor/owl.carousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
-    <link href="{% static 'Vet/vendor/venobox/venobox.css' %}" rel="stylesheet">
-    <link href="{% static 'Vet/vendor/aos/aos.css' %}" rel="stylesheet">
-
-    <link href="{% static 'Admin/font-awesome/font-awesome.css' %}" rel="stylesheet">
-    <link href="{% static 'Admin/dist/L.Control.Locate.min.css' %}" rel="stylesheet">
-    <script src="{% static 'Admin/dist/L.Control.Locate.min.js' %}"></script>
-
-    <link href="{% static 'Admin/src/Control.FullScreen.css' %}" rel="stylesheet">
-    <script src="{% static 'Admin/src/Control.FullScreen.js' %} "></script>
-
-    <link href="{% static 'Admin/dist/leaflet.ajax.js' %}" rel="stylesheet">
-    <script src="{% static 'Admin/dist/leaflet.ajax.js' %}"></script>
-    <link href="{% static 'Admin/src/leaflet.groupedlayercontrol.css' %}" rel="stylesheet">
-    <script src="{% static 'Admin/src/leaflet.groupedlayercontrol.js' %}"></script>
-
-    <script src="{% static 'Admin/src/leaflet-search.js' %}"></script>
-    <link href="{% static 'Admin/src/leaflet-search.css' %}" rel="stylesheet"/>
-
-    <script src="{% static 'Admin/src/L.Control.MousePosition.js' %}"></script>
-    <link href="{% static 'Admin/src/L.Control.MousePosition.css' %}" rel="stylesheet"/>
-
-    <script src="{% static 'Admin/src/L.Control.Sidebar.js' %}"></script>
-    <link href="{% static 'Admin/src/L.Control.Sidebar.css' %}" rel="stylesheet"/>
-    <link href="{% static 'Admin/src/L.Control.Sidebar.scss' %}" rel="stylesheet"/>
-
-    <script src="{% static 'Admin/src/leaflet.filelayer.js' %}"></script>
-
-    <script type="text/javascript" src="{% static 'Admin/src/L.Graticule.js' %}"></script>
-
-
-    <!-- Leaflet Plugins -->
-    <link href="{% static 'leaflet/leaflet.extras.js' %}" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'Admin/src/Control.MiniMap.css' %}"/>
-    <script src="{% static 'Admin/src/Control.MiniMap.js' %}" type="text/javascript"></script>
-    <script src="{% static 'Admin/js/jquery-3.1.1.min.js' %}"></script>
-    <script src="{% static 'Admin/js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'Admin/js/bootstrap.js' %}"></script>
-    <script src="{% static 'Vet/leaflet-search-master/src/leaflet-search.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'Vet/leaflet-search-master/src/leaflet-search.css' %}" />
+    <link rel="stylesheet" href="{% static 'Vet/vendor/icofont/icofont.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Vet/vendor/boxicons/css/boxicons.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Vet/vendor/animate.css/animate.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Vet/vendor/owl.carousel/assets/owl.carousel.min.css' %}">
+    <link rel="stylesheet" href="{% static 'Vet/vendor/venobox/venobox.css' %}">
+    <link rel="stylesheet" href="{% static 'Vet/vendor/aos/aos.css' %}">
 
     <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
     <script type="text/javascript" src="{% static '/admin/js/core.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static '/admin/css/widgets.css' %}">
     <style>.calendar>table>caption{caption-side:unset}</style><!--caption fix for bootstrap4-->
 
-    <!-- Template Main CSS File -->
-    <link href="{% static 'Vet/css/style.css' %}" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'Vet/css/style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+    <script src="https://pagination.js.org/dist/2.1.5/pagination.js"></script>
 
     {{ aform.media }}
     {% block vendor %}{% endblock %}
     {% block css %}{% endblock %}
-
 </head>
 
 <body>
@@ -205,7 +169,6 @@
 <section id="hero" class="d-flex align-items-center">
     <div class="container position-relative text-center text-lg-left" data-aos="zoom-in" data-aos-delay="100"
          content="width=device-width">
-    <br><br><br><br><br><br>
         <div class="row">
             <div class="col-lg-8">
                 {% if request.user.is_authenticated %}
@@ -223,22 +186,23 @@
             <div class="col-lg-4 d-flex align-items-center justify-content-center" data-aos="zoom-in"
                  data-aos-delay="200">
             </div>
-
         </div>
+    </div>
+</section><!-- End Hero -->
             <!-- ======= Cuidados Section ======= -->
-
-            <div class="container" data-aos="fade-up">
+        <section id="cuidados" class="cuidados col-lg-12">
+            <div class="container-fluid" data-aos="fade-up">
                 <div class="section-title text-center">
                     <p>Cuidados y Recomendaciones</p>
                 </div>
-                <div class="owl-carousel cuidados-carousel col-lg-12" data-aos="zoom-in" data-aos-delay="100">
+                <div class="owl-carousel cuidados-carousel" data-aos="zoom-in" data-aos-delay="100">
                     {% for cuidado in cuidados %}
-                    <div class="cuidado-item col-lg-12">
+                    <div class="cuidado-item col-sm-pull-12">
                         <div class="section-title text-center">
-                            <h3>{{ cuidado.nombre }}</h3>
+                            <h3 style="font-size: 26px">{{ cuidado.nombre }}</h3>
                         </div>
                         <p>
-                            <a class="animated fadeInUp scrollto">
+                            <a class="animated fadeInUp scrollto" style="color: #FFFFFF">
                                 <i class="bx bxs-quote-alt-left quote-icon-left"></i>
                                 {{ cuidado.descripcion }}
                                 <i class="bx bxs-quote-alt-right quote-icon-right"></i>
@@ -248,8 +212,7 @@
                     {% endfor %}
                 </div>
             </div>
-    </div>
-</section><!-- End Hero -->
+        </section>
 
 <main id="main">
 
@@ -284,38 +247,27 @@
         </div>
     </section><!-- End About Section -->
 
-                <!-- ======= Veterinarias Section ======= -->
-        <section id="veterinarias" class="veterinaria section-bg">
+            <!-- ======= Cuidados Section ======= -->
+        <section id="cuidados" class="cuidados col-lg-12">
             <div class="container-fluid" data-aos="fade-up">
-
                 <div class="section-title text-center">
                     <h2>Veterinarias</h2>
                     <p>Veterinarias disponibles</p>
                 </div>
-
-                <div class="row" data-aos="fade-up" data-aos-delay="100">
-                    <div class="col-lg-12 d-flex justify-content-center">
-                        <ul id="veterinaria-flters">
-                        </ul>
-                    </div>
-                </div>
-                <div class="row veterinaria-container" data-aos="fade-up" data-aos-delay="100">
-                    <div class="row">
+                <div class="row owl-carousel cuidados-carousel" data-aos="zoom-in" data-aos-delay="100">
                     {% for veterinaria in veterinarias %}
-                        <div class="col-lg-3 menu-item filter-veterinaria btn-menu animated fadeInUp scrollto"  style="background: #5a6268">
-                            <img src="{{ veterinaria.imagen.url }}" class="menu-img" alt="{{ veterinaria.nombre }}">
-                            <a class="menu-content">{{ veterinaria.nombre }}</a>
+                        <div class="cuidado-item col-lg-9">
+                            <img src="{{ veterinaria.imagen.url }}" style="height: 20%; width: 60%" class="menu-img" alt="{{ veterinaria.nombre }}">
+                            <a class="menu-content" style="color: #FFFFFF"><strong>Nombre: </strong>{{ veterinaria.nombre }}</a>
                             <br>
-                            <a class="menu-content">{{ veterinaria.telefono }}</a>
+                            <a class="menu-content" style="color: #FFFFFF"><strong>Teléfono: </strong>{{ veterinaria.telefono }}</a>
                             <br>
-                            <a class="menu-content">{{ veterinaria.direccion }}</a>
+                            <a class="menu-content" style="color: #FFFFFF"><strong>Dirección: </strong>{{ veterinaria.direccion }}</a>
                         </div>
-                    {% endfor %}
-                    </div>
+                        {% endfor %}
                 </div>
             </div>
-            <br><br><br><br><br><br>
-        </section><!-- End Veterinarias Section -->
+        </section>
 
         <!-- ======= Menu Section ======= -->
         <section id="menu" class="menu section-bg">
@@ -344,8 +296,8 @@
                     <!-- Perritos -->
                     <div class="row" id="lista-mascotas">
                     {% for perro in perros %}
-                        <div class="col-lg-3 menu-item filter-perros">
-                            <img src="{{ perro.foto_perfil.url }}" class="menu-img" style="height: 65%; width: 65%" alt="{{ perro.nombre }}">
+                        <div class="col-sm-3 menu-item filter-perros">
+                            <img src="{{ perro.foto_perfil.url }}" class="menu-img" style="height: 50%; width: 50%" alt="{{ perro.nombre }}">
                             <a class="menu-content">Nombre: {{ perro.nombre }}</a>
                             <div class="menu-especie">
                                 Especie: {{ perro.especie }}
@@ -370,8 +322,8 @@
                     <!-- Gatitos -->
 
                     {% for gato in gatos %}
-                        <div class="col-lg-3 menu-item filter-gatos">
-                            <img src="{{ gato.foto_perfil.url }}" class="menu-img" style="height: 65%; width: 65%" alt="{{ gato.nombre }}">
+                        <div class="col-sm-3 menu-item filter-gatos">
+                            <img src="{{ gato.foto_perfil.url }}" class="menu-img" style="height: 50%; width: 50%" alt="{{ gato.nombre }}">
                             <a class="menu-content">Nombre: {{ gato.nombre }}</a>
                             <div class="menu-especie">
                                 Especie: {{ gato.especie }}
@@ -394,8 +346,8 @@
 
                     <!-- Reptiles -->
                     {% for reptil in reptiles %}
-                        <div class="col-lg-3 menu-item filter-reptiles">
-                            <img src="{{ reptil.foto_perfil.url }}" class="menu-img" style="height: 65%; width: 65%" alt="{{ reptil.nombre }}">
+                        <div class="col-sm-3 menu-item filter-reptiles">
+                            <img src="{{ reptil.foto_perfil.url }}" class="menu-img" style="height: 50%; width: 50%" alt="{{ reptil.nombre }}">
                             <a class="menu-content">Nombre: {{ reptil.nombre }}</a>
                             <div class="menu-especie">
                                 Especie: {{ reptil.especie }}
@@ -419,8 +371,8 @@
                     <!-- Aves -->
 
                     {% for ave in aves %}
-                        <div class="col-lg-3 menu-item filter-aves">
-                            <img src="{{ ave.foto_perfil.url }}" class="menu-img" style="height: 65%; width: 65%" alt="{{ ave.nombre }}">
+                        <div class="col-sm-3 menu-item filter-aves">
+                            <img src="{{ ave.foto_perfil.url }}" class="menu-img" style="height: 50%; width: 50%" alt="{{ ave.nombre }}">
                             <a class="menu-content">Nombre: {{ ave.nombre }}</a>
                             <div class="menu-especie">
                                 Especie: {{ ave.especie }}
@@ -444,8 +396,8 @@
                     <!-- Peces -->
 
                     {% for pez in peces %}
-                        <div class="col-lg-3 menu-item filter-peces">
-                            <img src="{{ pez.foto_perfil.url }}" class="menu-img" style="height: 65%; width: 65%" alt="{{ pez.nombre }}">
+                        <div class="col-sm-3 menu-item filter-peces">
+                            <img src="{{ pez.foto_perfil.url }}" class="menu-img" style="height: 50%; width: 50%" alt="{{ pez.nombre }}">
                             <a class="menu-content">Nombre: {{ pez.nombre }}</a>
                             <div class="menu-especie">
                                 Especie: {{ pez.especie }}
@@ -468,8 +420,8 @@
 
                     <!-- Arañas -->
                     {% for aranha in aranhas %}
-                        <div class="col-lg-3 menu-item filter-aranhas">
-                            <img src="{{ aranha.foto_perfil.url }}" class="menu-img" style="height: 65%; width: 65%" alt="{{ aranha.nombre }}">
+                        <div class="col-sm-3 menu-item filter-aranhas">
+                            <img src="{{ aranha.foto_perfil.url }}" class="menu-img" style="height: 50%; width: 50%" alt="{{ aranha.nombre }}">
                             <a class="menu-content">Nombre: {{ aranha.nombre }}</a>
                             <div class="menu-especie">
                                 Especie: {{ aranha.especie }}
@@ -496,7 +448,7 @@
 
         <!-- ======= Encontradas/Buscadas Section ======= -->
         <section id="testimonials" class="testimonials">
-            <div class="container-fluid" data-aos="fade-up">
+            <div id="tableUserList" class="container-fluid" data-aos="fade-up">
                 <div class="section-title text-center">
                     <p>Mascotas Encontradas y Buscadas</p>
                 </div>
@@ -509,8 +461,9 @@
                                     {{ publicacion1.mensaje }}
                                     <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                                 </p>
-                                <img src="{{ publicacion1.fotografia.url }}" class="testimonial-img" style="height: 20%; width: 40%" alt="{{ publicacion1.email }}">
+                                <img src="{{ publicacion1.fotografia.url }}" class="testimonial-img" style="height: 20%; width: 40%" alt="{{ publicacion1.id }}">
                                 <h3>Nombre Mascota: {{ publicacion1.nombre_mascota }} </h3>
+                                    <h4>Email: {{ publicacion1.email }}</h4>
                                     <h4>Fecha del suceso: {{ publicacion1.fecha }}</h4>
                                     <h4>Dirección del suceso: {{ publicacion1.direccion }}</h4>
                                     <h4>Telefono: {{ publicacion1.telefono }}</h4>
@@ -518,7 +471,6 @@
                                     <h4>Tamaño: {{ publicacion1.tamanho }}</h4>
                     </div>
                     {% endfor %}
-
                     {% for publicacion2 in publicaciones2 %}
                     <div class="testimonial-item">
                                 <h3>{{ publicacion2.servicio }}</h3>
@@ -527,8 +479,9 @@
                                     {{ publicacion2.mensaje }}
                                     <i class="bx bxs-quote-alt-right quote-icon-right"></i>
                                 </p>
-                                <img src="{{ publicacion2.fotografia.url }}" class="testimonial-img" style="height: 20%; width: 40%" alt="{{ publicacion2.email }}">
+                                <img src="{{ publicacion2.fotografia.url }}" class="testimonial-img" style="height: 20%; width: 40%" alt="{{ publicacion2.id }}">
                                 <h3>Nombre Mascota: {{ publicacion2.nombre_mascota }} </h3>
+                                    <h4>Email: {{ publicacion2.email }}</h4>
                                     <h4>Fecha del suceso: {{ publicacion2.fecha }}</h4>
                                     <h4>Dirección del suceso: {{ publicacion2.direccion }}</h4>
                                     <h4>Telefono: {{ publicacion2.telefono }}</h4>
@@ -539,19 +492,18 @@
                     {% endfor %}
                 </div>
             </div>
-        </section><!-- Encontradas/Buscadas Section -->
-        <br>
+        </section>  <!-- Encontradas/Buscadas Section -->
 
         <!-- ======= Gallery Section ======= -->
         <section id="gallery" class="gallery">
             <div class="container-fluid" data-aos="fade-up">
                 <div class="section-title text-center">
                     <h2>Galería</h2>
-                    <p>Algunas fotos de las lindas mascotas</p>
+                    <p>Algunas fotos de trabajos realizados</p>
                 </div>
-                <div class="owl-carousel cuidados-carousel" data-aos-delay="100">
+                <div class="owl-carousel testimonials-carousel" data-aos="zoom-in" data-aos-delay="100">
                     {% for galeria in galerias %}
-                        <div class="cuidado-item">
+                        <div class="testimonial-item">
                             <div class="gallery-item">
                                 <div class="venobox" data-gall="gallery-item">
                                     <img src="{{ galeria.imagen.url }}" alt="{{ galeria.id }}" class="img-fluid">
@@ -562,8 +514,6 @@
                 </div>
             </div>
         </section><!-- End Gallery Section -->
-
-{% include "base/_notifications.html" %}
 
         <!-- ======= Contact Section ======= -->
         <section id="contact" class="contact">
@@ -757,106 +707,26 @@
     <section id="mapa" class="mapa">
     <div class="section-title text-center">
         <h2>Mapa</h2>
+        {% if user.is_anonymous %}
+                    <p>Para ver el mapa debes iniciar sesión o registrarte</p>
+                        <a href="{% url 'account_login' %}" data-toggle="tooltip"
+                           class="btn btn-ttc col-lg-offset-2 col-lg-3">
+                            <i class="glyphicon-send" aria-hidden="true"></i>
+                            Inicia Sesión
+                        </a>
+                        <a class="veterinarias text-center">ó</a>
+                        <a href="{% url 'signup' %}" data-toggle="tooltip"
+                           class="btn btn-ttc col-lg-offset-2 col-lg-3">
+                            <i class="glyphicon-send" aria-hidden="true"></i>
+                            Registrate
+                        </a>
+        {% else %}
         <p>Mira las Veterinarias disponibles en el mapa</p>
     </div>
-    <div class="col-lg-12" style="margin-left: 15px;">
-        {% leaflet_js %}
-        {% leaflet_css %}
-        <style type="text/css">
-            #gis {
-                width: 98%;
-                height: 100px
-            }
-        </style>
+    <iframe src="{% url 'main:veterinarias_mapa_frontend' %}" width="1900" height="400">
 
-            <script type="text/javascript">
-                function our_layers(map, options) {
-
-                    var OpenTopoMap = L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', {
-                        attribution: 'Map data: &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>, <a href="https://viewfinderpanoramas.org">SRTM</a> | Map style: &copy; <a href="https://opentopomap.org">OpenTopoMap</a> (<a href="https://creativecommons.org/licenses/by-sa/3.0/">CC-BY-SA</a>)'
-                    });
-
-                    var Grayscale = L.tileLayer('https://{s}.tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                    });
-
-                    var Streets = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
-                    });
-
-                    var WorlImagery = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-                        attribution: 'Tiles &copy; Esri &mdash; Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
-                    });
-
-                    var datasets = new L.GeoJSON.AJAX("{{ datasets_url_vet_home }}", {
-                        onEachFeature: function (feature, layer) {
-                            layer.bindPopup("<strong> " + "Veterinarias" + "</strong>"
-                                + "<br/>" + "Nombre: " + feature.properties.nombre
-                                + "<br/>" + "Telefono: " + feature.properties.telefono
-                                + "<br/>" + "Direccion: " + feature.properties.direccion
-                                + "<br/>" + "Comuna: " + feature.properties.comuna);
-                        }
-                    });
-                    datasets.addTo(map);
-
-                    var searchControl = new L.Control.Search({
-                        layer: datasets,
-                        propertyName: 'nombre',
-                        circleLocation: true
-                    });
-                    searchControl.on('search_locationfound', function(e) {
-                    e.layer.setStyle({fillColor: '#3f0', color: '#0f0'});
-                    })
-                    map.addControl(searchControl);
-
-                    var baseLayers = {
-                        "Mapa Topografico": OpenTopoMap,
-                        "Mapa en Escala de Grises": Grayscale,
-                        "Mapa de Calles": Streets,
-                        "Mapa Normal": WorlImagery
-                    };
-
-                    var groupedOverlays = {
-                        "Layers": {
-                            "Mapa Veterinarias": datasets
-                        }
-                    };
-
-                    L.graticule({
-                        style: {
-                            color: '#000',
-                            weight: 0.2,
-                            opacity: 1,
-                            fillColor: '#000',
-                            fillOpacity: 1
-                        }
-                    }).addTo(map);
-
-
-                    var osmUrl = 'http://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png';
-                    var osm = new L.TileLayer(osmUrl, {minZoom: 6, maxZoom: 18});
-                    map.addLayer(osm);
-
-                    var osm2 = new L.TileLayer(osmUrl, {minZoom: 0, maxZoom: 13});
-                    var miniMap = new L.Control.MiniMap(osm2, {toggleDisplay: true}).addTo(map);
-
-                    L.control.mousePosition({
-                        position: 'topright', //Posicion del localizador
-                        separator: '  ||  ', //Separador de Latitud y Longitud
-                        emptystring: 'No iniciado', //Leyenda inicial
-                        prefix: 'Posicion del Mouse: ' //Leyenda de uso
-                    }).addTo(map);
-                    L.control.groupedLayers(baseLayers, groupedOverlays).addTo(map);
-                    L.control.fullscreen({
-                        fullscreenControl: true,
-                        fullscreenControlOptions: {
-                            position: 'topleft'
-                        }
-                    }).addTo(map);
-                }
-            </script>
-        {% leaflet_map "gis" callback="window.our_layers" %}
-    </div>
+    </iframe>
+        {% endif %}
     <br>
     <br>
     </section>
@@ -930,8 +800,10 @@
 <a href="#" class="back-to-top"><i class="bx bx-up-arrow-alt"></i></a>
 
     <!-- Vendor JS Files -->
-    <script src="{% static 'Vet/vendor/jquery/jquery.min.js' %}"></script>
-    <script src="{% static 'Vet/vendor/bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+    <script src="{% static 'Vet/bootstrap-4.3.1-dist/css/bootstrap.min.css' %}"></script>
+    <script src="{% static 'Vet/bootstrap-4.3.1-dist/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'Vet/bootstrap-4.3.1-dist/js/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'Vet/vendor/jquery.easing/jquery.easing.min.js' %}"></script>
     <script src="{% static 'Vet/vendor/php-email-form/validate.js' %}"></script>
     <script src="{% static 'Vet/vendor/owl.carousel/owl.carousel.min.js' %}"></script>
@@ -939,21 +811,20 @@
     <script src="{% static 'Vet/vendor/venobox/venobox.min.js' %}"></script>
     <script src="{% static 'Vet/vendor/aos/aos.js' %}"></script>
 
-    <script src="{% static 'Admin/js/bootstrap.min.js' %}"></script>
     <script src="{% static 'Admin/js/plugins/metisMenu/jquery.metisMenu.js' %}"></script>
     <script src="{% static 'Admin/js/plugins/slimscroll/jquery.slimscroll.min.js' %}"></script>
 
     <!-- Custom and plugin javascript -->
-    <script src="{% static 'Admin/js/inspinia.js' %}"></script>
     <script src="{% static 'Admin/js/plugins/pace/pace.min.js' %}"></script>
     <script src="{% static 'Admin/js/bootstrap-dialog.js' %}"></script>
     <script src="{% static 'Admin/js/plugins/toastr/toastr.min.js' %}"></script>
 
     <!-- Template Main JS File -->
     <script src="{% static 'Vet/js/main.js' %}"></script>
-
     <script src="{% static 'Vet/js/jquery-slim.min.js' %}"></script>
-    <script src="{% static 'Vet/js/popper.min.js' %}"></script>
+
+
+    {% bootstrap_javascript jquery='full' %}
 
 </body>
 
@@ -970,7 +841,6 @@
 
             return str;
         }
-
         var pageActivated = false;
 
         $('.nav li a').each(function () {
@@ -1006,6 +876,14 @@
                 }
             });
         }
+    });
+</script>
+
+<script>
+    $(document).ready(function(){
+        $("#tableUserList").paginationTdA({
+            elemPerPage: 1
+        });
     });
 </script>
 

@@ -219,21 +219,20 @@ var $ = jQuery.noConflict();
     dots: true,
     loop: true,
     autoplayTimeout: 6000,
-    weight: 1600,
     responsive: {
       0: {
         items: 1
       },
-      600: {
+      500: {
         items: 2
       },
-      1200: {
+      1000: {
         items: 3
       },
-      1800: {
+      1500: {
         items: 4
       },
-      2400: {
+      2000: {
         items: 5
       }
     }
@@ -284,3 +283,90 @@ var $ = jQuery.noConflict();
   });
 
 })(jQuery);
+
+
+// Lineas JavaScript Front-End
+
+function abrir_modal_edicion(url) {
+	$('#edicion').load(url, function () {
+		$(this).modal('show');
+	});
+}
+function abrir_modal_creacion(url) {
+	$('#creacion').load(url, function () {
+		$(this).modal('show');
+	});
+}
+function abrir_modal_eliminacion(url) {
+	$('#eliminacion').load(url, function () {
+		$(this).modal('show');
+	});
+}
+function cerrar_modal_creacion(){
+	$('#creacion').modal('hide');
+}
+
+function cerrar_modal_edicion() {
+	$('#edicion').modal('hide');
+}
+function cerrar_modal_eliminacion() {
+	$('#eliminacion').modal('hide');
+}
+function activarBoton(){
+	if($('#boton_creacion').prop('disabled')){
+		$('#boton_creacion').prop('disabled',false);
+	}else{
+		$('#boton_creacion').prop('disabled', true);
+	}
+}
+
+function mostrarErroresCreacion(errores){
+	$('#errores').html("");
+	let error = "";
+	for(let item in errores.responseJSON.error){
+		error += '<div class = "alert alert-danger" <strong>' + errores.responseJSON.error[item] + '</strong></div>';
+	}
+	$('#errores').append(error);
+}
+function mostrarErroresEdicion(errores) {
+	$('#erroresEdicion').html("");
+	let error = "";
+	for (let item in errores.responseJSON.error) {
+		error += '<div class = "alert alert-danger" <strong>' + errores.responseJSON.error[item] + '</strong></div>';
+	}
+	$('#erroresEdicion').append(error);
+}
+
+function notificacionError(mensaje){
+	Swal.fire({
+		title: 'Error!',
+		text: mensaje,
+		icon: 'error'
+	})
+}
+
+function notificacionSuccess(mensaje) {
+	Swal.fire({
+		title: 'Buen Trabajo!',
+		text: mensaje,
+		icon: 'success'
+	})
+ }
+
+ function registrar() {
+    activarBoton();
+    $.ajax({
+        data: $('#form_creacion').serialize(),
+        url: $('#form_creacion').attr('action'),
+        type: $('#form_creacion').attr('method'),
+        success: function (response) {
+            notificacionSuccess(response.mensaje);
+            cerrar_modal_creacion();
+        },
+        error: function (error) {
+            notificacionError(error.responseJSON.mensaje);
+            mostrarErroresCreacion(error);
+            activarBoton();
+        }
+    });
+}

@@ -68,6 +68,7 @@ INSTALLED_APPS = [
     'djgeojson',
     'osgeo',
     'smart_selects',
+    'bootstrap4',
 
     'apps.home',
     'apps.users',

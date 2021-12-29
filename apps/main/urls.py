@@ -59,6 +59,9 @@ urlpatterns = [
     url(r'^veterinaria/SIG/all/map/$', views.VeterinariasMapaAll.as_view(), name='veterinaria_mapa_all'),
     url(r'^veterinaria/SIG/all/data/$', views.VeterinariasDatosAll.as_view(), name='veterinaria_datos_all'),
 
+    url(r'^veterinaria/SIG/frontend/map/$', views.FrontEndMapaAll.as_view(), name='veterinarias_mapa_frontend'),
+    url(r'^veterinaria/SIG/frontend/data/$', views.FrontEndDatosAll.as_view(), name='veterinarias_datos_frontend'),
+
     path('publicacion/crear/', views.PublicacionCreateView.as_view(), name='publicacion_create'),
     path('publicacion/actualizar/<int:pk>/', views.PublicacionUpdateView.as_view(), name='publicacion_update'),
     path('publicacion/eliminar/<int:pk>/', views.PublicacionDeleteView.as_view(), name='publicacion_delete'),

@@ -1,4 +1,4 @@
-from django.shortcuts import render, reverse
+from django.shortcuts import render, reverse, redirect
 from django.urls import reverse_lazy
 from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect, HttpResponseNotFound
 
@@ -194,6 +194,38 @@ class VeterinariasDatosAll(TemplateView, LoginRequiredMixin, PermissionRequiredM
     def get(self, request, *args, **kwargs):
         veterinarias = self.get_data(request.GET.get('pk'))
         return HttpResponse(veterinarias, content_type='json')
+
+    def get_data(self, pk):
+        if pk:
+            return serialize('geojson', Veterinaria.objects.filter(id=pk))
+        return serialize('geojson', Veterinaria.objects.all())
+
+
+class FrontEnd(TemplateView):
+    template_name = 'main/veterinarias_mapa_frontend.html'
+
+
+class FrontEndMapaAll(TemplateView):
+    template_name = 'main/veterinarias_mapa_frontend.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['datasets_url_vet_frontend'] = self.get_dataset_url()
+        return context
+
+    def get_dataset_url(self):
+        pk = self.request.GET.get('pk')
+        if pk:
+            return reverse('main:veterinarias_datos_frontend') + '?pk=' + pk
+        return reverse('main:veterinarias_datos_frontend')
+
+
+class FrontEndDatosAll(TemplateView):
+    template_name = 'main/veterinarias_mapa_frontend.html'
+
+    def get(self, request, *args, **kwargs):
+        frontendVets = self.get_data(request.GET.get('pk'))
+        return HttpResponse(frontendVets, content_type='json')
 
     def get_data(self, pk):
         if pk:

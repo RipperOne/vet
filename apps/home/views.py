@@ -1,18 +1,14 @@
-import json
-from django.shortcuts import render_to_response, render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic.edit import ModelFormMixin
 from apps.main.forms import *
 from apps.main.models import *
-from apps.utils.views import TemplateView, ListView
+from apps.utils.views import TemplateView, CreateView
 from django.core.serializers import serialize
-from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect, HttpResponseNotFound
-from django.contrib.auth.mixins import LoginRequiredMixin, PermissionRequiredMixin
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views import generic
-from apps.users.models import User
 from django import template
 from django.contrib import messages
-from django.template import RequestContext
 register = template.Library()
 
 
@@ -131,16 +127,16 @@ class Home(generic.TemplateView):
         publicaciones1 = Publicacion.objects.filter(estado=True, aprobado=True, servicio='Busco a mi Dueño')
         publicaciones2 = Publicacion.objects.filter(estado=True, aprobado=True, servicio='Busco a mi Mascota')
         return self.render_to_response({'aform': PublicacionForm(prefix='aform_pre')
-                                        , 'bform': AdopcionForm(prefix='bform_pre')
-                                        , "perros": perros, "gatos": gatos, "reptiles": reptiles
-                                        , "aves": aves, "peces": peces, "aranhas": aranhas
-                                        , "veterinarias": veterinarias, "cuidados": cuidados
-                                        ,  "galerias": galerias
-                                        , "publicaciones1": publicaciones1, "publicaciones2": publicaciones2})
+                                           , 'bform': AdopcionForm(prefix='bform_pre')
+                                           , "perros": perros, "gatos": gatos, "reptiles": reptiles
+                                           , "aves": aves, "peces": peces, "aranhas": aranhas
+                                           , "veterinarias": veterinarias, "cuidados": cuidados
+                                           , "galerias": galerias
+                                           , "publicaciones1": publicaciones1, "publicaciones2": publicaciones2})
 
     def post(self, request, *args, **kwargs):
         aform = _get_form(request, PublicacionForm, 'aform_pre')
-        bform = _get_form(request,  AdopcionForm, 'bform_pre')
+        bform = _get_form(request, AdopcionForm, 'bform_pre')
         if aform.is_bound and aform.is_valid():
             aform.save()
             messages.success(request, 'Formulario de contacto enviado Exitosamente')

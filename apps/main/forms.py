@@ -92,7 +92,7 @@ class PublicacionForm(forms.ModelForm):
 class AdopcionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
-        super(AdopcionForm, self).__init__(*args, **kwargs)  # populates the post
+        super(AdopcionForm, self).__init__(*args, **kwargs)
         self.fields['mascota'].queryset = Animal.objects.filter(adoptante__isnull=True)
 
     class Meta:
