@@ -1,5 +1,4 @@
 from django.contrib.gis.db import models
-from django.contrib.gis.db.models import IntegerField
 
 from apps.utils.models import Base
 from apps.users.models import User
@@ -79,7 +78,7 @@ class Animal(Base):
     tamanho = models.CharField(max_length=50, verbose_name='Tamaño', choices=TAMANHO_CHOICES, default=1)
     peso = models.DecimalField(max_digits=10, decimal_places=2, null=True)
     descripcion = models.TextField(max_length=500)
-    foto_perfil = models.ImageField(upload_to='animal', null=True)
+    foto_perfil = models.ImageField(upload_to='animal', null=True, default='animal/sin-imagen.jpg')
     esterilizado = models.CharField(max_length=50, verbose_name='Esterilizado', choices=ESTERELIZACION_CHOICES)
     fecha_lleg = models.DateField()
     estado_animal = models.CharField(max_length=50, verbose_name='Estado Animal', choices=OPCION_CHOICES)
@@ -150,7 +149,7 @@ class Veterinaria(Base):
     telefono = models.CharField(validators=[numeric], max_length=9, verbose_name='Teléfono', null=True)
     direccion = models.CharField(max_length=300, verbose_name='Dirección')
     comuna = models.ForeignKey(Comuna, verbose_name='Comuna donde se encuentra la Veterinaria', on_delete=models.CASCADE, null=True, blank=True)
-    imagen = models.ImageField(upload_to='veterinaria', null=True)
+    imagen = models.ImageField(upload_to='veterinaria', null=True, default='veterinaria/sin-imagen.jpg')
     geom = models.PointField(srid=32718, null=True, verbose_name='Ubicación de la Veterinaria')
     estado = models.BooleanField(default=True)
 
@@ -163,23 +162,21 @@ class Veterinaria(Base):
 
 
 class Publicacion(Base):
-    nombre = models.CharField(max_length=255, verbose_name='Nombre y Apellido')
+    nombre = models.CharField(max_length=255, verbose_name='Nombre y Apellido', unique=False)
     email = models.EmailField('Correo electrónico', null=True, unique=False)
     telefono = models.CharField(verbose_name='Teléfono', null=True, validators=[numeric], max_length=9, unique=False)
-    direccion = models.CharField(max_length=300, verbose_name='Dirección del Suceso')
-    fecha = models.DateField(verbose_name='Fecha del Suceso', blank=True, null=True)
-    nombre_mascota = models.CharField(max_length=255)
+    direccion = models.CharField(max_length=300, verbose_name='Dirección del Suceso', unique=False)
+    fecha = models.DateField(verbose_name='Fecha del Suceso', blank=True, null=True, unique=False)
+    nombre_mascota = models.CharField(max_length=255, unique=False)
     especie = models.ForeignKey(Especie, verbose_name='Especie', on_delete=models.CASCADE, null=True, blank=True)
     tamanho = models.CharField(max_length=50, verbose_name='Tamaño', choices=TAMANHO_CHOICES)
     sexo = models.CharField(max_length=50, verbose_name='Sexo', choices=SEXO_CHOICES)
-    microchip = models.CharField(verbose_name='Microchip', null=True, validators=[numeric], max_length=15)
+    microchip = models.CharField(verbose_name='Microchip', null=True, validators=[numeric], max_length=15, unique=False, blank=True)
     servicio = models.CharField(max_length=50, verbose_name='Servicio', choices=SERVICE_CHOICES)
-    fotografia = models.ImageField(upload_to='publicacion', null=True)
+    fotografia = models.ImageField(upload_to='publicacion', null=True, default='publicacion/sin-imagen.jpg')
     mensaje = models.TextField(max_length=500)
-    aprobado = models.BooleanField(default=False)
+    aprobado = models.BooleanField(default=False, null=True, blank=True)
     estado = models.BooleanField(default=True)
-
-    all_cruds_types = True
 
     class Meta:
         verbose_name = 'Publicacion'
@@ -199,8 +196,6 @@ class Adopcion(Base):
     aprobado = models.BooleanField(default=False)
     estado = models.BooleanField(default=True)
 
-    all_cruds_types = True
-
     class Meta:
         verbose_name = 'Adopcion'
         verbose_name_plural = 'Adopciones'
@@ -210,7 +205,7 @@ class Adopcion(Base):
 
 
 class Galeria(Base):
-    imagen = models.ImageField(upload_to='gallery', null=True)
+    imagen = models.ImageField(upload_to='gallery', null=True, default='gallery/sin-imagen.jpg')
     estado = models.BooleanField(default=True)
 
     class Meta:

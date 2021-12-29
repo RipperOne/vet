@@ -79,6 +79,7 @@ class VeterinariaForm(forms.ModelForm):
 
 
 class PublicacionForm(forms.ModelForm):
+    fotografia = forms.ImageField(label='Fotografia', required=False)
 
     class Meta:
         model = Publicacion
@@ -98,9 +99,6 @@ class AdopcionForm(forms.ModelForm):
     class Meta:
         model = Adopcion
         fields = ('adoptante', 'email', 'telefono', 'direccion', 'mascota', 'mensaje', 'aprobado')
-        widgets = {
-            'fecha': widgets.AdminDateWidget(),
-        }
 
 
 # GALERIA

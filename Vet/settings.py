@@ -40,6 +40,8 @@ DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
 ALLOWED_HOSTS = ['*']
 
+MESSAGE_STORAGE = "django.contrib.messages.storage.cookie.CookieStorage"
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'vet.settings')
 
 # Application definition
@@ -69,6 +71,7 @@ INSTALLED_APPS = [
     'osgeo',
     'smart_selects',
     'bootstrap4',
+    'crispy_forms',
 
     'apps.home',
     'apps.users',
