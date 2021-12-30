@@ -12,6 +12,12 @@ from django.contrib import messages
 register = template.Library()
 
 
+def _get_form(request, formcls, prefix):
+    data = request.POST if prefix in request.POST else None
+    files = request.FILES if prefix in request.POST else None
+    return formcls(data, files, prefix=prefix)
+
+
 def account_login(request):
 
     return render(request, "account/login.html")
@@ -121,8 +127,7 @@ class Home(generic.TemplateView):
         galerias = Galeria.objects.filter(estado=True)
         publicaciones1 = Publicacion.objects.filter(estado=True, aprobado=True, servicio='Busco a mi Dueño')
         publicaciones2 = Publicacion.objects.filter(estado=True, aprobado=True, servicio='Busco a mi Mascota')
-        return self.render_to_response({'aform': PublicacionForm
-                                           , 'bform': AdopcionForm
+        return self.render_to_response({'aform': PublicacionForm(prefix='aform_pre'), 'bform': AdopcionForm(prefix='bform_pre')
                                            , "perros": perros, "gatos": gatos, "reptiles": reptiles
                                            , "aves": aves, "peces": peces, "aranhas": aranhas
                                            , "veterinarias": veterinarias, "cuidados": cuidados
@@ -130,30 +135,68 @@ class Home(generic.TemplateView):
                                            , "publicaciones1": publicaciones1, "publicaciones2": publicaciones2})
 
     def post(self, request, *args, **kwargs):
-        if request.method == 'POST':
-            aform = PublicacionForm(request.POST, request.FILES)
-            bform = AdopcionForm(request.POST, request.FILES)
-            if aform.is_bound and aform.is_valid():
-                aform.nombre = aform.cleaned_data.get('nombre')
-                aform.email = aform.cleaned_data.get('email')
-                aform.telefono = aform.cleaned_data.get('telefono')
-                aform.direccion = aform.cleaned_data.get('direccion')
-                aform.fecha = aform.cleaned_data.get('fecha')
-                aform.nombre_mascota = aform.cleaned_data.get('nombre_mascota')
-                aform.especie = aform.cleaned_data.get('especie')
-                aform.tamanho = aform.cleaned_data.get('tamanho')
-                aform.sexo = aform.cleaned_data.get('sexo')
-                aform.microchip = aform.cleaned_data.get('microchip')
-                aform.servicio = aform.cleaned_data.get('servicio')
-                aform.fotografia = aform.cleaned_data.get('fotografia')
-                aform.mensaje = aform.cleaned_data.get('mensaje')
-                aform.save()
-                messages.success(request, "Su formulario de contacto ha sido guardado exitosamente")
-                return HttpResponseRedirect(self.success_url + '#contact')
-            elif bform.is_bound and bform.is_valid():
-                self.object = bform.save(commit=False)
-                self.object.adoptante = self.request.user
-                self.object.save()
-                messages.success(request, "Su formulario de adopción ha sido guardado exitosamente")
-                return HttpResponseRedirect(self.success_url + '#adoption')
-            return render(request, self.template_name, {'aform': aform, 'bform': bform})
+        aform = _get_form(request, PublicacionForm, 'aform_pre')
+        bform = _get_form(request, AdopcionForm, 'bform_pre')
+        if aform.is_bound and aform.is_valid():
+            aform.nombre = aform.cleaned_data.get('nombre')
+            aform.email = aform.cleaned_data.get('email')
+            aform.telefono = aform.cleaned_data.get('telefono')
+            aform.direccion = aform.cleaned_data.get('direccion')
+            aform.fecha = aform.cleaned_data.get('fecha')
+            aform.nombre_mascota = aform.cleaned_data.get('nombre_mascota')
+            aform.especie = aform.cleaned_data.get('especie')
+            aform.tamanho = aform.cleaned_data.get('tamanho')
+            aform.sexo = aform.cleaned_data.get('sexo')
+            aform.microchip = aform.cleaned_data.get('microchip')
+            aform.servicio = aform.cleaned_data.get('servicio')
+            aform.fotografia = aform.cleaned_data.get('fotografia')
+            aform.mensaje = aform.cleaned_data.get('mensaje')
+            aform.save()
+            messages.success(request, "Su formulario de contacto ha sido guardado exitosamente")
+            return HttpResponseRedirect(self.success_url + '#contact')
+        elif bform.is_bound and bform.is_valid():
+            bform.email = bform.cleaned_data.get('email')
+            bform.telefono = bform.cleaned_data.get('telefono')
+            bform.direccion = bform.cleaned_data.get('direccion')
+            bform.mascota = bform.cleaned_data.get('mascota')
+            bform.mensaje = bform.cleaned_data.get('mensaje')
+            self.object = bform.save(commit=False)
+            self.object.adoptante = self.request.user
+            self.object.save()
+            messages.success(request, "Su formulario de adopción ha sido guardado exitosamente")
+            return HttpResponseRedirect(self.success_url + '#adoption')
+        return self.render_to_response({'aform': aform, 'bform': bform})
+
+    # def post(self, request, *args, **kwargs):
+    #     if request.method == 'POST':
+    #         aform = PublicacionForm(request.POST, request.FILES)
+    #         bform = AdopcionForm(request.POST, request.FILES)
+    #         if aform.is_valid():
+    #             aform.nombre = aform.cleaned_data.get('nombre')
+    #             aform.email = aform.cleaned_data.get('email')
+    #             aform.telefono = aform.cleaned_data.get('telefono')
+    #             aform.direccion = aform.cleaned_data.get('direccion')
+    #             aform.fecha = aform.cleaned_data.get('fecha')
+    #             aform.nombre_mascota = aform.cleaned_data.get('nombre_mascota')
+    #             aform.especie = aform.cleaned_data.get('especie')
+    #             aform.tamanho = aform.cleaned_data.get('tamanho')
+    #             aform.sexo = aform.cleaned_data.get('sexo')
+    #             aform.microchip = aform.cleaned_data.get('microchip')
+    #             aform.servicio = aform.cleaned_data.get('servicio')
+    #             aform.fotografia = aform.cleaned_data.get('fotografia')
+    #             aform.mensaje = aform.cleaned_data.get('mensaje')
+    #             aform.save()
+    #             messages.success(request, "Su formulario de contacto ha sido guardado exitosamente")
+    #             return HttpResponseRedirect(self.success_url + '#contact')
+    #         elif bform.is_valid():
+    #             bform.email = bform.cleaned_data.get('email')
+    #             bform.telefono = bform.cleaned_data.get('telefono')
+    #             bform.direccion = bform.cleaned_data.get('direccion')
+    #             bform.mascota = bform.cleaned_data.get('mascota')
+    #             bform.mensaje = bform.cleaned_data.get('mensaje')
+    #             self.object = bform.save(commit=False)
+    #             self.object.adoptante = self.request.user
+    #             self.object.save()
+    #             messages.success(request, "Su formulario de adopción ha sido guardado exitosamente")
+    #             return HttpResponseRedirect(self.success_url + '#adoption')
+    #         return render(request, self.template_name, {'aform': aform, 'bform': bform})

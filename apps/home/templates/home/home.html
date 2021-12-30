@@ -607,9 +607,27 @@
                         </div>
                     </div>
                     <div class="ibox-content col-md-9 align-left">
-                        <form action="" method="post" role="form" autocomplete="off" enctype="multipart/form-data">
+                        <form id="contac" action="" method="post" role="form" autocomplete="off" enctype="multipart/form-data">
                             <div class="box-body">
+
                                 {% csrf_token %}
+
+                                <script id="contac">
+                                    {% if aform.errors %}
+                                        var errors = '';
+                                        {% for field in aform %}
+                                            {% for error in field.errors %}
+                                                errors+='{{ error }}\n';
+                                            {% endfor %}
+                                        {% endfor %}
+                                        Swal.fire({
+                                            title: 'Existen errores en el formulario de Contacto',
+                                            text: errors,
+                                            icon: 'error',
+                                            responseURL: 'home:home' + '#contact'
+                                        });
+                                    {% endif %}
+                                </script>
 
                                 <div class="row">
                                     <div class="col-md-3">{% bootstrap_field aform.nombre %}</div>
@@ -633,27 +651,12 @@
                                     <div class="col-md-12">{% bootstrap_field aform.mensaje %}</div>
                                 </div>
                                 <div class="box-footer full-width">
-                                    <button class="btn btn-ttc full-width fa fa-send" type="submit">
+                                    <button class="btn btn-ttc full-width fa fa-send" type="submit" name="{{aform.prefix}}" value="Submit">
                                         <span class="glyphicon glyphicon-inbox"></span>Enviar
                                     </button>
                                 </div>
                             </div>
                         </form>
-                        <script>
-                            {% if aform.errors %}
-                                var errors = '';
-                                {% for field in aform %}
-                                    {% for error in field.errors %}
-                                        errors+='{{ error }}\n';
-                                    {% endfor %}
-                                {% endfor %}
-                                Swal.fire({
-                                    title: 'Existen errores en el formulario de Contacto',
-                                    text: errors,
-                                    icon: 'error'
-                                });
-                            {% endif %}
-                        </script>
                     </div>
                 </div>
                 {% endif %}
@@ -702,10 +705,27 @@
                     <!-- ======= Fin Relleno Vacio zona izquierda ======= -->
 
                     <div class="ibox-content col-md-9 align-right">
-                        <form action="" method="post" role="form" autocomplete="off" enctype="multipart/form-data">
+                        <form id="adopt" action="" method="post" role="form" autocomplete="off" enctype="multipart/form-data">
                             <div class="box-body">
 
                                 {% csrf_token %}
+
+                                <script id="adopt">
+                                    {% if bform.errors %}
+                                        var errors = '';
+                                        {% for field in bform %}
+                                            {% for error in field.errors %}
+                                                errors+='{{ error }}\n';
+                                            {% endfor %}
+                                        {% endfor %}
+                                        Swal.fire({
+                                            title: 'Existen errores en el formulario de Adopción',
+                                            text: errors,
+                                            icon: 'error',
+                                            responseURL: 'home:home' + '#adoption'
+                                        });
+                                    {% endif %}
+                                </script>
 
                                 <div class="row">
                                     <div class="col-md-3">{% bootstrap_field bform.mascota %}</div>
@@ -718,27 +738,12 @@
                                 </div>
 
                                 <div class="box-footer full-width">
-                                    <button class="btn btn-ttc full-width fa fa-send" type="submit">
+                                    <button class="btn btn-ttc full-width fa fa-send" type="submit" name="{{bform.prefix}}" value="Submit">
                                         <span class="glyphicon glyphicon-inbox"></span>Enviar
                                     </button>
                                 </div>
                             </div>
                         </form>
-                        <script>
-                            {% if bform.errors %}
-                                var errors = '';
-                                {% for field in bform %}
-                                    {% for error in field.errors %}
-                                        errors+='{{ error }}\n';
-                                    {% endfor %}
-                                {% endfor %}
-                                Swal.fire({
-                                    title: 'Existen errores en el formulario de Adopción',
-                                    text: errors,
-                                    icon: 'error'
-                                });
-                            {% endif %}
-                        </script>
                     </div>
                 </div>
                 {% endif %}
