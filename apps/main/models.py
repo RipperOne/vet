@@ -77,7 +77,7 @@ class Animal(Base):
     sexo = models.CharField(max_length=50, verbose_name='Sexo', choices=SEXO_CHOICES, default=1)
     tamanho = models.CharField(max_length=50, verbose_name='Tamaño', choices=TAMANHO_CHOICES, default=1)
     peso = models.DecimalField(max_digits=10, decimal_places=2, null=True)
-    descripcion = models.TextField(max_length=500)
+    descripcion = models.TextField(max_length=500, null=True, blank=True)
     foto_perfil = models.ImageField(upload_to='animal', null=True, default='animal/sin-imagen.jpg')
     esterilizado = models.CharField(max_length=50, verbose_name='Esterilizado', choices=ESTERELIZACION_CHOICES)
     fecha_lleg = models.DateField()
