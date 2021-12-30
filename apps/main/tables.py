@@ -160,15 +160,56 @@ class PublicacionTable(ModelTable):
     delete_url = 'main:publicacion_delete'
 
 
+#ADOPCION
+
 class AdopcionTable(ModelTable):
+
+    options = tables.Column(verbose_name='Opciones',
+                            orderable=False,
+                            empty_values=(),
+                            attrs={
+                                'td': {'class': 'text-center'},
+                                'th': {"class": "text-center col-md-2"}})
 
     class Meta:
         model = models.Adopcion
-        sequence = ('id', 'adoptante', 'email', 'telefono', 'direccion', 'mascota', 'mensaje', 'aprobado', 'created_at', 'updated_at')
+        template = 'django_tables2/bootstrap.html'
+        sequence = ('id', 'adoptante', 'email', 'telefono', 'direccion', 'mascota', 'mensaje', 'aprobado', 'created_at',
+                    'updated_at')
         exclude = ('estado',)
 
-    update_url = 'main:adopcion_update'
-    delete_url = 'main:adopcion_delete'
+    def __init__(self, *args, **kwargs):
+        super(AdopcionTable, self).__init__(*args, **kwargs)
+        self.edit_text = 'Editar'
+        self.delete_text = 'Eliminar'
+        self.options = 'Contrato'
+
+    def render_options(self, value, record):
+        return mark_safe(
+            '''
+            <div class="btn-group-vertical">
+            <a href="{0}" class="btn btn-sm btn-success tooltip-link"
+                data-original-title="{1}">
+                <i class="glyphicon glyphicon-pencil"></i> {1}
+            </a>
+            <a href="{2}" class="btn btn-sm btn-danger tooltip-link"
+                data-original-title="{3}">
+                <i class="glyphicon glyphicon-remove"></i> {3}
+            </a>
+            <a href="{4}" class="btn btn-sm btn-primary tooltip-link"
+                data-original-title="{5}">
+                <i class="glyphicon glyphicon-print"></i> {5}
+            </a>
+            </div>
+            '''.format(
+                reverse_lazy('main:adopcion_update', kwargs={'pk': record.pk}),
+                'Editar',
+                reverse_lazy('main:adopcion_delete', kwargs={'pk': record.pk}),
+                'Eliminar',
+                reverse_lazy('main:adopcion_contrato', kwargs={'pk': record.pk}),
+                'Contrato'
+            )
+        )
 
 
 # GALERIA

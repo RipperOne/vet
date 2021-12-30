@@ -71,7 +71,6 @@ INSTALLED_APPS = [
     'osgeo',
     'smart_selects',
     'bootstrap4',
-    'crispy_forms',
 
     'apps.home',
     'apps.users',

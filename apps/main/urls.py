@@ -70,6 +70,7 @@ urlpatterns = [
     path('adopcion/crear/', animal.AdopcionCreateView.as_view(), name='adopcion_create'),
     path('adopcion/actualizar/<int:pk>/', animal.AdopcionUpdateView.as_view(), name='adopcion_update'),
     path('adopcion/eliminar/<int:pk>/', animal.AdopcionDeleteView.as_view(), name='adopcion_delete'),
+    path('adopcion/contrato/<int:pk>/', animal.AdopcionContrato.as_view(), name='adopcion_contrato'),
     path('adopcion/', animal.AdopcionListView.as_view(), name='adopcion_list'),
 
     # GALERIA
